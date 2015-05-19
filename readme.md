@@ -1,6 +1,5 @@
 # PSO2 Kue
-PSO2 Kue will be a simple event tracker Android app for the Japanese PC MMO Phantasy Star Online.  
-It will time upcoming events (emergency quests) and keep the player notified about when they will occur.
+PSO2 Kue will be a simple event tracker Android app for the Japanese PC MMO Phantasy Star Online. It will time upcoming events (emergency quests) and keep the player notified about when they will occur.
 
 ##  Quests
 > There are two forms of Emergency Quests, ones pre-scheduled by SEGA themselves, and ones randomly chosen by your server. Due to this, the calendar is unable to predict whenever random Emergency Quests are going to occur. However, to get around this, premium users with PSO2es (the mobile app associated with this MMO) installed  will be given announcements to Emergency Quests 1 hour in advance. By pulling these push notifications, the community is able to check if an Emergency Quest is going to occur 1 hour before they happen.
