@@ -12,6 +12,7 @@ The goal of this app is to aggregate both types of emergency quests into a simpl
 2. updating the scheduled emergency quest timetable using an already-translated scheduole when necessary.
 
 Both will be kept track of by a backend database.  
+
 A translation table will be used for the Japanese Twitter updates. Alternatively, Hablaa translate if no translation is available, or just use the original Japanese updates.  
 
 ### Version
