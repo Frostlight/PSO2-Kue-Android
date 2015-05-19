@@ -6,7 +6,8 @@ PSO2 Kue will be a simple event tracker Android app for the Japanese PC MMO Phan
 
 Source: http://www.bumped.org/psublog/pso2-jp-extended-maintenance-172015/
 
-The goal of this app is to aggregate both types of emergency quests into a simple list interface by:  
+The goal of this app is to aggregate both types of emergency quests into a simple list interface by:
+
 1. periodically scanning certain Twitter bots for pulled random emergency quest notifications (in Japanese) and
 2. updating the scheduled emergency quest timetable using an already-translated scheduole when necessary.
 
