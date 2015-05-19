@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * A placeholder fragment containing a simple view.
+ * MainActivityFragment
+ * Created by Vincent on 5/19/2015.
  */
 public class MainActivityFragment extends Fragment {
 

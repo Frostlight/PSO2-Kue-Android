@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+/**
+ * MainActivity
+ * Created by Vincent on 5/19/2015.
+ */
 public class MainActivity extends ActionBarActivity {
 
     @Override
