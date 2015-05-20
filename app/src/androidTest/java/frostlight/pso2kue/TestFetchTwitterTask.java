@@ -1,9 +1,6 @@
 package frostlight.pso2kue;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
-
-import frostlight.pso2kue.FetchTwitterTask;
 
 /**
  * TestFetchTwitterTask
@@ -11,6 +8,8 @@ import frostlight.pso2kue.FetchTwitterTask;
  * Created by Vincent on 5/19/2015.
  */
 public class TestFetchTwitterTask extends AndroidTestCase {
+    //Test key values are taken from Twitter's authentication references
+    //Source: https://dev.twitter.com/oauth/application-only
     public static String CONSUMER_KEY_TEST = "xvz1evFS4wEEPTGEFPHBog";
     public static String CONSUMER_SECRET_TEST = "TDhxcTlQWnlSZzZpZUtHRUtoWm9sR0MwdkpXTHc4aUVKODhEUmR5T2c=";
     public static String BARRIER_64_TOKEN =
