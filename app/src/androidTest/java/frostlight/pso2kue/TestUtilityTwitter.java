@@ -5,7 +5,7 @@ import android.test.AndroidTestCase;
 import java.io.IOException;
 
 /**
- * TestFetchTwitterTask
+ * TestUtility Twitter
  * Test cases for Twitter fetching
  * Created by Vincent on 5/19/2015.
  */
