@@ -29,6 +29,7 @@ public class FetchTwitterTask extends AsyncTask<String, Void, Void> {
     private final String consumerKey = "JiUNRvAtiyt3zIF1cIPa8IBr6";
     private final String consumerSecret =
             "UVoxeFFUUWhmVkR4ZUhPOGtESjYyUGNzRUZ0cHlsc1lTZnBtd090cWNYODJPNFVwMzg=";
+    private final String twitterEndpointUrl = "https://api.twitter.com/oauth2/token";
 
     /**
      * Encode consumer key and secret to make basic authorization key for twitter authentication

@@ -30,7 +30,7 @@ public class TestFetchTwitterTask extends AndroidTestCase {
         // The barrier token String should be the same as that provided in Twitter's references
         assertEquals(BARRIER_64_TOKEN, decodedString);
     }
-    
+
     // Tests if the app can authenticate with Twitter's oauth2 servers properly
     // i.e. test if the app can retrieve a bearer token from Twitter's oauth2 servers
     public void testTwitterAuth() {
