@@ -23,6 +23,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by Vincent on 5/20/2015.
  */
 public class UtilityTwitter {
+
     /**
      * Encode consumer key and secret to make basic authorization key for twitter authentication
      * @param key Consumer key provided by Twitter
@@ -73,14 +74,14 @@ public class UtilityTwitter {
         try {
             StringBuilder str = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line = "";
+            String line;
             while((line = br.readLine()) != null) {
-                str.append(line + System.getProperty("line.separator"));
+                str.append(line).append(System.getProperty("line.separator"));
             }
             return str.toString();
         }
         catch (IOException e) {
-            return new String();
+            return "";
         }
     }
 
