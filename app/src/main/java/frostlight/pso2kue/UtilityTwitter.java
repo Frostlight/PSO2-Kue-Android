@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -51,7 +52,7 @@ public class UtilityTwitter {
      * @param textBody What text to write
      * @return A boolean indicating if the write request was successful or not
      */
-    private static boolean writeRequest(HttpsURLConnection connection, String textBody) {
+    public static boolean writeRequest(HttpsURLConnection connection, String textBody) {
         try {
             BufferedWriter wr = new BufferedWriter(
                     new OutputStreamWriter(connection.getOutputStream()));
@@ -70,7 +71,7 @@ public class UtilityTwitter {
      * @param connection The specified connection to read from
      * @return The response for the given connection
      */
-    private static String readResponse(HttpsURLConnection connection) {
+    public static String readResponse(HttpsURLConnection connection) {
         try {
             StringBuilder str = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -92,7 +93,7 @@ public class UtilityTwitter {
      * @param secret Consumer secret key provided by Twitter
      * @return The bearer token response from Twitter
      */
-    public static String requestToken (String endPointUrl, String key, String secret) throws IOException {
+    public static String requestToken (String endPointUrl, String key, String secret) {
         HttpsURLConnection connection = null;
         String encodedCredentials = encodeKey(key, secret);
 
@@ -116,10 +117,9 @@ public class UtilityTwitter {
             String token = (String)obj.get("access_token");
             return ((tokenType.equals("bearer")) && (token != null)) ? token : "";
         }
-        catch (MalformedURLException | JSONException e) {
+        catch (JSONException | IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (connection != null)
                 connection.disconnect();
         }

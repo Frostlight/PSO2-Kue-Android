@@ -1,12 +1,13 @@
 package frostlight.pso2kue;
 
 import android.test.AndroidTestCase;
+import android.test.UiThreadTest;
 
 import java.io.IOException;
 
 /**
  * TestUtility Twitter
- * Test cases for Twitter fetching
+ * Test cases for Twitter utility functions (auth, etc.)
  * Created by Vincent on 5/19/2015.
  */
 public class TestUtilityTwitter extends AndroidTestCase {
@@ -33,14 +34,16 @@ public class TestUtilityTwitter extends AndroidTestCase {
     // Tests if the app can authenticate with Twitter's oauth2 servers properly
     // i.e. test if the app can retrieve a bearer token from Twitter's oauth2 servers
     public void testTwitterAuth() {
-        try {
-            String auth = UtilityTwitter.requestToken("https://api.twitter.com/oauth2/token",
-                    CONSUMER_KEY, CONSUMER_SECRET);
+        String auth = UtilityTwitter.requestToken("https://api.twitter.com/oauth2/token",
+                CONSUMER_KEY, CONSUMER_SECRET);
 
-            // Authentication code shouldn't be empty
-            assertTrue(auth.compareTo("") != 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Authentication code shouldn't be empty
+        assertTrue(auth.compareTo("") != 0);
+    }
+
+    @UiThreadTest
+    public void testTwitterFetch() {
+        FetchTwitterTask task = new FetchTwitterTask();
+        task.execute("02");
     }
 }

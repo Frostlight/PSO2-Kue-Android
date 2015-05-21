@@ -34,6 +34,6 @@ PSO2 will use the following APIs:
 
 [SQLite]: https://www.sqlite.org/
 [Twitter Streaming API]: https://dev.twitter.com/overview/documentation
-[Google Calender API]: https://developers.google.com/google-apps/calendar/
+[Google Calender]: https://developers.google.com/google-apps/calendar/
 [Google Spreadsheet API]: https://developers.google.com/google-apps/spreadsheets/
 [Hablaa Translation API]: http://hablaa.com/api/
