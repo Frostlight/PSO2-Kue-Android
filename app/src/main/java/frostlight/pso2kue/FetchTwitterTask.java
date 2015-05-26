@@ -92,7 +92,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             connection.setRequestProperty("Authorization", "Bearer " + authToken);
             connection.setRequestProperty("Accept-Encoding", "gzip");
             connection.setUseCaches(false);
-            //connection.connect();
+            connection.connect();
+
             Log.v(App.getTag(), "Response message: " + connection.getResponseCode() + " " + connection.getResponseMessage());
 
             //UtilityTwitter.writeRequest(connection, "");
