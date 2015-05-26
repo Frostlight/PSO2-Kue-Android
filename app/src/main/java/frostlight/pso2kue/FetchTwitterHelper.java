@@ -6,11 +6,11 @@ import twitter4j.auth.OAuth2Token;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
- * UtilityTwitter
- * A set of helper functions for twitter4j
+ * FetchTwitterHelper
+ * A set of helper functions for FetchTwitterTask (twitter4j library)
  * Created by Vincent on 5/20/2015.
  */
-public class UtilityTwitter {
+public class FetchTwitterHelper {
 
     /**
      * Creates an authentication token for application only authentication based on the

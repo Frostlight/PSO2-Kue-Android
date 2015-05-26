@@ -3,8 +3,9 @@ package frostlight.pso2kue;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.util.Date;
+
 import twitter4j.Paging;
-import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -36,8 +37,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         int ship = params[0];
 
         // Authentication with Twitter
-        OAuth2Token token = UtilityTwitter.getOAuth2Token();
-        ConfigurationBuilder configurationBuilder = UtilityTwitter.getConfigurationBuilder();
+        OAuth2Token token = FetchTwitterHelper.getOAuth2Token();
+        ConfigurationBuilder configurationBuilder = FetchTwitterHelper.getConfigurationBuilder();
         configurationBuilder.setOAuth2TokenType(token.getTokenType());
         configurationBuilder.setOAuth2AccessToken(token.getAccessToken());
 
@@ -58,6 +59,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             // Log the tweet
             Log.v(App.getTag(), "Text: " + response.getText());
             Log.v(App.getTag(), "Time: " + response.getCreatedAt().toString());
+            Log.v(App.getTag(), "Time since: " + Utility.getMinuteDifference(new Date(),
+                    response.getCreatedAt()) + " minutes");
         } catch (TwitterException e) {
             e.printStackTrace();
         }
