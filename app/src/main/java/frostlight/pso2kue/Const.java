@@ -3,19 +3,13 @@ package frostlight.pso2kue;
 /**
  * Const
  * Various constants used by the app
+ * Updates to this file should be done manually on GitHub because of the Git --assume-unchanged flag
  * Created by Vincent on 5/25/2015.
  */
 public class Const {
     // Authentication keys for using Twitter API (read permission only)
     static final String consumerKey = "YOUR CONSUMER KEY HERE";
     static final String consumerSecret = "YOUR CONSUMER SECRET HERE=";
-
-    // Endpoint URL for oauth2 authentication with Twitter
-    static final String twitterAuthUrl = "https://api.twitter.com/oauth2/token";
-
-    // URL for GET statuses/user_timeline API request
-    static final String twitterTimelineUrl =
-            "https://api.twitter.com/1.1/statuses/user_timeline.json?";
 
     // List of Twitter IDs and their associated handles
     static final String[][] shipId = {
