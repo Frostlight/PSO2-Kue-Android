@@ -5,7 +5,7 @@ package frostlight.pso2kue;
  * Various constants used by the app
  * Created by Vincent on 5/25/2015.
  */
-public class Const_sample {
+public class Const {
     // Authentication keys for using Twitter API (read permission only)
     static final String consumerKey = "YOUR CONSUMER KEY HERE";
     static final String consumerSecret = "YOUR CONSUMER SECRET HERE=";
