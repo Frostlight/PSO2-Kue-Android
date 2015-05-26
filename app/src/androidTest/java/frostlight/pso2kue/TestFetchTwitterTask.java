@@ -1,12 +1,10 @@
 package frostlight.pso2kue;
 
-import android.content.res.Configuration;
-import android.test.AndroidTestCase;
 import android.test.InstrumentationTestCase;
-import java.util.concurrent.TimeUnit;
 import android.util.Log;
+
 import java.util.concurrent.CountDownLatch;
-import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * TestFetchTwitterTask

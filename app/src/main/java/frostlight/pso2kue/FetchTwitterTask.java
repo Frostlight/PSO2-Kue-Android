@@ -3,6 +3,7 @@ package frostlight.pso2kue;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -44,15 +45,18 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         Twitter twitter = new TwitterFactory(configurationBuilder.build()).getInstance();
 
         try {
-            // Perform the lookup here
-            // For user screen name, subtract 1 from the ship number to get the array index
+            // For bot screen name, subtract 1 from the ship number to get the array index
             Long screen_name = Long.parseLong(Const.shipId[ship - 1][0]);
-            ResponseList<twitter4j.Status> responseList = twitter.getUserTimeline(screen_name);
 
-            // Print the text of all the tweets
-            for (twitter4j.Status s: responseList){
-                Log.v(App.getTag(), s.getText());
-            }
+            // Only retrieve the latest Tweet (one tweet) from the bot
+            Paging paging = new Paging();
+            paging.setCount(1);
+
+            // Perform the lookup here
+            twitter4j.Status response = twitter.getUserTimeline(screen_name, paging).get(0);
+
+            // Log the tweet
+            Log.v(App.getTag(), response.getText());
         } catch (TwitterException e) {
             e.printStackTrace();
         }
