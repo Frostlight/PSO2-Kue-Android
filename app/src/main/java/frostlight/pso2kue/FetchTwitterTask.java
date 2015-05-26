@@ -79,7 +79,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
             // Get authentication token from Twitter
             String authToken = UtilityTwitter.requestToken(Const.twitterAuthUrl, Const.consumerKey,
-                    UtilityTwitter.decodedSecret(Const.consumerSecret));
+                    Const.consumerSecret);
             Log.v(App.getTag(), "AuthToken: " + authToken);
             Log.v(App.getTag(), "URL: " + url.toString());
 
@@ -95,10 +95,6 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             connection.connect();
 
             Log.v(App.getTag(), "Response message: " + connection.getResponseCode() + " " + connection.getResponseMessage());
-
-            //UtilityTwitter.writeRequest(connection, "");
-
-            //Log.v(App.getTag(), "Errors: " + UtilityTwitter.readErrorResponse(connection));
             Log.v(App.getTag(), "Response: " + UtilityTwitter.readResponse(connection));
 
             // Parse the JSON response into a JSON mapped object to fetch fields from.

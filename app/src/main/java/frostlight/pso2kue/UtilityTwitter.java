@@ -32,30 +32,15 @@ public class UtilityTwitter {
      * @return the base64-encoded String used for authentication that combines the key and secret
      */
     public static String encodeKey(String key, String secret) {
-
         try {
             String encodedConsumerKey = URLEncoder.encode(key, "UTF-8");
             String encodedConsumerSecret = URLEncoder.encode(secret, "UTF-8");
             String fullKey = encodedConsumerKey + ":" + encodedConsumerSecret;
+
             // Remove newline characters from encoded string before returning
             return Base64.encodeToString(fullKey.getBytes(), Base64.DEFAULT).replace("\n", "");
         }
         catch (UnsupportedEncodingException e) {
-            return "";
-        }
-    }
-
-    /**
-     * Decodes a secret
-     * @param secret Encoded consumer secret key provided by Twitter
-     * @return the decoded secret key
-     */
-    public static String decodedSecret (String secret)
-    {
-        try {
-            return new String(Base64.decode(secret, Base64.DEFAULT), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
             return "";
         }
     }
@@ -89,26 +74,6 @@ public class UtilityTwitter {
         try {
             StringBuilder str = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            while((line = br.readLine()) != null) {
-                str.append(line).append(System.getProperty("line.separator"));
-            }
-            return str.toString();
-        }
-        catch (IOException e) {
-            return "";
-        }
-    }
-
-    /**
-     * Reads a response (on the error stream) for a given connection and returns it as a string.
-     * @param connection The specified connection to read from
-     * @return The error response for the given connection
-     */
-    public static String readErrorResponse(HttpsURLConnection connection) {
-        try {
-            StringBuilder str = new StringBuilder();
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
             String line;
             while((line = br.readLine()) != null) {
                 str.append(line).append(System.getProperty("line.separator"));
