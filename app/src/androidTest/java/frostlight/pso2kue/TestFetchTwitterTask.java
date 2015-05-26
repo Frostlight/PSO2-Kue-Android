@@ -45,8 +45,8 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
                          * In our test method we would subscribe to that and signal from
                          * there instead
                          */
-                        signal.countDown();
                         called = true;
+                        signal.countDown();
                     }
                 }.execute(2);
             }
