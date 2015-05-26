@@ -17,38 +17,18 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import twitter4j.Twitter;
+import twitter4j.auth.RequestToken;
+
 /**
  * FetchTwitterTask
  * Async task to fetch tweets from Twitter
  * Created by Vincent on 5/19/2015.
  */
 public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
-    // Authentication keys for using Twitter API (read permission only)
-    private final String consumerKey = "JiUNRvAtiyt3zIF1cIPa8IBr6";
-    private final String consumerSecret =
-            "UVoxeFFUUWhmVkR4ZUhPOGtESjYyUGNzRUZ0cHlsc1lTZnBtd090cWNYODJPNFVwMzg=";
-
-    // Endpoint URL for oauth2 authentication with Twitter
-    private final String twitterAuthUrl = "https://api.twitter.com/oauth2/token";
-
-    // URL for GET statuses/user_timeline API request
-    private final String twitterTimelineUrl =
-            "https://api.twitter.com/1.1/statuses/user_timeline.json?";
-
-
-    // List of Twitter IDs and their associated handles
-    private final String[][] shipId = {
-            {"2753540587", "PSO2es_ship01"},    // Ship 1
-            {"2791287498", "PSO2es_ship02"},    // Ship 2
-            {"2791359409", "PSO2es_ship03"},    // Ship 3
-            {"2791298382", "PSO2es_ship04"},    // Ship 4
-            {"2791375477", "PSO2es_ship05"},    // Ship 5
-            {"2791309260", "PSO2es_ship06"},    // Ship 6
-            {"2791380121", "PSO2es_ship07"},    // Ship 7
-            {"2791316526", "PSO2es_ship08"},    // Ship 8
-            {"2791388557", "PSO2es_ship09"},    // Ship 9
-            {"2791357028", "PSO2es_ship10"}     // Ship 10
-    };
+    // Twitter helper objects
+    private static Twitter twitter;
+    private static RequestToken requestToken;
 
     /**
      * Query Twitter for updates, update the main thread with a callback if a new random
@@ -74,17 +54,17 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         // For user ID and screen name, subtract 1 from the ship number to get the array index
 
         // ID of the bot (e.g. 2753540587)
-        String user_id = shipId[ship-1][0];
+        String user_id = Const.shipId[ship-1][0];
 
         // Screen name of the Twitter bot (e.g. @PSO2es_ship01)
-        String screen_name = shipId[ship-1][1];
+        String screen_name = Const.shipId[ship-1][1];
 
         // Number of twitter results to return from the query
         String count = "2";
 
         try {
             // Construct the URL for the Twitter query
-            final String BASE_URL = twitterTimelineUrl;
+            final String BASE_URL = Const.twitterTimelineUrl;
             final String USERID_PARAM = "user_id";
             final String SCREENNAME_PARAM = "screen_name";
             final String COUNT_PARAM = "count";
@@ -98,8 +78,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             URL url = new URL(built_uri.toString());
 
             // Get authentication token from Twitter
-            String authToken = UtilityTwitter.requestToken(twitterAuthUrl, consumerKey,
-                    UtilityTwitter.decodedSecret(consumerSecret));
+            String authToken = UtilityTwitter.requestToken(Const.twitterAuthUrl, Const.consumerKey,
+                    UtilityTwitter.decodedSecret(Const.consumerSecret));
             Log.v(App.getTag(), "AuthToken: " + authToken);
             Log.v(App.getTag(), "URL: " + url.toString());
 
@@ -148,27 +128,6 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             }
             String twitterJson = buffer.toString();
             Log.v(App.getTag(), twitterJson);
-
-            /*URL url = new URL(endPointUrl);
-            connection = (HttpsURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Host", "api.twitter.com");
-            connection.setRequestProperty("User-Agent", "PSO2 Kue");
-            connection.setRequestProperty("Authorization", "Basic " + encodedCredentials);
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-            connection.setRequestProperty("Content-Length", "29");
-            connection.setUseCaches(false);
-            writeRequest(connection, "grant_type=client_credentials");
-
-            // Parse the JSON response into a JSON mapped object to fetch fields from.
-            JSONObject obj = new JSONObject(readResponse(connection));
-            String tokenType = (String) obj.get("token_type");
-            String token = (String)obj.get("access_token");
-            return ((tokenType.equals("bearer")) && (token != null)) ? token : "";*/
-
-
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();

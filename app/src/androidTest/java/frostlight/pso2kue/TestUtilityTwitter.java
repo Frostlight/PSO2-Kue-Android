@@ -20,11 +20,6 @@ public class TestUtilityTwitter extends AndroidTestCase {
     public static String BARRIER_64_TOKEN =
             "eHZ6MWV2RlM0d0VFUFRHRUZQSEJvZzpMOHFxOVBaeVJnNmllS0dFS2hab2xHQzB2SldMdzhpRUo4OERSZHlPZw==";
 
-    // Authentication keys for using Twitter API (read permission only)
-    public static String CONSUMER_KEY = "JiUNRvAtiyt3zIF1cIPa8IBr6";
-    public static String CONSUMER_SECRET =
-            "UVoxeFFUUWhmVkR4ZUhPOGtESjYyUGNzRUZ0cHlsc1lTZnBtd090cWNYODJPNFVwMzg";
-
     // Tests if the consumer key and secret are encoded properly
     public void testEncodeKey() {
         String decodedString = null;
@@ -39,7 +34,7 @@ public class TestUtilityTwitter extends AndroidTestCase {
     // i.e. test if the app can retrieve a bearer token from Twitter's oauth2 servers
     public void testTwitterAuth() {
         String auth = UtilityTwitter.requestToken("https://api.twitter.com/oauth2/token",
-                CONSUMER_KEY, UtilityTwitter.decodedSecret(CONSUMER_SECRET));
+                Const.consumerKey, UtilityTwitter.decodedSecret(Const.consumerSecret));
 
         // Authentication code shouldn't be empty
         assertTrue(auth.compareTo("") != 0);
