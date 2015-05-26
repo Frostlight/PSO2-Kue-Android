@@ -56,7 +56,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             twitter4j.Status response = twitter.getUserTimeline(screen_name, paging).get(0);
 
             // Log the tweet
-            Log.v(App.getTag(), response.getText());
+            Log.v(App.getTag(), "Text: " + response.getText());
+            Log.v(App.getTag(), "Time: " + response.getCreatedAt().toString());
         } catch (TwitterException e) {
             e.printStackTrace();
         }
