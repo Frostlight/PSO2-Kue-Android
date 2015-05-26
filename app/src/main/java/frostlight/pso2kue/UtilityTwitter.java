@@ -35,13 +35,27 @@ public class UtilityTwitter {
 
         try {
             String encodedConsumerKey = URLEncoder.encode(key, "UTF-8");
-            String encodedConsumerSecret = URLEncoder
-                    .encode(new String(Base64.decode(secret, Base64.DEFAULT), "UTF-8"), "UTF-8");
+            String encodedConsumerSecret = URLEncoder.encode(secret, "UTF-8");
             String fullKey = encodedConsumerKey + ":" + encodedConsumerSecret;
             // Remove newline characters from encoded string before returning
             return Base64.encodeToString(fullKey.getBytes(), Base64.DEFAULT).replace("\n", "");
         }
         catch (UnsupportedEncodingException e) {
+            return "";
+        }
+    }
+
+    /**
+     * Decodes a secret
+     * @param secret Encoded consumer secret key provided by Twitter
+     * @return the decoded secret key
+     */
+    public static String decodedSecret (String secret)
+    {
+        try {
+            return new String(Base64.decode(secret, Base64.DEFAULT), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
             return "";
         }
     }

@@ -2,8 +2,10 @@ package frostlight.pso2kue;
 
 import android.test.AndroidTestCase;
 import android.test.UiThreadTest;
+import android.util.Base64;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * TestUtility Twitter
@@ -25,7 +27,9 @@ public class TestUtilityTwitter extends AndroidTestCase {
 
     // Tests if the consumer key and secret are encoded properly
     public void testEncodeKey() {
-        String decodedString = UtilityTwitter.encodeKey(CONSUMER_KEY_TEST, CONSUMER_SECRET_TEST);
+        String decodedString = null;
+        decodedString = UtilityTwitter.encodeKey(CONSUMER_KEY_TEST,
+                    UtilityTwitter.decodedSecret(CONSUMER_SECRET_TEST));
 
         // The barrier token String should be the same as that provided in Twitter's references
         assertEquals(BARRIER_64_TOKEN, decodedString);
@@ -35,15 +39,9 @@ public class TestUtilityTwitter extends AndroidTestCase {
     // i.e. test if the app can retrieve a bearer token from Twitter's oauth2 servers
     public void testTwitterAuth() {
         String auth = UtilityTwitter.requestToken("https://api.twitter.com/oauth2/token",
-                CONSUMER_KEY, CONSUMER_SECRET);
+                CONSUMER_KEY, UtilityTwitter.decodedSecret(CONSUMER_SECRET));
 
         // Authentication code shouldn't be empty
         assertTrue(auth.compareTo("") != 0);
-    }
-
-    @UiThreadTest
-    public void testTwitterFetch() {
-        FetchTwitterTask task = new FetchTwitterTask();
-        task.execute(2);
     }
 }

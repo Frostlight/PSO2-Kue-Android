@@ -2,6 +2,7 @@ package frostlight.pso2kue;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -97,7 +98,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             URL url = new URL(built_uri.toString());
 
             // Get authentication token from Twitter
-            String authToken = UtilityTwitter.requestToken(twitterAuthUrl, consumerKey, consumerSecret);
+            String authToken = UtilityTwitter.requestToken(twitterAuthUrl, consumerKey,
+                    UtilityTwitter.decodedSecret(consumerSecret));
             Log.v(App.getTag(), "AuthToken: " + authToken);
             Log.v(App.getTag(), "URL: " + url.toString());
 
