@@ -44,6 +44,6 @@ public class TestUtilityTwitter extends AndroidTestCase {
     @UiThreadTest
     public void testTwitterFetch() {
         FetchTwitterTask task = new FetchTwitterTask();
-        task.execute("02");
+        task.execute(2);
     }
 }

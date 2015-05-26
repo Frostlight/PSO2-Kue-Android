@@ -48,7 +48,7 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
                         signal.countDown();
                         called = true;
                     }
-                }.execute("02");
+                }.execute(2);
             }
         });
 

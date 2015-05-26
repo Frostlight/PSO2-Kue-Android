@@ -67,14 +67,34 @@ public class UtilityTwitter {
     }
 
     /**
-     * Reads a response for a given connection and returns it as a string.
+     * Reads a response (on the input stream) for a given connection and returns it as a string.
      * @param connection The specified connection to read from
-     * @return The response for the given connection
+     * @return The input response for the given connection
      */
     public static String readResponse(HttpsURLConnection connection) {
         try {
             StringBuilder str = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            while((line = br.readLine()) != null) {
+                str.append(line).append(System.getProperty("line.separator"));
+            }
+            return str.toString();
+        }
+        catch (IOException e) {
+            return "";
+        }
+    }
+
+    /**
+     * Reads a response (on the error stream) for a given connection and returns it as a string.
+     * @param connection The specified connection to read from
+     * @return The error response for the given connection
+     */
+    public static String readErrorResponse(HttpsURLConnection connection) {
+        try {
+            StringBuilder str = new StringBuilder();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
             String line;
             while((line = br.readLine()) != null) {
                 str.append(line).append(System.getProperty("line.separator"));
@@ -96,7 +116,6 @@ public class UtilityTwitter {
     public static String requestToken (String endPointUrl, String key, String secret) {
         HttpsURLConnection connection = null;
         String encodedCredentials = encodeKey(key, secret);
-
         try {
             URL url = new URL(endPointUrl);
             connection = (HttpsURLConnection) url.openConnection();
