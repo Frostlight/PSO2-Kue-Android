@@ -1,5 +1,7 @@
 package frostlight.pso2kue.data;
 
+import android.provider.BaseColumns;
+
 /**
  * EqContract
  * Defines table and column names for the databases
@@ -12,7 +14,7 @@ public class EqContract {
      * The calendar table stores the emergency quest schedule obtained from Google calendar
      * Table: ID | EQ Name | Date/Time
      */
-    public static final class CalendarEntry {
+    public static final class CalendarEntry implements BaseColumns {
         public static final String TABLE_NAME = "calendar";
 
         // The name of the emergency quest
@@ -27,7 +29,7 @@ public class EqContract {
      * The twitter table stores emergency quest alert tweets obtained from Twitter bots
      * Table: ID | EQ Name | Date/Time
      */
-    public static final class TwitterEntry {
+    public static final class TwitterEntry implements BaseColumns {
         public static final String TABLE_NAME = "twitter";
 
         // The name of the emergency quest
@@ -42,7 +44,7 @@ public class EqContract {
      * The translation table stores the japanese/english pairs for the emergency quest names
      * Table: ID | EQ Name | Date/Time
      */
-    public static final class TranslationEntry {
+    public static final class TranslationEntry implements BaseColumns {
         public static final String TABLE_NAME = "translation";
 
         // The name of the emergency quest
