@@ -47,10 +47,10 @@ public class EqContract {
     public static final class TranslationEntry implements BaseColumns {
         public static final String TABLE_NAME = "translation";
 
-        // The name of the emergency quest
+        // The name of the emergency quest in Japanese
         public static final String COLUMN_JAPANESE = "japanese";
 
-        // The time the emergency quest occurs
+        // The corresponding english translation
         public static final String COLUMN_ENGLISH = "english";
     }
 }
