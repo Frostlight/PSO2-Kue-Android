@@ -3,11 +3,11 @@ package frostlight.pso2kue.data;
 import android.provider.BaseColumns;
 
 /**
- * EqContract
+ * DbContract
  * Defines table and column names for the databases
  * Created by Vincent on 5/19/2015.
  */
-public class EqContract {
+public class DbContract {
 
     /**
      * Inner class that defines the table contents of the calendar table

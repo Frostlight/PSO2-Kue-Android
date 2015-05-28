@@ -3,12 +3,9 @@ package frostlight.pso2kue.data;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import java.util.Arrays;
 import java.util.HashSet;
-
-import frostlight.pso2kue.App;
 
 /**
  * TestDb
@@ -18,36 +15,36 @@ import frostlight.pso2kue.App;
 public class TestDb extends AndroidTestCase {
     // The names for each of the tables
     final static String[] tableNames = {
-            EqContract.CalendarEntry.TABLE_NAME,
-            EqContract.TwitterEntry.TABLE_NAME,
-            EqContract.TranslationEntry.TABLE_NAME
+            DbContract.CalendarEntry.TABLE_NAME,
+            DbContract.TwitterEntry.TABLE_NAME,
+            DbContract.TranslationEntry.TABLE_NAME
     };
 
     // Corresponding to tableNames, the names of all the columns for each table
     final static String[][] columnNames = {
             {
                     // Calendar Table
-                    EqContract.CalendarEntry._ID,
-                    EqContract.CalendarEntry.COLUMN_EQNAME,
-                    EqContract.CalendarEntry.COLUMN_DATE
+                    DbContract.CalendarEntry._ID,
+                    DbContract.CalendarEntry.COLUMN_EQNAME,
+                    DbContract.CalendarEntry.COLUMN_DATE
             },
             {
                     // Twitter Table
-                    EqContract.TwitterEntry._ID,
-                    EqContract.TwitterEntry.COLUMN_EQNAME,
-                    EqContract.TwitterEntry.COLUMN_DATE
+                    DbContract.TwitterEntry._ID,
+                    DbContract.TwitterEntry.COLUMN_EQNAME,
+                    DbContract.TwitterEntry.COLUMN_DATE
             },
             {
                     // Translation Table
-                    EqContract.TranslationEntry._ID,
-                    EqContract.TranslationEntry.COLUMN_JAPANESE,
-                    EqContract.TranslationEntry.COLUMN_ENGLISH
+                    DbContract.TranslationEntry._ID,
+                    DbContract.TranslationEntry.COLUMN_JAPANESE,
+                    DbContract.TranslationEntry.COLUMN_ENGLISH
             }
     };
 
     // Call this before each test to start clean
     void deleteDb() {
-        mContext.deleteDatabase(EqDbHelper.DATABASE_NAME);
+        mContext.deleteDatabase(DbHelper.DATABASE_NAME);
     }
 
     /**
@@ -84,8 +81,8 @@ public class TestDb extends AndroidTestCase {
     // Test if the database can be properly created with all the tables
     public void testCreateDb() throws Throwable {
         // Delete and remake the database
-        mContext.deleteDatabase(EqDbHelper.DATABASE_NAME);
-        SQLiteDatabase sqLiteDatabase = new EqDbHelper(this.mContext).getWritableDatabase();
+        mContext.deleteDatabase(DbHelper.DATABASE_NAME);
+        SQLiteDatabase sqLiteDatabase = new DbHelper(this.mContext).getWritableDatabase();
         assertEquals(true, sqLiteDatabase.isOpen());
 
         // Check if the table was created properly

@@ -4,13 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import frostlight.pso2kue.data.EqContract.CalendarEntry;
-import frostlight.pso2kue.data.EqContract.TwitterEntry;
-import frostlight.pso2kue.data.EqContract.TranslationEntry;
-import twitter4j.Twitter;
-
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import frostlight.pso2kue.data.DbContract.CalendarEntry;
+import frostlight.pso2kue.data.DbContract.TwitterEntry;
+import frostlight.pso2kue.data.DbContract.TranslationEntry;
 
 
 /**
@@ -18,13 +14,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Manages a local database for emergency quest data.
  * Created by Vincent on 5/19/2015.
  */
-public class EqDbHelper extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
     // If the database schema is changed, increment the database version
     private static final int DATABASE_VERSION = 1;
 
     static final String DATABASE_NAME = "pso2.db";
 
-    public EqDbHelper(Context context) {
+    public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
