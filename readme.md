@@ -32,7 +32,8 @@ PSO2 will use the following APIs:
 - [Hablaa Translation API] - Used if there is no translation available
 
 ###Updates
-- 5/26/2015: Twitter fetching implemented
+- 5/29/2015: Databases and related tests implemented
+- 5/26/2015: Twitter fetching and related tests implemented
 
 ### Todo's
 - Database backend
