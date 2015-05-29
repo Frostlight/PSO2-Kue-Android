@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 
 //https://www.google.com/calendar/feeds/pso2emgquest%40gmail.com/public/basic
 public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
+
     @Override
     protected Void doInBackground(Void... params) {
         return null;

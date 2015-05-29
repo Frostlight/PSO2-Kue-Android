@@ -14,6 +14,7 @@ import frostlight.pso2kue.Utility;
  * Created by Vincent on 5/29/2015.
  */
 public class TestUtilities extends AndroidTestCase{
+
     static final String TEST_EQ_JAPANESE = "平穏を引き裂く混沌";
     static final String TEST_EQ_ENGLISH = "Chaotic Tranquility";
     static final long TEST_DATE = 1420165680L; // January 1, 2015

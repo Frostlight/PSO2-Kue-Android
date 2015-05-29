@@ -14,6 +14,7 @@ import java.util.HashSet;
  * Created by Vincent on 5/19/2015.
  */
 public class TestDb extends AndroidTestCase {
+
     // The names for each of the tables
     final static String[] tableNames = {
             DbContract.CalendarEntry.TABLE_NAME,

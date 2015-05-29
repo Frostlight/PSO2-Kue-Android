@@ -20,6 +20,41 @@ import twitter4j.conf.ConfigurationBuilder;
 public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
     /**
+     * Creates an authentication token for application only authentication based on the
+     * consumer key and secret provided in ConstGeneral.java
+     * @return The authentication token
+     */
+    public static OAuth2Token getOAuth2Token()
+    {
+        OAuth2Token token = null;
+        ConfigurationBuilder configurationBuilder = getConfigurationBuilder();
+
+        try {
+            token = new TwitterFactory(configurationBuilder.build())
+                    .getInstance().getOAuth2Token();
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+
+        return token;
+    }
+
+    /**
+     * Creates a ConfigurationBuilder based on the consumer key and secret provided in ConstGeneral.java
+     * @return The ConfigurationBuilder
+     */
+    public static ConfigurationBuilder getConfigurationBuilder()
+    {
+        ConfigurationBuilder configurationBuilder;
+
+        configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.setApplicationOnlyAuthEnabled(true);
+        configurationBuilder.setOAuthConsumerKey(ConstTwitterAuth.consumerKey);
+        configurationBuilder.setOAuthConsumerSecret(ConstTwitterAuth.consumerSecret);
+        return configurationBuilder;
+    }
+
+    /**
      * Query Twitter for updates, update the main thread with a callback if a new random
      * emergency quest was found. The Twitter ID for Tweets for each ship come in the form of
      * PSO2es_ship## [1-10]
@@ -37,8 +72,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         int ship = params[0];
 
         // Authentication with Twitter
-        OAuth2Token token = FetchTwitterHelper.getOAuth2Token();
-        ConfigurationBuilder configurationBuilder = FetchTwitterHelper.getConfigurationBuilder();
+        OAuth2Token token = getOAuth2Token();
+        ConfigurationBuilder configurationBuilder = getConfigurationBuilder();
         configurationBuilder.setOAuth2TokenType(token.getTokenType());
         configurationBuilder.setOAuth2AccessToken(token.getAccessToken());
 

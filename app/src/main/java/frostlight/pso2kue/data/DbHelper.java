@@ -15,6 +15,7 @@ import frostlight.pso2kue.data.DbContract.TranslationEntry;
  * Created by Vincent on 5/19/2015.
  */
 public class DbHelper extends SQLiteOpenHelper {
+
     // If the database schema is changed, increment the database version
     private static final int DATABASE_VERSION = 1;
 

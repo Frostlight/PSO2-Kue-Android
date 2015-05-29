@@ -6,6 +6,7 @@ package frostlight.pso2kue;
  * Created by Vincent on 5/25/2015.
  */
 public class ConstGeneral {
+
     // List of Twitter IDs and their associated handles
     static final String[][] shipId = {
             {"2753540587", "PSO2es_ship01"},    // Ship 1

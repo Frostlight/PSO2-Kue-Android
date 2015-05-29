@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
  * Tests the AsyncTask FetchTwitterTask
  */
 public class TestFetchTwitterTask extends InstrumentationTestCase {
+
     private static boolean called;
 
     protected void setUp() throws Exception {
