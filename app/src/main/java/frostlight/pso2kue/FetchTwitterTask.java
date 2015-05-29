@@ -24,8 +24,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      * emergency quest was found. The Twitter ID for Tweets for each ship come in the form of
      * PSO2es_ship## [1-10]
      *
-     * Note: Twitter ship bots are mapped in Const.shipId to array indices 1 lower than the
-     * actual ship (i.e. ship 1 = Const.shipId[0], ship 10 = Const.shipId[9])
+     * Note: Twitter ship bots are mapped in ConstGeneral.shipId to array indices 1 lower than the
+     * actual ship (i.e. ship 1 = ConstGeneral.shipId[0], ship 10 = ConstGeneral.shipId[9])
      * @param params params[0] A string representing which ship (server) to use [1-10]
      *               e.g. 1 = ship 1, 10 = ship 10
      */
@@ -47,7 +47,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
         try {
             // For bot screen name, subtract 1 from the ship number to get the array index
-            Long screen_name = Long.parseLong(Const.shipId[ship - 1][0]);
+            Long screen_name = Long.parseLong(ConstGeneral.shipId[ship - 1][0]);
 
             // Only retrieve the latest Tweet (one tweet) from the bot
             Paging paging = new Paging();

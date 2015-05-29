@@ -14,7 +14,7 @@ public class FetchTwitterHelper {
 
     /**
      * Creates an authentication token for application only authentication based on the
-     * consumer key and secret provided in Const.java
+     * consumer key and secret provided in ConstGeneral.java
      * @return The authentication token
      */
     public static OAuth2Token getOAuth2Token()
@@ -33,7 +33,7 @@ public class FetchTwitterHelper {
     }
 
     /**
-     * Creates a ConfigurationBuilder based on the consumer key and secret provided in Const.java
+     * Creates a ConfigurationBuilder based on the consumer key and secret provided in ConstGeneral.java
      * @return The ConfigurationBuilder
      */
     public static ConfigurationBuilder getConfigurationBuilder()
@@ -42,8 +42,8 @@ public class FetchTwitterHelper {
 
         configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setApplicationOnlyAuthEnabled(true);
-        configurationBuilder.setOAuthConsumerKey(Const.consumerKey);
-        configurationBuilder.setOAuthConsumerSecret(Const.consumerSecret);
+        configurationBuilder.setOAuthConsumerKey(ConstTwitterAuth.consumerKey);
+        configurationBuilder.setOAuthConsumerSecret(ConstTwitterAuth.consumerSecret);
         return configurationBuilder;
     }
 }
