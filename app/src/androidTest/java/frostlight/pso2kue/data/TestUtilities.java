@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.test.AndroidTestCase;
 
-import frostlight.pso2kue.App;
+import frostlight.pso2kue.Utility;
 
 /**
  * TestUtilities
@@ -38,7 +38,7 @@ public class TestUtilities extends AndroidTestCase{
         // Combine the incomplete rawQuery with the whereClause to get the full rawQuery
         rawQuery += whereClause;
 
-        Log.v(App.getTag(), "rawQuery: " + rawQuery);
+        Log.v(Utility.getTag(), "rawQuery: " + rawQuery);
         Cursor cursor = sqLiteDatabase.rawQuery(rawQuery, null);
 
         // Cursor should not be empty

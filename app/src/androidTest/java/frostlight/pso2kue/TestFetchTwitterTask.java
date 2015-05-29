@@ -35,7 +35,7 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
-                        Log.d(App.getTag(), "onPostExecute");
+                        Log.d(Utility.getTag(), "onPostExecute");
 
                         /* Normally we would use some type of listener to notify the activity
                          * that the async call was finished.
