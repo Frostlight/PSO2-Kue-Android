@@ -81,21 +81,23 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         Twitter twitter = new TwitterFactory(configurationBuilder.build()).getInstance();
 
         try {
-            // For bot screen name, subtract 1 from the ship number to get the array index
-            Long screen_name = Long.parseLong(ConstGeneral.shipId[ship - 1][0]);
+            // For bot ID, subtract 1 from the ship number to get the array index
+            Long bot_id = Long.parseLong(ConstGeneral.shipId[ship - 1][0]);
 
             // Only retrieve the latest Tweet (one tweet) from the bot
             Paging paging = new Paging();
             paging.setCount(1);
 
             // Perform the lookup here
-            twitter4j.Status response = twitter.getUserTimeline(screen_name, paging).get(0);
+            twitter4j.Status response = twitter.getUserTimeline(bot_id, paging).get(0);
 
             // Log the tweet
             Log.v(Utility.getTag(), "Text: " + response.getText());
             Log.v(Utility.getTag(), "Time: " + response.getCreatedAt().toString());
             Log.v(Utility.getTag(), "Time since: " + Utility.getMinuteDifference(new Date(),
                     response.getCreatedAt()) + " minutes");
+
+            // TODO: Integrate with backend database
         } catch (TwitterException e) {
             e.printStackTrace();
         }

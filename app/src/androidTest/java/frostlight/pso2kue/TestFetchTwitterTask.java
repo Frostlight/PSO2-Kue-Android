@@ -32,6 +32,7 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
+                // Execute FetchTwitterTask for Ship 2
                 new FetchTwitterTask() {
                     @Override
                     protected void onPostExecute(Void aVoid) {
