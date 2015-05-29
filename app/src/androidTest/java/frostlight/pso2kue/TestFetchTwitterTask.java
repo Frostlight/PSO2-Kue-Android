@@ -39,7 +39,7 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
                         Log.d(Utility.getTag(), "onPostExecute");
 
                         /* Normally we would use some type of listener to notify the activity
-                         * that the async call was finished.
+                         * that the async call was finished
                          *
                          * In our test method we would subscribe to that and signal from
                          * there instead
@@ -52,7 +52,7 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
         });
 
 	    /* The testing thread will wait here until the UI thread releases it
-	     * above with the countDown() or 30 seconds passes and it times out.
+	     * above with the countDown() or 10 seconds passes and it times out
 	     */
         signal.await(10, TimeUnit.SECONDS);
         assertTrue(called);
