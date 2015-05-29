@@ -1,7 +1,7 @@
 package frostlight.pso2kue;
 
 /**
- * ConstGeneral
+ * ConstTwitterAuth
  * Twitter authentication key and secret
  * Updates to this file should be done manually on GitHub because of the Git --assume-unchanged flag
  * Created by Vincent on 5/25/2015.
