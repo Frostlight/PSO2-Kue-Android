@@ -1,5 +1,6 @@
 package frostlight.pso2kue.data;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -45,6 +46,27 @@ public class TestDb extends AndroidTestCase {
     // Call this before each test to start clean
     void deleteDb() {
         mContext.deleteDatabase(DbHelper.DATABASE_NAME);
+    }
+
+    /**
+     * Inserts a set of ContentValues into a database and queries for the same values
+     * @param sqLiteDatabase The database to insert into
+     * @param testValues ContentValues consisting of the entry for insertion
+     * @return ID of the row the entry was inserted to
+     */
+    long insertQueryDb(SQLiteDatabase sqLiteDatabase, String tableName, ContentValues testValues)
+    {
+        // Insert ContentValues into database and get a row ID back
+        long locationRowId = sqLiteDatabase.insert(tableName, null, testValues);
+
+        // Verify insertion was successful
+        assertTrue("Error: Insertion into table " + tableName + " was unsuccessful",
+                locationRowId != -1);
+
+        // Query and verify query for the values that were just inserted
+        TestUtilities.verifyValues(sqLiteDatabase, tableName, testValues);
+
+        return locationRowId;
     }
 
     /**
@@ -102,5 +124,24 @@ public class TestDb extends AndroidTestCase {
             hashTest(cursor, "name", columnNames[i], "Error: The " + tableNames[i] +
                     " table does not contain all required columns");
         }
+    }
+
+    // Insert and query each database
+    // Testing is handled by the database insertion function
+    public void testInsert() {
+        DbHelper dbHelper = new DbHelper(this.getContext());
+        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+
+        // Insert and query calendar database
+        insertQueryDb(sqLiteDatabase, DbContract.CalendarEntry.TABLE_NAME,
+                TestUtilities.createCalendarValues());
+
+        // Insert and query twitter database
+        insertQueryDb(sqLiteDatabase, DbContract.TwitterEntry.TABLE_NAME,
+                TestUtilities.createTwitterValues());
+
+        // Insert and query translation database
+        insertQueryDb(sqLiteDatabase, DbContract.TranslationEntry.TABLE_NAME,
+                TestUtilities.createTranslationValues());
     }
 }
