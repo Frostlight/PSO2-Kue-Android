@@ -52,11 +52,11 @@ public class TestDb extends AndroidTestCase {
     /**
      * Inserts a set of ContentValues into a database and queries for the same values
      * @param sqLiteDatabase The database to insert into
+     * @param tableName The name of the table to insert to
      * @param testValues ContentValues consisting of the entry for insertion
      * @return ID of the row the entry was inserted to
      */
-    long insertQueryDb(SQLiteDatabase sqLiteDatabase, String tableName, ContentValues testValues)
-    {
+    long insertQueryDb(SQLiteDatabase sqLiteDatabase, String tableName, ContentValues testValues) {
         // Insert ContentValues into database and get a row ID back
         long locationRowId = sqLiteDatabase.insert(tableName, null, testValues);
 
@@ -81,8 +81,7 @@ public class TestDb extends AndroidTestCase {
      *                       with the cursor
      * @param errorMessage Message to display if an error occurs
      */
-    void hashTest(Cursor cursor, String columnName, String[] columnContents, String errorMessage)
-    {
+    void hashTest(Cursor cursor, String columnName, String[] columnContents, String errorMessage) {
         // Create a HashSet of all the column contents
         HashSet<String> hashSet = new HashSet<>();
         hashSet.addAll(Arrays.asList(columnContents));

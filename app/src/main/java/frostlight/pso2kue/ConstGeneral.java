@@ -20,4 +20,8 @@ public class ConstGeneral {
             {"2791388557", "PSO2es_ship09"},    // Ship 9
             {"2791357028", "PSO2es_ship10"}     // Ship 10
     };
+
+    // URL for the google calendar (XML format)
+    static final String googleUrl =
+            "https://www.google.com/calendar/feeds/pso2emgquest%40gmail.com/public/basic";
 }

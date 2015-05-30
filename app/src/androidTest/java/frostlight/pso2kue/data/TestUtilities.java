@@ -19,9 +19,14 @@ public class TestUtilities extends AndroidTestCase{
     static final String TEST_EQ_ENGLISH = "Chaotic Tranquility";
     static final long TEST_DATE = 1420165680L; // January 1, 2015
 
+    /**
+     * Verifies that an entry (according to a ContentValues) exists in the table
+     * @param sqLiteDatabase The database to check
+     * @param tableName The name of the table to check
+     * @param expectedValues ContentValues consisting of what to look for
+     */
     static void verifyValues(SQLiteDatabase sqLiteDatabase, String tableName,
-                             ContentValues expectedValues)
-    {
+                             ContentValues expectedValues) {
         String rawQuery = "SELECT * FROM " + tableName + " WHERE ";
         String whereClause = "";
 
@@ -39,7 +44,6 @@ public class TestUtilities extends AndroidTestCase{
         // Combine the incomplete rawQuery with the whereClause to get the full rawQuery
         rawQuery += whereClause;
 
-        Log.v(Utility.getTag(), "rawQuery: " + rawQuery);
         Cursor cursor = sqLiteDatabase.rawQuery(rawQuery, null);
 
         // Cursor should not be empty
@@ -52,8 +56,7 @@ public class TestUtilities extends AndroidTestCase{
      * @param cursor Cursor to check
      * @return True if the cursor is empty, False if the cursor is not empty
      */
-    static boolean isCursorEmpty(Cursor cursor)
-    {
+    static boolean isCursorEmpty(Cursor cursor) {
         return !cursor.moveToFirst() || cursor.getCount() == 0;
     }
 

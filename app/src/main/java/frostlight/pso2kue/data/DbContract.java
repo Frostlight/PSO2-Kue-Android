@@ -42,7 +42,7 @@ public class DbContract {
     /**
      * Inner class that defines the table contents of the translation table
      * The translation table stores the japanese/english pairs for the emergency quest names
-     * Table: ID | EQ Name | Date/Time
+     * Table: ID | Japanese Name | English Name
      */
     public static final class TranslationEntry implements BaseColumns {
         public static final String TABLE_NAME = "translation";

@@ -24,8 +24,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      * consumer key and secret provided in ConstGeneral.java
      * @return The authentication token
      */
-    public static OAuth2Token getOAuth2Token()
-    {
+    public static OAuth2Token getOAuth2Token() {
         OAuth2Token token = null;
         ConfigurationBuilder configurationBuilder = getConfigurationBuilder();
 
@@ -43,8 +42,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      * Creates a ConfigurationBuilder based on the consumer key and secret provided in ConstGeneral.java
      * @return The ConfigurationBuilder
      */
-    public static ConfigurationBuilder getConfigurationBuilder()
-    {
+    public static ConfigurationBuilder getConfigurationBuilder() {
         ConfigurationBuilder configurationBuilder;
 
         configurationBuilder = new ConfigurationBuilder();

@@ -27,6 +27,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        // Create each table with columns as specified in DbContract
         final String SQL_CREATE_CALENDAR_TABLE = "CREATE TABLE " + CalendarEntry.TABLE_NAME + " (" +
                 CalendarEntry._ID + " INTEGER PRIMARY KEY," +
                 CalendarEntry.COLUMN_EQNAME + " TEXT NOT NULL, " +

@@ -15,8 +15,7 @@ public class Utility {
      * @param previous The past date
      * @return The number of minutes difference as an integer
      */
-    public static int getMinuteDifference(Date now, Date previous)
-    {
+    public static int getMinuteDifference(Date now, Date previous) {
         // Date.getTime() returns in milliseconds, convert it to minutes
         return (int)Math.abs(now.getTime() - previous.getTime())/1000/60;
     }
