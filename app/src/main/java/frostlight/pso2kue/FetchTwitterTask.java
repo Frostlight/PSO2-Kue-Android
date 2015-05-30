@@ -95,7 +95,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             Log.v(Utility.getTag(), "Time since: " + Utility.getMinuteDifference(new Date(),
                     response.getCreatedAt()) + " minutes");
 
-            // TODO: Integrate with backend database
+            // TODO: Store entry into database
         } catch (TwitterException e) {
             e.printStackTrace();
         }

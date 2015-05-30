@@ -2,17 +2,20 @@ package frostlight.pso2kue;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Xml;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
+
 
 /**
  * FetchCalenderTask
@@ -31,7 +34,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
         // Will contain the raw XML response as a string.
         String calendarXml = null;
 
-        try{
+        try {
             URL url = new URL(ConstGeneral.googleUrl);
 
             // Create the request to Google calendar, and open the connection
@@ -48,21 +51,21 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                 return null;
             }
 
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            // Read input stream to get a list of entries
+            try {
+                List<XmlHelper.Entry> entryList = XmlHelper.parse(inputStream);
 
-            String line;
-            // Append the XML for each line with a new line character
-            while ((line = reader.readLine()) != null) {
-                builder.append(line).append("\n");
+                // Print each list element out
+                for (XmlHelper.Entry entry: entryList) {
+                    Log.v(Utility.getTag(), "Title: " + entry.title);
+                    Log.v(Utility.getTag(), "Summary: " + entry.summary);
+                }
+            } catch (XmlPullParserException e) {
+                Log.e(Utility.getTag(), "Error: ", e);
+                e.printStackTrace();
             }
 
-            // If stream was empty, no point in parsing
-            if (builder.length() == 0) {
-                return null;
-            }
-
-            calendarXml = builder.toString();
-            //Log.v(Utility.getTag(), "XML: " + calendarXml);
+            // TODO: Store entries into database
         } catch (IOException e) {
             Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();
