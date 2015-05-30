@@ -43,7 +43,9 @@ public class DbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_TRANSLATION_TABLE = "CREATE TABLE " + TranslationEntry.TABLE_NAME + " (" +
                 TranslationEntry._ID + " INTEGER PRIMARY KEY," +
                 TranslationEntry.COLUMN_JAPANESE + " TEXT NOT NULL, " +
-                TranslationEntry.COLUMN_ENGLISH + " TEXT NOT NULL );";
+                TranslationEntry.COLUMN_ENGLISH + " TEXT NOT NULL, " +
+                " UNIQUE (" + TranslationEntry.COLUMN_ENGLISH + ", " +
+                TranslationEntry.COLUMN_JAPANESE + ") ON CONFLICT REPLACE);";
         sqLiteDatabase.execSQL(SQL_CREATE_TRANSLATION_TABLE);
     }
 
