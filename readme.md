@@ -22,6 +22,7 @@ A translation table will be used for the Japanese Twitter updates. Alternatively
 PSO2 Kue will use a number of freely available technologies to work properly:
 - [SQLite] - A lightweight backend database for storing the emergency quest schedule and translation table. Emergency quests that have already passed will be wiped from the database
 - [Twitter4j] - An unofficial Java library for working with the Twitter API
+- [Joda-Time] - A quality replacement for the Java Time and Date classes which fixes much of the unnecessary convolution in the way Java handles time (if Android development moves to Java SE 8, migrate to java.time instead)
 
 ###APIs
 PSO2 will use the following APIs:
@@ -32,15 +33,16 @@ PSO2 will use the following APIs:
 - [Hablaa Translation API] - Used if there is no translation available
 
 ###Updates
+- 5/30/2015: Google Calendar integration with database completed, Joda-Time added
+- 5/30/2015: Google Calendar fetching/parsing and related tests implemented
 - 5/29/2015: Databases and related tests implemented
-- 5/26/2015: Twitter fetching and related tests implemented
+- 5/26/2015: Twitter fetching and related tests implemented, Twitter4j added
 
 ### Todo's
-- Database backend
-- Database helper class
-- Google calendar
 - Main activity
 - Preferences activity
+- Twitter integration with database
+- Translation Table and integration with database
 
 [SQLite]: https://www.sqlite.org/
 [Twitter Streaming API]: https://dev.twitter.com/overview/documentation
@@ -49,3 +51,4 @@ PSO2 will use the following APIs:
 [Google Spreadsheet API]: https://developers.google.com/google-apps/spreadsheets/
 [Hablaa Translation API]: http://hablaa.com/api/
 [Twitter4j]: http://twitter4j.org/en/index.html
+[Joda-Time]: http://www.joda.org/joda-time/
