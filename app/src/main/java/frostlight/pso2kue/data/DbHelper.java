@@ -19,7 +19,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // If the database schema is changed, increment the database version
     private static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_NAME = "pso2.db";
+    public static final String DATABASE_NAME = "pso2.db";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

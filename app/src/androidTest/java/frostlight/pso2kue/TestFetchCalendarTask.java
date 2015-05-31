@@ -38,12 +38,12 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
                         super.onPostExecute(aVoid);
                         Log.d(Utility.getTag(), "onPostExecute");
 
-                    /* Normally we would use some type of listener to notify the activity
-                     * that the async call was finished
-                     *
-                     * In our test method we would subscribe to that and signal from
-                     * there instead
-                     */
+                        /* Normally we would use some type of listener to notify the activity
+                         * that the async call was finished
+                         *
+                         * In our test method we would subscribe to that and signal from
+                         * there instead
+                         */
                         called = true;
                         signal.countDown();
                     }

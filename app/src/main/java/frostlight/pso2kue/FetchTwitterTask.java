@@ -1,6 +1,8 @@
 package frostlight.pso2kue;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -9,6 +11,7 @@ import org.joda.time.DateTime;
 
 import java.util.Date;
 
+import frostlight.pso2kue.data.DbContract;
 import frostlight.pso2kue.data.DbHelper;
 import twitter4j.Paging;
 import twitter4j.Twitter;
@@ -106,7 +109,6 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             // Perform the lookup here
             twitter4j.Status response = twitter.getUserTimeline(bot_id, paging).get(0);
 
-            // Log the tweet information
             /**
              * Extract the EQ name from the Tweet
              * Original:    で緊急クエスト「市街地奪還作戦」が発生します
@@ -114,13 +116,18 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
              */
             String eqName = Utility.matchPattern(response.getText(),
                     "(?<=で緊急クエスト「).*(?=」が発生します)");
-            Log.v(Utility.getTag(), "EQ Name: " + eqName);
 
             // Calculate the EQ time from the time the Tweet was posted
-            long time = response.getCreatedAt().getTime();
-            Log.v(Utility.getTag(), "When: " + Utility.formatDate(Utility.roundUpHour(time)));
-            // TODO: Store entry into database
+            long eqTime = Utility.roundUpHour(response.getCreatedAt().getTime());
 
+            // Wipe the Twitter database before inserting
+            mSQLiteDatabase.delete(DbContract.TwitterEntry.TABLE_NAME, null, null);
+
+            // Insert the element into database
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DbContract.TwitterEntry.COLUMN_EQNAME, eqName);
+            contentValues.put(DbContract.TwitterEntry.COLUMN_DATE, eqTime);
+            mSQLiteDatabase.insert(DbContract.TwitterEntry.TABLE_NAME, null, contentValues);
         } catch (TwitterException e) {
             e.printStackTrace();
         }

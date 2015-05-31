@@ -1,10 +1,15 @@
 package frostlight.pso2kue;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import frostlight.pso2kue.data.DbContract;
+import frostlight.pso2kue.data.DbHelper;
 
 /**
  * TestFetchTwitterTask
@@ -14,6 +19,8 @@ import java.util.concurrent.TimeUnit;
 public class TestFetchTwitterTask extends InstrumentationTestCase {
 
     private static boolean called;
+    private DbHelper mDbHelper;
+    private SQLiteDatabase mSQLiteDatabase;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -34,10 +41,39 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
             public void run() {
                 // Execute FetchTwitterTask for Ship 2
                 new FetchTwitterTask(getInstrumentation().getTargetContext()) {
+                    // Call this before testing to start clean
+                    void deleteDb() {
+                        getInstrumentation().getTargetContext()
+                                .deleteDatabase(DbHelper.DATABASE_NAME);
+                    }
+
+                    // Setup DbHelper and Database
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        mDbHelper = new DbHelper(getInstrumentation().getTargetContext());
+                        mSQLiteDatabase = mDbHelper.getWritableDatabase();
+                    }
+
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
                         Log.d(Utility.getTag(), "onPostExecute");
+
+                        // Query the database the AsyncTask inserted into for the entries
+                        Cursor cursor = mSQLiteDatabase.rawQuery("SELECT * FROM "
+                                + DbContract.TwitterEntry.TABLE_NAME, null);
+                        assertTrue("Error: The database has not been created correctly",
+                                cursor.moveToFirst());
+
+                        // Log the Twitter entry from the database
+                        Log.v(Utility.getTag(), cursor.getColumnName(1) + ": " + cursor.getString(1));
+                        Log.v(Utility.getTag(), cursor.getColumnName(2) + ": " + Utility.formatDate(
+                                Long.parseLong(cursor.getString(2))));
+
+                        assertFalse("Error: The database should have only one entry",
+                                cursor.moveToNext());
+                        cursor.close();
 
                         /* Normally we would use some type of listener to notify the activity
                          * that the async call was finished
