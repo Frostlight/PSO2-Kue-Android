@@ -91,6 +91,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                     Log.v(Utility.getTag(), cursor.getColumnName(1) + ": " + cursor.getString(1));
                     Log.v(Utility.getTag(), cursor.getColumnName(2) + ": " + Utility.formatDate(
                             Long.parseLong(cursor.getString(2))));
+                    cursor.close();
                 }
             } catch (XmlPullParserException e) {
                 Log.e(Utility.getTag(), "Error: ", e);
