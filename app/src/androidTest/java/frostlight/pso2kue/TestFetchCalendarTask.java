@@ -39,6 +39,7 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
+                // Execute FetchCalendarTask
                 new FetchCalendarTask(getInstrumentation().getTargetContext()) {
                     // Setup DbHelper and Database
                     @Override
@@ -73,24 +74,17 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
                          * In our test method we would subscribe to that and signal from
                          * there instead
                          */
-                            called = true;
-                            signal.countDown();
-                        }
+                        called = true;
+                        signal.countDown();
                     }
-
-                    .
-
-                    execute();
+                }.execute();
                 }
-            }
+            });
 
-            );
-
-    /* The testing thread will wait here until the UI thread releases it
-     * above with the countDown() or 10 seconds passes and it times out
-     */
-            signal.await(10,TimeUnit.SECONDS);
-
-            assertTrue(called);
-        }
+	    /* The testing thread will wait here until the UI thread releases it
+	     * above with the countDown() or 10 seconds passes and it times out
+	     */
+        signal.await(10,TimeUnit.SECONDS);
+        assertTrue(called);
     }
+}
