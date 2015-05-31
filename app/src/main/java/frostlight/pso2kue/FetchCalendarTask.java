@@ -1,20 +1,27 @@
 package frostlight.pso2kue;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.util.Xml;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import frostlight.pso2kue.data.DbContract;
+import frostlight.pso2kue.data.DbHelper;
 
 
 /**
@@ -23,6 +30,19 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by Vincent on 5/19/2015.
  */
 public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
+
+    private DbHelper mDbHelper;
+    private SQLiteDatabase mSQLiteDatabase;
+
+    /**
+     * FetchCalendarTask, initialises database helper on the context
+     * @param context The context to instantiate
+     */
+    public FetchCalendarTask(Context context) {
+        mDbHelper = new DbHelper(context);
+        mSQLiteDatabase = mDbHelper.getWritableDatabase();
+    }
+
 
     @Override
     protected Void doInBackground(Void... params) {
@@ -51,21 +71,29 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                 return null;
             }
 
-            // Read input stream to get a list of entries
+
             try {
+                // Read input stream to get a list of entries
                 List<XmlHelper.Entry> entryList = XmlHelper.parse(inputStream);
 
-                // Print each list element out
                 for (XmlHelper.Entry entry: entryList) {
+                    // Insert each element into the database
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DbContract.CalendarEntry.COLUMN_EQNAME, entry.title);
+                    contentValues.put(DbContract.CalendarEntry.COLUMN_DATE, entry.summary);
+                    mSQLiteDatabase.insert(DbContract.CalendarEntry.TABLE_NAME, null, contentValues);
+
+                    // Print each list element out
                     Log.v(Utility.getTag(), "Title: " + entry.title);
-                    Log.v(Utility.getTag(), "Summary: " + entry.summary);
+                    DateTime dateTime = new DateTime(Long.parseLong(entry.summary));
+                    DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
+                    Log.v(Utility.getTag(), "Summary: " + dateTime
+                            .withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter));
                 }
             } catch (XmlPullParserException e) {
                 Log.e(Utility.getTag(), "Error: ", e);
                 e.printStackTrace();
             }
-
-            // TODO: Store entries into database
         } catch (IOException e) {
             Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();

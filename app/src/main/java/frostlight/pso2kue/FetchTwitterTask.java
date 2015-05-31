@@ -1,10 +1,13 @@
 package frostlight.pso2kue;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.Date;
 
+import frostlight.pso2kue.data.DbHelper;
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -18,6 +21,18 @@ import twitter4j.conf.ConfigurationBuilder;
  * Created by Vincent on 5/19/2015.
  */
 public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
+
+    private DbHelper mDbHelper;
+    private SQLiteDatabase mSQLiteDatabase;
+
+    /**
+     * FetchCalendarTask, initialises database helper on the context
+     * @param context The context to instantiate
+     */
+    public FetchTwitterTask(Context context) {
+        mDbHelper = new DbHelper(context);
+        mSQLiteDatabase = mDbHelper.getWritableDatabase();
+    }
 
     /**
      * Creates an authentication token for application only authentication based on the

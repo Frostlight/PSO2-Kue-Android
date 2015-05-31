@@ -32,7 +32,7 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new FetchCalendarTask() {
+                new FetchCalendarTask(getInstrumentation().getTargetContext()) {
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);

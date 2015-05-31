@@ -33,7 +33,7 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
             @Override
             public void run() {
                 // Execute FetchTwitterTask for Ship 2
-                new FetchTwitterTask() {
+                new FetchTwitterTask(getInstrumentation().getTargetContext()) {
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);

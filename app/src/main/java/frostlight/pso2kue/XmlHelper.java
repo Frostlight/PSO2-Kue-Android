@@ -1,8 +1,11 @@
 package frostlight.pso2kue;
 
-import android.util.Log;
 import android.util.Xml;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -10,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * XMLHelper
@@ -123,13 +128,26 @@ public class XmlHelper {
         String summary = readText(parser);
         parser.require(XmlPullParser.END_TAG, null, "summary");
 
-        // TODO: Refine this with Regex instead
-        // TODO: Convert time to local time
-        // Get only the date and starting time
-        int startPosition = summary.indexOf("When: ") + "When: ".length();
-        int endPosition = summary.indexOf(" to", startPosition);
-        summary = summary.substring(startPosition, endPosition);
-        return summary;
+        /**
+         * Get only the date and starting time
+         * Original:    When: Sat 30 May 2015 1:00 to 1:30
+         * Result:      30 May 2015 1:00
+         */
+        Pattern pattern = Pattern.compile("(?<=When: ....).*(?= to)");
+        Matcher matcher = pattern.matcher(summary);
+
+        //noinspection ResultOfMethodCallIgnored
+        matcher.find();
+        summary = matcher.group();
+
+        // Parse the time with Japan timezone
+        DateTime dateTime = new DateTime();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
+        dateTime = dateTimeFormatter.withZone(DateTimeZone.forID(ConstGeneral.timeZone))
+                .parseDateTime(summary);
+
+        // Return the time in milliseconds
+        return Long.toString(dateTime.getMillis());
     }
 
     /**
