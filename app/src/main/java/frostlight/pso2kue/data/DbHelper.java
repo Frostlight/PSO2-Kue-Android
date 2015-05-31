@@ -17,7 +17,7 @@ import frostlight.pso2kue.data.DbContract.TranslationEntry;
 public class DbHelper extends SQLiteOpenHelper {
 
     // If the database schema is changed, increment the database version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "pso2.db";
 
@@ -44,8 +44,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 TranslationEntry._ID + " INTEGER PRIMARY KEY," +
                 TranslationEntry.COLUMN_JAPANESE + " TEXT NOT NULL, " +
                 TranslationEntry.COLUMN_ENGLISH + " TEXT NOT NULL, " +
-                " UNIQUE (" + TranslationEntry.COLUMN_ENGLISH + ", " +
-                TranslationEntry.COLUMN_JAPANESE + ") ON CONFLICT REPLACE);";
+                " UNIQUE (" + TranslationEntry.COLUMN_JAPANESE + ") ON CONFLICT REPLACE);";
         sqLiteDatabase.execSQL(SQL_CREATE_TRANSLATION_TABLE);
     }
 
