@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import frostlight.pso2kue.data.DbContract.CalendarEntry;
-import frostlight.pso2kue.data.DbContract.TwitterEntry;
 import frostlight.pso2kue.data.DbContract.TranslationEntry;
+import frostlight.pso2kue.data.DbContract.TwitterEntry;
 
 
 /**

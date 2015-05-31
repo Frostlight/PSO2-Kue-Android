@@ -2,14 +2,8 @@ package frostlight.pso2kue;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import org.joda.time.DateTime;
-
-import java.util.Date;
 
 import frostlight.pso2kue.data.DbContract;
 import frostlight.pso2kue.data.DbHelper;

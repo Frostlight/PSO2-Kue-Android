@@ -3,10 +3,7 @@ package frostlight.pso2kue.data;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.test.AndroidTestCase;
-
-import frostlight.pso2kue.Utility;
 
 /**
  * TestUtilities
