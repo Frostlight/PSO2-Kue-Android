@@ -51,9 +51,10 @@ public class TestDb extends AndroidTestCase {
 
     /**
      * Inserts a set of ContentValues into a database and queries for the same values
+     *
      * @param sqLiteDatabase The database to insert into
-     * @param tableName The name of the table to insert to
-     * @param testValues ContentValues consisting of the entry for insertion
+     * @param tableName      The name of the table to insert to
+     * @param testValues     ContentValues consisting of the entry for insertion
      * @return ID of the row the entry was inserted to
      */
     long insertQueryDb(SQLiteDatabase sqLiteDatabase, String tableName, ContentValues testValues) {
@@ -74,12 +75,13 @@ public class TestDb extends AndroidTestCase {
      * Cross-checks a cursor with a provided column name and contents
      * (what's supposed to be in the database)
      * E.g. Master table (names column) - Check if all the tables have been created
-     *      Table info (names column) - Check if all the table columns have been created
-     * @param cursor Associated cursor
-     * @param columnName Name of the column of the provided string array
+     * Table info (names column) - Check if all the table columns have been created
+     *
+     * @param cursor         Associated cursor
+     * @param columnName     Name of the column of the provided string array
      * @param columnContents Array of what's supposed to be in the column, will be crosschecked
      *                       with the cursor
-     * @param errorMessage Message to display if an error occurs
+     * @param errorMessage   Message to display if an error occurs
      */
     void hashTest(Cursor cursor, String columnName, String[] columnContents, String errorMessage) {
         // Create a HashSet of all the column contents
@@ -90,7 +92,7 @@ public class TestDb extends AndroidTestCase {
         int columnIndex = cursor.getColumnIndex(columnName);
         do {
             hashSet.remove(cursor.getString(columnIndex));
-        } while( cursor.moveToNext() );
+        } while (cursor.moveToNext());
 
         // HashSet should be empty after removing everything
         assertTrue(errorMessage, hashSet.isEmpty());
@@ -116,8 +118,7 @@ public class TestDb extends AndroidTestCase {
         hashTest(cursor, "name", tableNames, "Error: Database was created without all entries");
 
         // Verify that each table contains all the required columns
-        for (int i = 0; i < tableNames.length; i++)
-        {
+        for (int i = 0; i < tableNames.length; i++) {
             cursor = sqLiteDatabase.rawQuery("PRAGMA table_info(" + tableNames[i] + ")", null);
             assertTrue("Error: Unable to query the database for table information",
                     cursor.moveToFirst());

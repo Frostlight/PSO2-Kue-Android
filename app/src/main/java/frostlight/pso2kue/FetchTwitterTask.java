@@ -26,6 +26,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
     /**
      * FetchCalendarTask, initialises database helper on the context
+     *
      * @param context The context to instantiate
      */
     public FetchTwitterTask(Context context) {
@@ -36,6 +37,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
     /**
      * Creates an authentication token for application only authentication based on the
      * consumer key and secret provided in ConstGeneral.java
+     *
      * @return The authentication token
      */
     public static OAuth2Token getOAuth2Token() {
@@ -54,6 +56,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
     /**
      * Creates a ConfigurationBuilder based on the consumer key and secret provided in ConstGeneral.java
+     *
      * @return The ConfigurationBuilder
      */
     public static ConfigurationBuilder getConfigurationBuilder() {
@@ -73,6 +76,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      *
      * Note: Twitter ship bots are mapped in ConstGeneral.shipId to array indices 1 lower than the
      * actual ship (i.e. ship 1 = ConstGeneral.shipId[0], ship 10 = ConstGeneral.shipId[9])
+     *
      * @param params params[0] A string representing which ship (server) to use [1-10]
      *               e.g. 1 = ship 1, 10 = ship 10
      */

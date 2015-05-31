@@ -10,7 +10,7 @@ import android.test.AndroidTestCase;
  * Helper functions and constants for TestDb
  * Created by Vincent on 5/29/2015.
  */
-public class TestUtilities extends AndroidTestCase{
+public class TestUtilities extends AndroidTestCase {
 
     static final String TEST_EQ_JAPANESE = "平穏を引き裂く混沌";
     static final String TEST_EQ_ENGLISH = "Chaotic Tranquility";
@@ -18,8 +18,9 @@ public class TestUtilities extends AndroidTestCase{
 
     /**
      * Verifies that an entry (according to a ContentValues) exists in the table
+     *
      * @param sqLiteDatabase The database to check
-     * @param tableName The name of the table to check
+     * @param tableName      The name of the table to check
      * @param expectedValues ContentValues consisting of what to look for
      */
     static void verifyValues(SQLiteDatabase sqLiteDatabase, String tableName,
@@ -49,6 +50,7 @@ public class TestUtilities extends AndroidTestCase{
 
     /**
      * Checks if a cursor is empty
+     *
      * @param cursor Cursor to check
      * @return True if the cursor is empty, False if the cursor is not empty
      */
@@ -58,9 +60,10 @@ public class TestUtilities extends AndroidTestCase{
 
     /**
      * Creates a set of test entry values for the calendar table.
+     *
      * @return Sample ContentValues for the calendar table
      */
-    static ContentValues createCalendarValues () {
+    static ContentValues createCalendarValues() {
         ContentValues calendarValues = new ContentValues();
         calendarValues.put(DbContract.CalendarEntry.COLUMN_EQNAME, TEST_EQ_ENGLISH);
         calendarValues.put(DbContract.CalendarEntry.COLUMN_DATE, TEST_DATE);
@@ -69,9 +72,10 @@ public class TestUtilities extends AndroidTestCase{
 
     /**
      * Creates a set of test entry values for the Twitter table.
+     *
      * @return Sample ContentValues for the Twitter table
      */
-    static ContentValues createTwitterValues () {
+    static ContentValues createTwitterValues() {
         ContentValues twitterValues = new ContentValues();
         twitterValues.put(DbContract.TwitterEntry.COLUMN_EQNAME, TEST_EQ_ENGLISH);
         twitterValues.put(DbContract.TwitterEntry.COLUMN_DATE, TEST_DATE);
@@ -80,9 +84,10 @@ public class TestUtilities extends AndroidTestCase{
 
     /**
      * Creates a set of test entry values for the translation table.
+     *
      * @return Sample ContentValues for the translation table
      */
-    static ContentValues createTranslationValues () {
+    static ContentValues createTranslationValues() {
         ContentValues translationValues = new ContentValues();
         translationValues.put(DbContract.TranslationEntry.COLUMN_JAPANESE, TEST_EQ_JAPANESE);
         translationValues.put(DbContract.TranslationEntry.COLUMN_ENGLISH, TEST_EQ_ENGLISH);

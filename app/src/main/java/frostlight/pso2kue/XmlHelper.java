@@ -34,6 +34,7 @@ public class XmlHelper {
 
     /**
      * Parses an InputStream for XML data
+     *
      * @param inputStream InputStream to read from
      * @return List of Entry objects read from the XML
      */
@@ -51,6 +52,7 @@ public class XmlHelper {
 
     /**
      * Seeks for entry tags and continues down another level
+     *
      * @param parser Parser that reads data from the input stream
      * @return List of Entry objects read from the XML
      */
@@ -77,6 +79,7 @@ public class XmlHelper {
      * Reads parser from each entry tag and returns an Entry object with the tags we're
      * interested in. If it encounters a title or summary tag, hands them off to their respective
      * "read" methods for processing
+     *
      * @param parser Parser that reads data from the input stream
      * @return Entry object with the tags we're interested in
      */
@@ -106,6 +109,7 @@ public class XmlHelper {
 
     /**
      * Processes title tags in the feed
+     *
      * @param parser Parser that reads data from the input stream
      * @return Readable title string consisting of the EQ name
      */
@@ -118,6 +122,7 @@ public class XmlHelper {
 
     /**
      * Processes summary tags in the feed
+     *
      * @param parser Parser that reads data from the input stream
      * @return Readable summary string consisting of the EQ date and time
      */
@@ -145,6 +150,7 @@ public class XmlHelper {
 
     /**
      * Extracts text values from tags (for read methods)
+     *
      * @param parser Parser that reads data from the input stream
      * @return The text in between their respective tags
      */
@@ -159,6 +165,7 @@ public class XmlHelper {
 
     /**
      * Ignores a tag, moves on to the next one
+     *
      * @param parser Parser that reads data from the input stream
      */
     private static void skip(XmlPullParser parser) throws XmlPullParserException, IOException {

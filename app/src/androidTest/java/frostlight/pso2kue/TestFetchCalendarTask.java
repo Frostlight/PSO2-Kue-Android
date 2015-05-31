@@ -82,9 +82,9 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
         });
 
 	    /* The testing thread will wait here until the UI thread releases it
-	     * above with the countDown() or 10 seconds passes and it times out
+         * above with the countDown() or 10 seconds passes and it times out
 	     */
-        signal.await(10,TimeUnit.SECONDS);
+        signal.await(10, TimeUnit.SECONDS);
         assertTrue(called);
     }
 }

@@ -32,6 +32,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
     /**
      * FetchCalendarTask, initialises database helper on the context
+     *
      * @param context The context to instantiate
      */
     public FetchCalendarTask(Context context) {
@@ -74,7 +75,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
                 // Wipe the Calendar database before inserting
                 mSQLiteDatabase.delete(DbContract.CalendarEntry.TABLE_NAME, null, null);
-                for (XmlHelper.Entry entry: entryList) {
+                for (XmlHelper.Entry entry : entryList) {
                     // Insert each element into the database
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(DbContract.CalendarEntry.COLUMN_EQNAME, entry.title);
