@@ -52,8 +52,7 @@ public class Utility {
      * @param date Date in milliseconds
      * @return Formatted date string
      */
-    public static String formatDate (long date)
-    {
+    public static String formatDate (long date) {
         DateTime dateTime = new DateTime(date);
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
         return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
@@ -64,8 +63,7 @@ public class Utility {
      * @param date date/time in milliseconds
      * @return Rounded date/time in milliseconds
      */
-    public static long roundUpHour (long date)
-    {
+    public static long roundUpHour (long date) {
         DateTime dateTime = new DateTime(date);
         dateTime = dateTime.plusSeconds(60 - dateTime.getSecondOfMinute());
         dateTime = dateTime.plusMinutes(60 - dateTime.getMinuteOfHour());
