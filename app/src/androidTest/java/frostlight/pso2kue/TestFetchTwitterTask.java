@@ -41,12 +41,6 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
             public void run() {
                 // Execute FetchTwitterTask for Ship 2
                 new FetchTwitterTask(getInstrumentation().getTargetContext()) {
-                    // Call this before testing to start clean
-                    void deleteDb() {
-                        getInstrumentation().getTargetContext()
-                                .deleteDatabase(DbHelper.DATABASE_NAME);
-                    }
-
                     // Setup DbHelper and Database
                     @Override
                     protected void onPreExecute() {

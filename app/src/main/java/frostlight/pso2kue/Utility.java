@@ -22,34 +22,6 @@ import java.util.regex.Pattern;
 public class Utility {
 
     /**
-     * Verifies that an entry (according to a ContentValues) exists in the table
-     * @param sqLiteDatabase The database to check
-     * @param tableName The name of the table to check
-     * @param expectedValues ContentValues consisting of what to look for
-     */
-    static Cursor verifyValues(SQLiteDatabase sqLiteDatabase, String tableName,
-                             ContentValues expectedValues) {
-        String rawQuery = "SELECT * FROM " + tableName + " WHERE ";
-        String whereClause = "";
-
-        // Iterate through each ContentValue key-value pair to generate the WHERE clause
-        // of the SQL rawQuery
-        for (String key : expectedValues.keySet()) {
-            Object value = expectedValues.get(key);
-
-            if (!whereClause.isEmpty())
-                whereClause += " AND ";
-            whereClause += key + " = \"" + value.toString() + "\"";
-        }
-
-        // Combine the incomplete rawQuery with the whereClause to get the full rawQuery
-        rawQuery += whereClause;
-
-        // Return the cursor
-        return sqLiteDatabase.rawQuery(rawQuery, null);
-    }
-
-    /**
      * Matches an input string with a regular expression, and returns the first result
      * @param input Input string to match with
      * @param regex Regex used to match

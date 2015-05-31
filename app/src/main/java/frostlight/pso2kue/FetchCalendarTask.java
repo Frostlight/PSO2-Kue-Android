@@ -77,21 +77,14 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                 // Read input stream to get a list of entries
                 List<XmlHelper.Entry> entryList = XmlHelper.parse(inputStream);
 
+                // Wipe the Calendar database before inserting
+                mSQLiteDatabase.delete(DbContract.CalendarEntry.TABLE_NAME, null, null);
                 for (XmlHelper.Entry entry: entryList) {
                     // Insert each element into the database
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(DbContract.CalendarEntry.COLUMN_EQNAME, entry.title);
                     contentValues.put(DbContract.CalendarEntry.COLUMN_DATE, entry.summary);
                     mSQLiteDatabase.insert(DbContract.CalendarEntry.TABLE_NAME, null, contentValues);
-
-                    // Verify with database
-                    Cursor cursor = Utility.verifyValues(mSQLiteDatabase,
-                            DbContract.CalendarEntry.TABLE_NAME, contentValues);
-                    cursor.moveToFirst();
-                    Log.v(Utility.getTag(), cursor.getColumnName(1) + ": " + cursor.getString(1));
-                    Log.v(Utility.getTag(), cursor.getColumnName(2) + ": " + Utility.formatDate(
-                            Long.parseLong(cursor.getString(2))));
-                    cursor.close();
                 }
             } catch (XmlPullParserException e) {
                 Log.e(Utility.getTag(), "Error: ", e);
