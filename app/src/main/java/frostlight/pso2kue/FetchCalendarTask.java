@@ -2,6 +2,7 @@ package frostlight.pso2kue;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -83,12 +84,13 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                     contentValues.put(DbContract.CalendarEntry.COLUMN_DATE, entry.summary);
                     mSQLiteDatabase.insert(DbContract.CalendarEntry.TABLE_NAME, null, contentValues);
 
-                    // Print each list element out
-                    Log.v(Utility.getTag(), "Title: " + entry.title);
-                    DateTime dateTime = new DateTime(Long.parseLong(entry.summary));
-                    DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
-                    Log.v(Utility.getTag(), "Summary: " + dateTime
-                            .withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter));
+                    // Verify with database
+                    Cursor cursor = Utility.verifyValues(mSQLiteDatabase,
+                            DbContract.CalendarEntry.TABLE_NAME, contentValues);
+                    cursor.moveToFirst();
+                    Log.v(Utility.getTag(), cursor.getColumnName(1) + ": " + cursor.getString(1));
+                    Log.v(Utility.getTag(), cursor.getColumnName(2) + ": " + Utility.formatDate(
+                            Long.parseLong(cursor.getString(2))));
                 }
             } catch (XmlPullParserException e) {
                 Log.e(Utility.getTag(), "Error: ", e);

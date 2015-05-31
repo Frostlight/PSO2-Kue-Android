@@ -1,5 +1,14 @@
 package frostlight.pso2kue;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.Date;
 
 /**
@@ -8,6 +17,47 @@ import java.util.Date;
  * Created by Vincent on 5/26/2015.
  */
 public class Utility {
+
+    /**
+     * Verifies that an entry (according to a ContentValues) exists in the table
+     * @param sqLiteDatabase The database to check
+     * @param tableName The name of the table to check
+     * @param expectedValues ContentValues consisting of what to look for
+     */
+    static Cursor verifyValues(SQLiteDatabase sqLiteDatabase, String tableName,
+                             ContentValues expectedValues) {
+        String rawQuery = "SELECT * FROM " + tableName + " WHERE ";
+        String whereClause = "";
+
+        // Iterate through each ContentValue key-value pair to generate the WHERE clause
+        // of the SQL rawQuery
+        for (String key : expectedValues.keySet())
+        {
+            Object value = expectedValues.get(key);
+
+            if (!whereClause.isEmpty())
+                whereClause += " AND ";
+            whereClause += key + " = \"" + value.toString() + "\"";
+        }
+
+        // Combine the incomplete rawQuery with the whereClause to get the full rawQuery
+        rawQuery += whereClause;
+
+        // Return the cursor
+        return sqLiteDatabase.rawQuery(rawQuery, null);
+    }
+
+    /**
+     * Returns a formatted date String corresponding to the user's timezone
+     * @param date Date in milliseconds
+     * @return Formatted date string
+     */
+    public static String formatDate (long date)
+    {
+        DateTime dateTime = new DateTime(date);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
+        return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
+    }
 
     /**
      * Get the difference in minutes between two dates
