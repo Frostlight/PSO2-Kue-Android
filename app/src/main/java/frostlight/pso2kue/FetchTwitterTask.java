@@ -108,13 +108,20 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
             // Log the tweet
             long time = response.getCreatedAt().getTime();
-            Log.v(Utility.getTag(), "Text: " + response.getText());
-            Log.v(Utility.getTag(), "Time: " + Utility.formatDate(time));
+            //Log.v(Utility.getTag(), "Text: " + response.getText());
+
+            //(?<=で緊急クエスト「).*(?=」が発生します)
+            String eqName = Utility.matchPattern(response.getText(),
+                    "(?<=で緊急クエスト「).*(?=」が発生します)");
+            Log.v(Utility.getTag(), "EQ Name: " + eqName);
+
+            //Log.v(Utility.getTag(), "Time: " + Utility.formatDate(time));
             Log.v(Utility.getTag(), "When: " + Utility.formatDate(Utility.roundUpHour(time)));
-            Log.v(Utility.getTag(), "Time since: " + Utility.getMinuteDifference(new Date(),
-                    response.getCreatedAt()) + " minutes");
+            //Log.v(Utility.getTag(), "Time since: " + Utility.getMinuteDifference(new Date(),
+            //        response.getCreatedAt()) + " minutes");
 
             // TODO: Store entry into database
+
         } catch (TwitterException e) {
             e.printStackTrace();
         }
