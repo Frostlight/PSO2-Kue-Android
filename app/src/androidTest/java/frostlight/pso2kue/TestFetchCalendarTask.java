@@ -78,8 +78,8 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
                         signal.countDown();
                     }
                 }.execute();
-                }
-            });
+            }
+        });
 
 	    /* The testing thread will wait here until the UI thread releases it
 	     * above with the countDown() or 10 seconds passes and it times out
