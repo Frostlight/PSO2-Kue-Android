@@ -133,12 +133,7 @@ public class XmlHelper {
          * Original:    When: Sat 30 May 2015 1:00 to 1:30
          * Result:      30 May 2015 1:00
          */
-        Pattern pattern = Pattern.compile("(?<=When: ....).*(?= to)");
-        Matcher matcher = pattern.matcher(summary);
-
-        //noinspection ResultOfMethodCallIgnored
-        matcher.find();
-        summary = matcher.group();
+        summary = Utility.matchPattern(summary, "(?<=When: ....).*(?= to)");
 
         // Parse the time with Japan timezone
         DateTime dateTime = new DateTime();

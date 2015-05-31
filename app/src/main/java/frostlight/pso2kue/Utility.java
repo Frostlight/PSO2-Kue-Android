@@ -11,6 +11,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility
@@ -45,6 +47,21 @@ public class Utility {
 
         // Return the cursor
         return sqLiteDatabase.rawQuery(rawQuery, null);
+    }
+
+    /**
+     * Matches an input string with a regular expression, and returns the first result
+     * @param input Input string to match with
+     * @param regex Regex used to match
+     * @return The first result of the pattern
+     */
+    public static String matchPattern (String input, String regex){
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+
+        //noinspection ResultOfMethodCallIgnored
+        matcher.find();
+        return matcher.group();
     }
 
     /**

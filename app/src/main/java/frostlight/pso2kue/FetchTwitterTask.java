@@ -106,20 +106,19 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             // Perform the lookup here
             twitter4j.Status response = twitter.getUserTimeline(bot_id, paging).get(0);
 
-            // Log the tweet
-            long time = response.getCreatedAt().getTime();
-            //Log.v(Utility.getTag(), "Text: " + response.getText());
-
-            //(?<=で緊急クエスト「).*(?=」が発生します)
+            // Log the tweet information
+            /**
+             * Extract the EQ name from the Tweet
+             * Original:    で緊急クエスト「市街地奪還作戦」が発生します
+             * Result:      市街地奪還作戦
+             */
             String eqName = Utility.matchPattern(response.getText(),
                     "(?<=で緊急クエスト「).*(?=」が発生します)");
             Log.v(Utility.getTag(), "EQ Name: " + eqName);
 
-            //Log.v(Utility.getTag(), "Time: " + Utility.formatDate(time));
+            // Calculate the EQ time from the time the Tweet was posted
+            long time = response.getCreatedAt().getTime();
             Log.v(Utility.getTag(), "When: " + Utility.formatDate(Utility.roundUpHour(time)));
-            //Log.v(Utility.getTag(), "Time since: " + Utility.getMinuteDifference(new Date(),
-            //        response.getCreatedAt()) + " minutes");
-
             // TODO: Store entry into database
 
         } catch (TwitterException e) {
