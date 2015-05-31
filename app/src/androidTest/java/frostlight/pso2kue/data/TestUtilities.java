@@ -32,8 +32,7 @@ public class TestUtilities extends AndroidTestCase{
 
         // Iterate through each ContentValue key-value pair to generate the WHERE clause
         // of the SQL rawQuery
-        for (String key : expectedValues.keySet())
-        {
+        for (String key : expectedValues.keySet()) {
             Object value = expectedValues.get(key);
 
             if (!whereClause.isEmpty())

@@ -3,6 +3,7 @@ package frostlight.pso2kue;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -31,8 +32,7 @@ public class Utility {
 
         // Iterate through each ContentValue key-value pair to generate the WHERE clause
         // of the SQL rawQuery
-        for (String key : expectedValues.keySet())
-        {
+        for (String key : expectedValues.keySet()) {
             Object value = expectedValues.get(key);
 
             if (!whereClause.isEmpty())
@@ -57,6 +57,19 @@ public class Utility {
         DateTime dateTime = new DateTime(date);
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
         return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
+    }
+
+    /**
+     * Rounds the date/time up to the nearest hour
+     * @param date date/time in milliseconds
+     * @return Rounded date/time in milliseconds
+     */
+    public static long roundUpHour (long date)
+    {
+        DateTime dateTime = new DateTime(date);
+        dateTime = dateTime.plusSeconds(60 - dateTime.getSecondOfMinute());
+        dateTime = dateTime.plusMinutes(60 - dateTime.getMinuteOfHour());
+        return dateTime.getMillis();
     }
 
     /**

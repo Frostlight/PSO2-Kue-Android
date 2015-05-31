@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 import frostlight.pso2kue.data.DbHelper;
@@ -105,8 +107,10 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             twitter4j.Status response = twitter.getUserTimeline(bot_id, paging).get(0);
 
             // Log the tweet
+            long time = response.getCreatedAt().getTime();
             Log.v(Utility.getTag(), "Text: " + response.getText());
-            Log.v(Utility.getTag(), "Time: " + response.getCreatedAt().toString());
+            Log.v(Utility.getTag(), "Time: " + Utility.formatDate(time));
+            Log.v(Utility.getTag(), "When: " + Utility.formatDate(Utility.roundUpHour(time)));
             Log.v(Utility.getTag(), "Time since: " + Utility.getMinuteDifference(new Date(),
                     response.getCreatedAt()) + " minutes");
 
