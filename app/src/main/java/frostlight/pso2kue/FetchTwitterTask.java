@@ -3,18 +3,9 @@ package frostlight.pso2kue;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.memetix.mst.translate.Translate;
-
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 
 import frostlight.pso2kue.data.DbContract;
 import frostlight.pso2kue.data.DbHelper;
@@ -75,8 +66,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
         configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setApplicationOnlyAuthEnabled(true);
-        configurationBuilder.setOAuthConsumerKey(ConstTwitterAuth.consumerKey);
-        configurationBuilder.setOAuthConsumerSecret(ConstTwitterAuth.consumerSecret);
+        configurationBuilder.setOAuthConsumerKey(ConstKey.twitterKey);
+        configurationBuilder.setOAuthConsumerSecret(ConstKey.twitterSecret);
         return configurationBuilder;
     }
 
