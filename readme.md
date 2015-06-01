@@ -23,6 +23,7 @@ PSO2 Kue will use a number of freely available technologies to work properly:
 - [SQLite] - A lightweight backend database for storing the emergency quest schedule and translation table. Emergency quests that have already passed will be wiped from the database
 - [Twitter4j] - An unofficial Java library for working with the Twitter API
 - [Joda-Time] - A quality replacement for the Java Time and Date classes which fixes much of the unnecessary convolution in the way Java handles time (if Android development moves to Java SE 8, migrate to java.time instead)
+- [Microsoft Translator Java API] - A java wrapper used for Bing translator
 
 ###APIs
 PSO2 will use the following APIs:
@@ -30,7 +31,7 @@ PSO2 will use the following APIs:
 - [Twitter REST API] - Used when Streaming API isn't available to periodically fetch emergency quest notifications
 - [Google Calender] - Used to access and import a translated version of the emergency quest schedule posted at https://www.google.com/calendar/embed?src=pso2emgquest%40gmail.com
 - [Google Spreadsheet API] - Used to update a translation table for interpreting the Japanese Twitter updates
-- [Hablaa Translation API] - Used if there is no translation available
+- [Bing Translation API] - Used if there is no translation available
 
 ###Updates
 - 5/30/2015: Google Calendar integration with database completed, Joda-Time added
@@ -49,6 +50,7 @@ PSO2 will use the following APIs:
 [Twitter REST API]: https://dev.twitter.com/rest/public
 [Google Calender]: https://developers.google.com/google-apps/calendar/
 [Google Spreadsheet API]: https://developers.google.com/google-apps/spreadsheets/
-[Hablaa Translation API]: http://hablaa.com/api/
+[Bing Translation API]: http://www.bing.com/dev/translator
+[Microsoft Translator Java API]: https://code.google.com/p/microsoft-translator-java-api/
 [Twitter4j]: http://twitter4j.org/en/index.html
 [Joda-Time]: http://www.joda.org/joda-time/
