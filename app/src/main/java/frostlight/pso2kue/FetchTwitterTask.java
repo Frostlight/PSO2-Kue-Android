@@ -2,6 +2,7 @@ package frostlight.pso2kue;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -75,6 +76,16 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
     }
 
     /**
+     * Checks if a cursor is empty
+     *
+     * @param cursor Cursor to check
+     * @return True if the cursor is empty, False if the cursor is not empty
+     */
+    static boolean isCursorEmpty(Cursor cursor) {
+        return !cursor.moveToFirst() || cursor.getCount() == 0;
+    }
+
+    /**
      * Translates a String from Japanese to English
      * @param japanese String in Japanese
      * @return String in English
@@ -140,10 +151,27 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             String eqName = Utility.matchPattern(response.getText(),
                     "(?<=で緊急クエスト「).*(?=」が発生します)");
 
-            // Translate String to english
-            String translatedEqName = translateJpEng(eqName);
+            // Try to find the Japanese string in the translation database
+            Cursor cursor = mSQLiteDatabase.rawQuery("SELECT * FROM "
+                    + DbContract.TranslationEntry.TABLE_NAME + " WHERE "
+                    + DbContract.TranslationEntry.COLUMN_JAPANESE + " = \"" + eqName + "\"", null);
 
-            // TODO: Translation database interaction
+            String translatedEqName;
+            if (!isCursorEmpty(cursor)) {
+                // If the Japanese entry exists in the translation database, just use that
+                translatedEqName = cursor.getString(
+                        cursor.getColumnIndex(DbContract.TranslationEntry.COLUMN_ENGLISH));
+            } else {
+                // If the Japanese entry doesn't exist in the translation database, translate it
+                // to English with the Bing Translate API
+                translatedEqName = translateJpEng(eqName);
+
+                // Add the translation to the database
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DbContract.TranslationEntry.COLUMN_JAPANESE, eqName);
+                contentValues.put(DbContract.TranslationEntry.COLUMN_ENGLISH, translatedEqName);
+                mSQLiteDatabase.insert(DbContract.TranslationEntry.TABLE_NAME, null, contentValues);
+            }
 
             // Calculate the EQ time from the time the Tweet was posted
             long eqTime = Utility.roundUpHour(response.getCreatedAt().getTime());
