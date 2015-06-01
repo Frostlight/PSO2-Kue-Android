@@ -27,7 +27,6 @@ import frostlight.pso2kue.data.DbHelper;
  */
 public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
-    private DbHelper mDbHelper;
     private SQLiteDatabase mSQLiteDatabase;
 
     /**
@@ -36,8 +35,8 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
      * @param context The context to instantiate
      */
     public FetchCalendarTask(Context context) {
-        mDbHelper = new DbHelper(context);
-        mSQLiteDatabase = mDbHelper.getWritableDatabase();
+        DbHelper DbHelper = new DbHelper(context);
+        mSQLiteDatabase = DbHelper.getWritableDatabase();
     }
 
 

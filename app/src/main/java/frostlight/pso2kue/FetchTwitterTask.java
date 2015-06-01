@@ -26,7 +26,6 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
-    private DbHelper mDbHelper;
     private SQLiteDatabase mSQLiteDatabase;
 
     /**
@@ -35,8 +34,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      * @param context The context to instantiate
      */
     public FetchTwitterTask(Context context) {
-        mDbHelper = new DbHelper(context);
-        mSQLiteDatabase = mDbHelper.getWritableDatabase();
+        DbHelper DbHelper = new DbHelper(context);
+        mSQLiteDatabase = DbHelper.getWritableDatabase();
     }
 
     /**
