@@ -89,6 +89,7 @@
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="microsoft-translator-java-api-0.6.2-jar-with-dependencies" level="project" />
     <orderEntry type="library" exported="" name="joda-time-2.8" level="project" />
     <orderEntry type="library" exported="" name="twitter4j-core-4.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />

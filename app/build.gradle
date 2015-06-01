@@ -27,4 +27,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile files('libs/twitter4j-core-4.0.3.jar')
     compile files('libs/joda-time-2.8.jar')
+    compile files('libs/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar')
 }

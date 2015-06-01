@@ -3,7 +3,18 @@ package frostlight.pso2kue;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
+
+import com.memetix.mst.translate.Translate;
+
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 
 import frostlight.pso2kue.data.DbContract;
 import frostlight.pso2kue.data.DbHelper;
@@ -25,7 +36,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
     private SQLiteDatabase mSQLiteDatabase;
 
     /**
-     * FetchCalendarTask, initialises database helper on the context
+     * FetchTwitterTask, initialises database helper on the context
      *
      * @param context The context to instantiate
      */
@@ -67,6 +78,31 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         configurationBuilder.setOAuthConsumerKey(ConstTwitterAuth.consumerKey);
         configurationBuilder.setOAuthConsumerSecret(ConstTwitterAuth.consumerSecret);
         return configurationBuilder;
+    }
+
+    /**
+     * Translates a String from Japanese to English
+     * @param japanese String in Japanese
+     * @return String in English
+     */
+    public static String translateJpEng (String japanese)
+    {
+        Translate.setClientId("PSO2-Kue");
+//            URL url = new URL(built_uri.toString());
+//
+//            // Create the request to OpenWeatherMap, and open the connection
+//            urlConnection = (HttpURLConnection) url.openConnection();
+//            urlConnection.setRequestMethod("GET");
+//            urlConnection.connect();
+//
+//            // Read the input stream into a String
+//            InputStream inputStream = urlConnection.getInputStream();
+//            StringBuffer buffer = new StringBuffer();
+//            if (inputStream == null) {
+//                // Nothing to do.
+//                return null;
+//            }
+        return null;
     }
 
     /**
@@ -114,6 +150,9 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
              */
             String eqName = Utility.matchPattern(response.getText(),
                     "(?<=で緊急クエスト「).*(?=」が発生します)");
+
+            // Translate String to english
+            String translated = translateJpEng(eqName);
 
             // Calculate the EQ time from the time the Tweet was posted
             long eqTime = Utility.roundUpHour(response.getCreatedAt().getTime());
