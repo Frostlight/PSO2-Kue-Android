@@ -43,13 +43,8 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        // These two need to be declared outside the try/catch
-        // so that they can be closed in the finally block
+        // Declared outside try/catch block so it can be closed in the finally block
         HttpsURLConnection urlConnection = null;
-        BufferedReader reader = null;
-
-        // Will contain the raw XML response as a string.
-        String calendarXml = null;
 
         try {
             URL url = new URL(ConstGeneral.googleUrl);
@@ -61,13 +56,11 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
             // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuilder builder = new StringBuilder();
 
             // Nothing to do if input stream fails
             if (inputStream == null) {
                 return null;
             }
-
 
             try {
                 // Read input stream to get a list of entries
@@ -89,6 +82,10 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
         return null;
     }
