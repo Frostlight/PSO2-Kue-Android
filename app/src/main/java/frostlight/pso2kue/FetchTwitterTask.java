@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
 
 import frostlight.pso2kue.data.DbContract;
@@ -50,6 +52,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             token = new TwitterFactory(configurationBuilder.build())
                     .getInstance().getOAuth2Token();
         } catch (TwitterException e) {
+            Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();
         }
 
@@ -76,23 +79,18 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      * @param japanese String in Japanese
      * @return String in English
      */
-    public static String translateJpEng (String japanese)
-    {
-        Translate.setClientId("PSO2-Kue");
-//            URL url = new URL(built_uri.toString());
-//
-//            // Create the request to OpenWeatherMap, and open the connection
-//            urlConnection = (HttpURLConnection) url.openConnection();
-//            urlConnection.setRequestMethod("GET");
-//            urlConnection.connect();
-//
-//            // Read the input stream into a String
-//            InputStream inputStream = urlConnection.getInputStream();
-//            StringBuffer buffer = new StringBuffer();
-//            if (inputStream == null) {
-//                // Nothing to do.
-//                return null;
-//            }
+    public static String translateJpEng (String japanese) {
+        // Set Bing authentication key and Secret
+        Translate.setClientId(ConstKey.bingKey);
+        Translate.setClientSecret(ConstKey.bingSecret);
+
+        // Attempt to translate the text from Japanese to English
+        try {
+            return Translate.execute(japanese, Language.JAPANESE, Language.ENGLISH);
+        } catch (Exception e) {
+            Log.e(Utility.getTag(), "Error: ", e);
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -143,7 +141,9 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                     "(?<=で緊急クエスト「).*(?=」が発生します)");
 
             // Translate String to english
-            String translated = translateJpEng(eqName);
+            String translatedEqName = translateJpEng(eqName);
+
+            // TODO: Translation database interaction
 
             // Calculate the EQ time from the time the Tweet was posted
             long eqTime = Utility.roundUpHour(response.getCreatedAt().getTime());
@@ -153,10 +153,11 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
             // Insert the element into database
             ContentValues contentValues = new ContentValues();
-            contentValues.put(DbContract.TwitterEntry.COLUMN_EQNAME, eqName);
+            contentValues.put(DbContract.TwitterEntry.COLUMN_EQNAME, translatedEqName);
             contentValues.put(DbContract.TwitterEntry.COLUMN_DATE, eqTime);
             mSQLiteDatabase.insert(DbContract.TwitterEntry.TABLE_NAME, null, contentValues);
         } catch (TwitterException e) {
+            Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();
         }
         return null;
