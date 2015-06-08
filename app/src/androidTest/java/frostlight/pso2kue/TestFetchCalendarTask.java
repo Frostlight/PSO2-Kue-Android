@@ -9,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import frostlight.pso2kue.data.KueContract;
-import frostlight.pso2kue.data.KueHelper;
+import frostlight.pso2kue.data.DbHelper;
 
 /**
  * TestFetchCalendarTask
@@ -19,7 +19,7 @@ import frostlight.pso2kue.data.KueHelper;
 public class TestFetchCalendarTask extends InstrumentationTestCase {
 
     private static boolean called;
-    private KueHelper mDbHelper;
+    private DbHelper mDbHelper;
     private SQLiteDatabase mSQLiteDatabase;
 
     protected void setUp() throws Exception {
@@ -41,11 +41,11 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
             public void run() {
                 // Execute FetchCalendarTask
                 new FetchCalendarTask(getInstrumentation().getTargetContext()) {
-                    // Setup KueHelper and Database
+                    // Setup DbHelper and Database
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        mDbHelper = new KueHelper(getInstrumentation().getTargetContext());
+                        mDbHelper = new DbHelper(getInstrumentation().getTargetContext());
                         mSQLiteDatabase = mDbHelper.getWritableDatabase();
                     }
 

@@ -10,8 +10,8 @@ import android.util.Log;
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
 
+import frostlight.pso2kue.data.DbHelper;
 import frostlight.pso2kue.data.KueContract;
-import frostlight.pso2kue.data.KueHelper;
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -34,7 +34,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      * @param context The context to instantiate
      */
     public FetchTwitterTask(Context context) {
-        KueHelper DbHelper = new KueHelper(context);
+        DbHelper DbHelper = new DbHelper(context);
         mSQLiteDatabase = DbHelper.getWritableDatabase();
     }
 

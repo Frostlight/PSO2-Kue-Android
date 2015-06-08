@@ -46,7 +46,7 @@ public class TestDb extends AndroidTestCase {
 
     // Call this before each test to start clean
     void deleteDb() {
-        mContext.deleteDatabase(KueHelper.DATABASE_NAME);
+        mContext.deleteDatabase(DbHelper.DATABASE_NAME);
     }
 
     /**
@@ -105,8 +105,8 @@ public class TestDb extends AndroidTestCase {
     // Test if the database can be properly created with all the tables
     public void testCreateDb() throws Throwable {
         // Delete and remake the database
-        mContext.deleteDatabase(KueHelper.DATABASE_NAME);
-        SQLiteDatabase sqLiteDatabase = new KueHelper(this.mContext).getWritableDatabase();
+        mContext.deleteDatabase(DbHelper.DATABASE_NAME);
+        SQLiteDatabase sqLiteDatabase = new DbHelper(this.mContext).getWritableDatabase();
         assertEquals(true, sqLiteDatabase.isOpen());
 
         // Check if the table was created properly
@@ -130,7 +130,7 @@ public class TestDb extends AndroidTestCase {
     // Insert and query each database
     // Testing is handled by the database insertion function
     public void testInsert() {
-        KueHelper dbHelper = new KueHelper(this.getContext());
+        DbHelper dbHelper = new DbHelper(this.getContext());
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
         // Insert and query calendar database

@@ -8,8 +8,8 @@ import android.util.Log;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import frostlight.pso2kue.data.DbHelper;
 import frostlight.pso2kue.data.KueContract;
-import frostlight.pso2kue.data.KueHelper;
 
 /**
  * TestFetchTwitterTask
@@ -19,7 +19,7 @@ import frostlight.pso2kue.data.KueHelper;
 public class TestFetchTwitterTask extends InstrumentationTestCase {
 
     private static boolean called;
-    private KueHelper mDbHelper;
+    private DbHelper mDbHelper;
     private SQLiteDatabase mSQLiteDatabase;
 
     protected void setUp() throws Exception {
@@ -41,11 +41,11 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
             public void run() {
                 // Execute FetchTwitterTask for Ship 2
                 new FetchTwitterTask(getInstrumentation().getTargetContext()) {
-                    // Setup KueHelper and Database
+                    // Setup DbHelper and Database
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        mDbHelper = new KueHelper(getInstrumentation().getTargetContext());
+                        mDbHelper = new DbHelper(getInstrumentation().getTargetContext());
                         mSQLiteDatabase = mDbHelper.getWritableDatabase();
                     }
 

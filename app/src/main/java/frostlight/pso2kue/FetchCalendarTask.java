@@ -15,8 +15,8 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import frostlight.pso2kue.data.DbHelper;
 import frostlight.pso2kue.data.KueContract;
-import frostlight.pso2kue.data.KueHelper;
 
 
 /**
@@ -34,7 +34,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
      * @param context The context to instantiate
      */
     public FetchCalendarTask(Context context) {
-        KueHelper DbHelper = new KueHelper(context);
+        DbHelper DbHelper = new DbHelper(context);
         mSQLiteDatabase = DbHelper.getWritableDatabase();
     }
 

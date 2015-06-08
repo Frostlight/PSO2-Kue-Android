@@ -10,18 +10,18 @@ import frostlight.pso2kue.data.KueContract.TwitterEntry;
 
 
 /**
- * CalendarDbHelper
+ * DbHelper
  * Manages a local database for emergency quest data.
  * Created by Vincent on 5/19/2015.
  */
-public class KueHelper extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
 
     // If the database schema is changed, increment the database version
     private static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "pso2.db";
 
-    public KueHelper(Context context) {
+    public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

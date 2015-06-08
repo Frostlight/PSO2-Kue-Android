@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
 
 /**
  * KueContract
- * Defines table and column names for the databases
+ * Defines table and column names for the databases, and relevant content provider constants
  * Created by Vincent on 5/19/2015.
  */
 public class KueContract {

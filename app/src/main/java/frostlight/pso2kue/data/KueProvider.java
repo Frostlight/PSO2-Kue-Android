@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 
 /**
+ * KueProvider
+ * Manages the content provider for the app
  * Created by Vincent on 6/7/2015.
  */
 public class KueProvider extends ContentProvider {
@@ -15,7 +17,7 @@ public class KueProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = uriMatcher();
 
     // Database helper object
-    private KueHelper mDbHelper;
+    private DbHelper mDbHelper;
 
     // IDs for URI types
     static final int CALENDAR = 1;
@@ -40,7 +42,7 @@ public class KueProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        mDbHelper = new KueHelper(getContext());
+        mDbHelper = new DbHelper(getContext());
         return true;
     }
 
