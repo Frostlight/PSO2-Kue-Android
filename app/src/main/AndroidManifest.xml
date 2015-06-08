@@ -24,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="frostlight.pso2kue"
+            android:name=".data.KueProvider"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
-
 </manifest>
