@@ -8,8 +8,8 @@ import android.util.Log;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import frostlight.pso2kue.data.DbContract;
-import frostlight.pso2kue.data.DbHelper;
+import frostlight.pso2kue.data.KueContract;
+import frostlight.pso2kue.data.KueHelper;
 
 /**
  * TestFetchCalendarTask
@@ -19,7 +19,7 @@ import frostlight.pso2kue.data.DbHelper;
 public class TestFetchCalendarTask extends InstrumentationTestCase {
 
     private static boolean called;
-    private DbHelper mDbHelper;
+    private KueHelper mDbHelper;
     private SQLiteDatabase mSQLiteDatabase;
 
     protected void setUp() throws Exception {
@@ -41,11 +41,11 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
             public void run() {
                 // Execute FetchCalendarTask
                 new FetchCalendarTask(getInstrumentation().getTargetContext()) {
-                    // Setup DbHelper and Database
+                    // Setup KueHelper and Database
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        mDbHelper = new DbHelper(getInstrumentation().getTargetContext());
+                        mDbHelper = new KueHelper(getInstrumentation().getTargetContext());
                         mSQLiteDatabase = mDbHelper.getWritableDatabase();
                     }
 
@@ -56,7 +56,7 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
 
                         // Query the database the AsyncTask inserted into for the entries
                         Cursor cursor = mSQLiteDatabase.rawQuery("SELECT * FROM "
-                                + DbContract.CalendarEntry.TABLE_NAME, null);
+                                + KueContract.CalendarEntry.TABLE_NAME, null);
                         assertTrue("Error: The database has not been created correctly",
                                 cursor.moveToFirst());
 

@@ -65,8 +65,8 @@ public class TestUtilities extends AndroidTestCase {
      */
     static ContentValues createCalendarValues() {
         ContentValues calendarValues = new ContentValues();
-        calendarValues.put(DbContract.CalendarEntry.COLUMN_EQNAME, TEST_EQ_ENGLISH);
-        calendarValues.put(DbContract.CalendarEntry.COLUMN_DATE, TEST_DATE);
+        calendarValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, TEST_EQ_ENGLISH);
+        calendarValues.put(KueContract.CalendarEntry.COLUMN_DATE, TEST_DATE);
         return calendarValues;
     }
 
@@ -77,8 +77,8 @@ public class TestUtilities extends AndroidTestCase {
      */
     static ContentValues createTwitterValues() {
         ContentValues twitterValues = new ContentValues();
-        twitterValues.put(DbContract.TwitterEntry.COLUMN_EQNAME, TEST_EQ_ENGLISH);
-        twitterValues.put(DbContract.TwitterEntry.COLUMN_DATE, TEST_DATE);
+        twitterValues.put(KueContract.TwitterEntry.COLUMN_EQNAME, TEST_EQ_ENGLISH);
+        twitterValues.put(KueContract.TwitterEntry.COLUMN_DATE, TEST_DATE);
         return twitterValues;
     }
 
@@ -89,8 +89,8 @@ public class TestUtilities extends AndroidTestCase {
      */
     static ContentValues createTranslationValues() {
         ContentValues translationValues = new ContentValues();
-        translationValues.put(DbContract.TranslationEntry.COLUMN_JAPANESE, TEST_EQ_JAPANESE);
-        translationValues.put(DbContract.TranslationEntry.COLUMN_ENGLISH, TEST_EQ_ENGLISH);
+        translationValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, TEST_EQ_JAPANESE);
+        translationValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, TEST_EQ_ENGLISH);
         return translationValues;
     }
 }

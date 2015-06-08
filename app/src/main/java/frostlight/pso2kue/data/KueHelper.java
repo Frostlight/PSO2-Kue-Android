@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import frostlight.pso2kue.data.DbContract.CalendarEntry;
-import frostlight.pso2kue.data.DbContract.TranslationEntry;
-import frostlight.pso2kue.data.DbContract.TwitterEntry;
+import frostlight.pso2kue.data.KueContract.CalendarEntry;
+import frostlight.pso2kue.data.KueContract.TranslationEntry;
+import frostlight.pso2kue.data.KueContract.TwitterEntry;
 
 
 /**
@@ -14,20 +14,20 @@ import frostlight.pso2kue.data.DbContract.TwitterEntry;
  * Manages a local database for emergency quest data.
  * Created by Vincent on 5/19/2015.
  */
-public class DbHelper extends SQLiteOpenHelper {
+public class KueHelper extends SQLiteOpenHelper {
 
     // If the database schema is changed, increment the database version
     private static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "pso2.db";
 
-    public DbHelper(Context context) {
+    public KueHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // Create each table with columns as specified in DbContract
+        // Create each table with columns as specified in KueContract
         final String SQL_CREATE_CALENDAR_TABLE = "CREATE TABLE " + CalendarEntry.TABLE_NAME + " (" +
                 CalendarEntry._ID + " INTEGER PRIMARY KEY," +
                 CalendarEntry.COLUMN_EQNAME + " TEXT NOT NULL, " +

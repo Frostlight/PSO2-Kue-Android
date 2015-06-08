@@ -17,36 +17,36 @@ public class TestDb extends AndroidTestCase {
 
     // The names for each of the tables
     final static String[] tableNames = {
-            DbContract.CalendarEntry.TABLE_NAME,
-            DbContract.TwitterEntry.TABLE_NAME,
-            DbContract.TranslationEntry.TABLE_NAME
+            KueContract.CalendarEntry.TABLE_NAME,
+            KueContract.TwitterEntry.TABLE_NAME,
+            KueContract.TranslationEntry.TABLE_NAME
     };
 
     // Corresponding to tableNames, the names of all the columns for each table
     final static String[][] columnNames = {
             {
                     // Calendar Table
-                    DbContract.CalendarEntry._ID,
-                    DbContract.CalendarEntry.COLUMN_EQNAME,
-                    DbContract.CalendarEntry.COLUMN_DATE
+                    KueContract.CalendarEntry._ID,
+                    KueContract.CalendarEntry.COLUMN_EQNAME,
+                    KueContract.CalendarEntry.COLUMN_DATE
             },
             {
                     // Twitter Table
-                    DbContract.TwitterEntry._ID,
-                    DbContract.TwitterEntry.COLUMN_EQNAME,
-                    DbContract.TwitterEntry.COLUMN_DATE
+                    KueContract.TwitterEntry._ID,
+                    KueContract.TwitterEntry.COLUMN_EQNAME,
+                    KueContract.TwitterEntry.COLUMN_DATE
             },
             {
                     // Translation Table
-                    DbContract.TranslationEntry._ID,
-                    DbContract.TranslationEntry.COLUMN_JAPANESE,
-                    DbContract.TranslationEntry.COLUMN_ENGLISH
+                    KueContract.TranslationEntry._ID,
+                    KueContract.TranslationEntry.COLUMN_JAPANESE,
+                    KueContract.TranslationEntry.COLUMN_ENGLISH
             }
     };
 
     // Call this before each test to start clean
     void deleteDb() {
-        mContext.deleteDatabase(DbHelper.DATABASE_NAME);
+        mContext.deleteDatabase(KueHelper.DATABASE_NAME);
     }
 
     /**
@@ -105,8 +105,8 @@ public class TestDb extends AndroidTestCase {
     // Test if the database can be properly created with all the tables
     public void testCreateDb() throws Throwable {
         // Delete and remake the database
-        mContext.deleteDatabase(DbHelper.DATABASE_NAME);
-        SQLiteDatabase sqLiteDatabase = new DbHelper(this.mContext).getWritableDatabase();
+        mContext.deleteDatabase(KueHelper.DATABASE_NAME);
+        SQLiteDatabase sqLiteDatabase = new KueHelper(this.mContext).getWritableDatabase();
         assertEquals(true, sqLiteDatabase.isOpen());
 
         // Check if the table was created properly
@@ -130,19 +130,19 @@ public class TestDb extends AndroidTestCase {
     // Insert and query each database
     // Testing is handled by the database insertion function
     public void testInsert() {
-        DbHelper dbHelper = new DbHelper(this.getContext());
+        KueHelper dbHelper = new KueHelper(this.getContext());
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
         // Insert and query calendar database
-        insertQueryDb(sqLiteDatabase, DbContract.CalendarEntry.TABLE_NAME,
+        insertQueryDb(sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
                 TestUtilities.createCalendarValues());
 
         // Insert and query twitter database
-        insertQueryDb(sqLiteDatabase, DbContract.TwitterEntry.TABLE_NAME,
+        insertQueryDb(sqLiteDatabase, KueContract.TwitterEntry.TABLE_NAME,
                 TestUtilities.createTwitterValues());
 
         // Insert and query translation database
-        insertQueryDb(sqLiteDatabase, DbContract.TranslationEntry.TABLE_NAME,
+        insertQueryDb(sqLiteDatabase, KueContract.TranslationEntry.TABLE_NAME,
                 TestUtilities.createTranslationValues());
     }
 }

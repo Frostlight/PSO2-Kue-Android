@@ -8,7 +8,6 @@ import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -16,8 +15,8 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import frostlight.pso2kue.data.DbContract;
-import frostlight.pso2kue.data.DbHelper;
+import frostlight.pso2kue.data.KueContract;
+import frostlight.pso2kue.data.KueHelper;
 
 
 /**
@@ -35,7 +34,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
      * @param context The context to instantiate
      */
     public FetchCalendarTask(Context context) {
-        DbHelper DbHelper = new DbHelper(context);
+        KueHelper DbHelper = new KueHelper(context);
         mSQLiteDatabase = DbHelper.getWritableDatabase();
     }
 
@@ -66,13 +65,13 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                 List<XmlHelper.Entry> entryList = XmlHelper.parse(inputStream);
 
                 // Wipe the Calendar database before inserting
-                mSQLiteDatabase.delete(DbContract.CalendarEntry.TABLE_NAME, null, null);
+                mSQLiteDatabase.delete(KueContract.CalendarEntry.TABLE_NAME, null, null);
                 for (XmlHelper.Entry entry : entryList) {
                     // Insert each element into the database
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(DbContract.CalendarEntry.COLUMN_EQNAME, entry.title);
-                    contentValues.put(DbContract.CalendarEntry.COLUMN_DATE, entry.summary);
-                    mSQLiteDatabase.insert(DbContract.CalendarEntry.TABLE_NAME, null, contentValues);
+                    contentValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, entry.title);
+                    contentValues.put(KueContract.CalendarEntry.COLUMN_DATE, entry.summary);
+                    mSQLiteDatabase.insert(KueContract.CalendarEntry.TABLE_NAME, null, contentValues);
                 }
             } catch (XmlPullParserException e) {
                 Log.e(Utility.getTag(), "Error: ", e);
