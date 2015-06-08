@@ -43,6 +43,7 @@ public class KueProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+        // Initialise the database helper
         mDbHelper = new DbHelper(getContext());
         return true;
     }
@@ -70,6 +71,8 @@ public class KueProvider extends ContentProvider {
         final SQLiteDatabase sqLiteDatabase = mDbHelper.getReadableDatabase();
         Cursor returnCursor;
 
+        // Use the uriMatcher to match the URI's we are going to handle
+        // If it doesn't match these, throw an UnsupportedOperationException
         switch(sUriMatcher.match(uri)) {
             case CALENDAR:
                 returnCursor = sqLiteDatabase.query(
@@ -162,7 +165,6 @@ public class KueProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Start by getting a writable database
         final SQLiteDatabase sqLiteDatabase = mDbHelper.getWritableDatabase();
-        Uri returnUri;
         int deleteCount; // Number of rows deleted
 
         // Use the uriMatcher to match the URI's we are going to handle
