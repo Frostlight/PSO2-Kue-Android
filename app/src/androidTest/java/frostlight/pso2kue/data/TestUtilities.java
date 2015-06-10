@@ -1,9 +1,14 @@
 package frostlight.pso2kue.data;
 
+import android.content.ContentProviderClient;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * TestUtilities
@@ -12,41 +17,38 @@ import android.test.AndroidTestCase;
  */
 public class TestUtilities extends AndroidTestCase {
 
+    // Test values to use when inserting into the tables
     static final String TEST_EQ_JAPANESE = "平穏を引き裂く混沌";
     static final String TEST_EQ_ENGLISH = "Chaotic Tranquility";
     static final long TEST_DATE = 1420165680L; // January 1, 2015
 
-    /**
-     * Verifies that an entry (according to a ContentValues) exists in the table
-     *
-     * @param sqLiteDatabase The database to check
-     * @param tableName      The name of the table to check
-     * @param expectedValues ContentValues consisting of what to look for
-     */
-    static void verifyValues(SQLiteDatabase sqLiteDatabase, String tableName,
-                             ContentValues expectedValues) {
-        String rawQuery = "SELECT * FROM " + tableName + " WHERE ";
-        String whereClause = "";
-
-        // Iterate through each ContentValue key-value pair to generate the WHERE clause
-        // of the SQL rawQuery
-        for (String key : expectedValues.keySet()) {
-            Object value = expectedValues.get(key);
-
-            if (!whereClause.isEmpty())
-                whereClause += " AND ";
-            whereClause += key + " = \"" + value.toString() + "\"";
-        }
-
-        // Combine the incomplete rawQuery with the whereClause to get the full rawQuery
-        rawQuery += whereClause;
-
-        Cursor cursor = sqLiteDatabase.rawQuery(rawQuery, null);
-
-        // Cursor should not be empty
-        assertFalse("Empty cursor returned for query on " + tableName, isCursorEmpty(cursor));
-        cursor.close();
-    }
+    // The names for each of the tables
+    final static String[] tableNames = {
+            KueContract.CalendarEntry.TABLE_NAME,
+            KueContract.TwitterEntry.TABLE_NAME,
+            KueContract.TranslationEntry.TABLE_NAME
+    };
+    // Corresponding to tableNames, the names of all the columns for each table
+    final static String[][] columnNames = {
+            {
+                    // Calendar Table
+                    KueContract.CalendarEntry._ID,
+                    KueContract.CalendarEntry.COLUMN_EQNAME,
+                    KueContract.CalendarEntry.COLUMN_DATE
+            },
+            {
+                    // Twitter Table
+                    KueContract.TwitterEntry._ID,
+                    KueContract.TwitterEntry.COLUMN_EQNAME,
+                    KueContract.TwitterEntry.COLUMN_DATE
+            },
+            {
+                    // Translation Table
+                    KueContract.TranslationEntry._ID,
+                    KueContract.TranslationEntry.COLUMN_JAPANESE,
+                    KueContract.TranslationEntry.COLUMN_ENGLISH
+            }
+    };
 
     /**
      * Checks if a cursor is empty
@@ -92,5 +94,32 @@ public class TestUtilities extends AndroidTestCase {
         translationValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, TEST_EQ_JAPANESE);
         translationValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, TEST_EQ_ENGLISH);
         return translationValues;
+    }
+
+    /**
+     * Cross-checks a cursor with a provided column name and contents
+     * (what's supposed to be in the database)
+     * E.g. Master table (names column) - Check if all the tables have been created
+     * Table info (names column) - Check if all the table columns have been created
+     *
+     * @param cursor         Associated cursor
+     * @param columnName     Name of the column of the provided string array
+     * @param columnContents Array of what's supposed to be in the column, will be crosschecked
+     *                       with the cursor
+     * @param errorMessage   Message to display if an error occurs
+     */
+    static void hashTest(Cursor cursor, String columnName, String[] columnContents, String errorMessage) {
+        // Create a HashSet of all the column contents
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.addAll(Arrays.asList(columnContents));
+
+        // Get the index of the provided column name, use it to crosscheck provided data with cursor
+        int columnIndex = cursor.getColumnIndex(columnName);
+        do {
+            hashSet.remove(cursor.getString(columnIndex));
+        } while (cursor.moveToNext());
+
+        // HashSet should be empty after removing everything
+        assertTrue(errorMessage, hashSet.isEmpty());
     }
 }

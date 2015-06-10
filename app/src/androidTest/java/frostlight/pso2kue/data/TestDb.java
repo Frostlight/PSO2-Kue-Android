@@ -5,49 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 /**
  * TestDb
  * Test cases for all database functions
  * Created by Vincent on 5/19/2015.
  */
 public class TestDb extends AndroidTestCase {
-
-    // The names for each of the tables
-    final static String[] tableNames = {
-            KueContract.CalendarEntry.TABLE_NAME,
-            KueContract.TwitterEntry.TABLE_NAME,
-            KueContract.TranslationEntry.TABLE_NAME
-    };
-
-    // Corresponding to tableNames, the names of all the columns for each table
-    final static String[][] columnNames = {
-            {
-                    // Calendar Table
-                    KueContract.CalendarEntry._ID,
-                    KueContract.CalendarEntry.COLUMN_EQNAME,
-                    KueContract.CalendarEntry.COLUMN_DATE
-            },
-            {
-                    // Twitter Table
-                    KueContract.TwitterEntry._ID,
-                    KueContract.TwitterEntry.COLUMN_EQNAME,
-                    KueContract.TwitterEntry.COLUMN_DATE
-            },
-            {
-                    // Translation Table
-                    KueContract.TranslationEntry._ID,
-                    KueContract.TranslationEntry.COLUMN_JAPANESE,
-                    KueContract.TranslationEntry.COLUMN_ENGLISH
-            }
-    };
-
-    // Call this before each test to start clean
-    void deleteDb() {
-        mContext.deleteDatabase(DbHelper.DATABASE_NAME);
-    }
 
     /**
      * Inserts a set of ContentValues into a database and queries for the same values
@@ -57,7 +20,7 @@ public class TestDb extends AndroidTestCase {
      * @param testValues     ContentValues consisting of the entry for insertion
      * @return ID of the row the entry was inserted to
      */
-    long insertQueryDb(SQLiteDatabase sqLiteDatabase, String tableName, ContentValues testValues) {
+    static long insertQueryDb(SQLiteDatabase sqLiteDatabase, String tableName, ContentValues testValues) {
         // Insert ContentValues into database and get a row ID back
         long locationRowId = sqLiteDatabase.insert(tableName, null, testValues);
 
@@ -66,36 +29,52 @@ public class TestDb extends AndroidTestCase {
                 locationRowId != -1);
 
         // Query and verify query for the values that were just inserted
-        TestUtilities.verifyValues(sqLiteDatabase, tableName, testValues);
+        verifyValuesDb(sqLiteDatabase, tableName, testValues);
 
         return locationRowId;
     }
 
     /**
-     * Cross-checks a cursor with a provided column name and contents
-     * (what's supposed to be in the database)
-     * E.g. Master table (names column) - Check if all the tables have been created
-     * Table info (names column) - Check if all the table columns have been created
+     * Verifies that an entry (according to a ContentValues) exists in the table
+     * This test queries the database
      *
-     * @param cursor         Associated cursor
-     * @param columnName     Name of the column of the provided string array
-     * @param columnContents Array of what's supposed to be in the column, will be crosschecked
-     *                       with the cursor
-     * @param errorMessage   Message to display if an error occurs
+     * @param sqLiteDatabase The database to check
+     * @param tableName      The name of the table to check
+     * @param expectedValues ContentValues consisting of what to look for
      */
-    void hashTest(Cursor cursor, String columnName, String[] columnContents, String errorMessage) {
-        // Create a HashSet of all the column contents
-        HashSet<String> hashSet = new HashSet<>();
-        hashSet.addAll(Arrays.asList(columnContents));
+    static void verifyValuesDb(SQLiteDatabase sqLiteDatabase, String tableName,
+                               ContentValues expectedValues) {
+        String whereClause = "";
 
-        // Get the index of the provided column name, use it to crosscheck provided data with cursor
-        int columnIndex = cursor.getColumnIndex(columnName);
-        do {
-            hashSet.remove(cursor.getString(columnIndex));
-        } while (cursor.moveToNext());
+        // Iterate through each ContentValue key-value pair to generate the WHERE clause
+        // of the SQL query
+        for (String key : expectedValues.keySet()) {
+            Object value = expectedValues.get(key);
 
-        // HashSet should be empty after removing everything
-        assertTrue(errorMessage, hashSet.isEmpty());
+            if (!whereClause.isEmpty())
+                whereClause += " AND ";
+            whereClause += key + " = \"" + value.toString() + "\"";
+        }
+
+        // Query the table
+        Cursor cursor = sqLiteDatabase.query(
+                tableName,
+                null,
+                whereClause,
+                null,
+                null,
+                null,
+                null
+        );
+
+        // Cursor should not be empty
+        assertFalse("Empty cursor returned for query on " + tableName, TestUtilities.isCursorEmpty(cursor));
+        cursor.close();
+    }
+
+    // Call this before each test to start clean
+    void deleteDb() {
+        mContext.deleteDatabase(DbHelper.DATABASE_NAME);
     }
 
     public void setUp() {
@@ -115,14 +94,14 @@ public class TestDb extends AndroidTestCase {
         assertTrue("Error: The database has not been created correctly", cursor.moveToFirst());
 
         // Verify that the tables have been created
-        hashTest(cursor, "name", tableNames, "Error: Database was created without all entries");
+        TestUtilities.hashTest(cursor, "name", TestUtilities.tableNames, "Error: Database was created without all entries");
 
         // Verify that each table contains all the required columns
-        for (int i = 0; i < tableNames.length; i++) {
-            cursor = sqLiteDatabase.rawQuery("PRAGMA table_info(" + tableNames[i] + ")", null);
+        for (int i = 0; i < TestUtilities.tableNames.length; i++) {
+            cursor = sqLiteDatabase.rawQuery("PRAGMA table_info(" + TestUtilities.tableNames[i] + ")", null);
             assertTrue("Error: Unable to query the database for table information",
                     cursor.moveToFirst());
-            hashTest(cursor, "name", columnNames[i], "Error: The " + tableNames[i] +
+            TestUtilities.hashTest(cursor, "name", TestUtilities.columnNames[i], "Error: The " + TestUtilities.tableNames[i] +
                     " table does not contain all required columns");
         }
     }

@@ -41,6 +41,14 @@ public class KueProvider extends ContentProvider {
         return uriMatcher;
     }
 
+    /**
+     * Returns the SQLiteDatabase to read from
+     * @return SQLiteDatabase associated with the ContentProvider
+     */
+    public SQLiteDatabase getReadableDatabase(){
+        return mDbHelper.getReadableDatabase();
+    }
+
     @Override
     public boolean onCreate() {
         // Initialise the database helper
@@ -98,7 +106,7 @@ public class KueProvider extends ContentProvider {
                 break;
             case TRANSLATION:
                 returnCursor = sqLiteDatabase.query(
-                        KueContract.TwitterEntry.TABLE_NAME,
+                        KueContract.TranslationEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
