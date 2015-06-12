@@ -7,6 +7,7 @@ package frostlight.pso2kue.data;
 
 import android.content.ComponentName;
 import android.content.ContentProviderClient;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -17,6 +18,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.test.AndroidTestCase;
 import android.util.Log;
+
+import java.util.Calendar;
 
 import frostlight.pso2kue.Utility;
 
@@ -212,5 +215,110 @@ public class TestProvider extends AndroidTestCase {
         // Insert and query translation database
         insertQueryProvider(sqLiteDatabase, KueContract.TranslationEntry.TABLE_NAME,
                 TestUtilities.createTranslationValues(), KueContract.TranslationEntry.CONTENT_URI);
+    }
+
+    // Insert and update each column in the calendar table
+    public void testUpdate() {
+        DbHelper dbHelper = new DbHelper(this.getContext());
+        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+
+        // Insert and query calendar database
+        ContentValues contentValues = TestUtilities.createCalendarValues();
+        long locationRowId = insertQueryProvider(sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
+                contentValues, KueContract.CalendarEntry.CONTENT_URI);
+
+        // Create new ContentValues to update with
+        ContentValues updatedValues = new ContentValues(contentValues);
+        updatedValues.put(KueContract.CalendarEntry._ID, locationRowId);
+        updatedValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, "Annihilator's Apparition");
+
+        // Create a cursor with observer to make sure that the content provider is notifying
+        // the observers as expected
+        Cursor calendarCursor = mContext.getContentResolver().query(
+                KueContract.CalendarEntry.CONTENT_URI, null, null, null, null);
+
+        TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
+        calendarCursor.registerContentObserver(testContentObserver);
+
+        int updateCount = mContext.getContentResolver().update(
+                KueContract.CalendarEntry.CONTENT_URI, updatedValues, KueContract.CalendarEntry._ID + "= ?",
+                new String[] { Long.toString(locationRowId)});
+        assertEquals(updateCount, 1);
+
+        // Test to make sure the observer is called by waiting for a notification
+        // from the content observer (caused by the update action)
+        testContentObserver.waitForNotificationOrFail();
+
+        // Unregister observer and close the cursor
+        calendarCursor.unregisterContentObserver(testContentObserver);
+        calendarCursor.close();
+
+        // Verify that the ContentProvider was updated correctly (with the new ContentValues)
+        // with a query
+        verifyValuesProvider(mContext, KueContract.CalendarEntry.TABLE_NAME, updatedValues,
+                KueContract.CalendarEntry.CONTENT_URI);
+    }
+
+
+    // Delete after inserting and updating data in the calendar table
+    public void testInsertReadProvider() {
+        ContentValues contentValues = TestUtilities.createCalendarValues();
+
+        // Register a content observer for the insert with the content resolver
+        TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
+        mContext.getContentResolver().registerContentObserver(KueContract.CalendarEntry.CONTENT_URI,
+                true, testContentObserver);
+
+        // Directly insert through the ContentProvider
+        Uri locationUri = mContext.getContentResolver().insert(KueContract.CalendarEntry.CONTENT_URI,
+                contentValues);
+
+        // Test to make sure the observer is called by waiting for a notification
+        // from the content observer (caused by the insert action)
+        testContentObserver.waitForNotificationOrFail();
+
+        long locationRowId = ContentUris.parseId(locationUri);
+
+        // Verify we got a row back
+        assertTrue(locationRowId != -1);
+
+        // Query the calendar database
+        Cursor cursor = mContext.getContentResolver().query(
+                KueContract.CalendarEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        verifyValuesProvider(getContext(), KueContract.CalendarEntry.TABLE_NAME, contentValues,
+                KueContract.CalendarEntry.CONTENT_URI);
+
+        // Create new ContentValues to update with
+        ContentValues updatedValues = new ContentValues(contentValues);
+        updatedValues.put(KueContract.CalendarEntry._ID, locationRowId);
+        updatedValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, "Annihilator's Apparition");
+
+        // Perform the update and make sure it was successful
+        int updateCount = mContext.getContentResolver().update(
+                KueContract.CalendarEntry.CONTENT_URI, updatedValues, KueContract.CalendarEntry._ID + "= ?",
+                new String[] { Long.toString(locationRowId)});
+        assertEquals(updateCount, 1);
+
+        // Test to make sure the observer is called by waiting for a notification
+        // from the content observer (caused by the update action)
+        testContentObserver.waitForNotificationOrFail();
+
+        // Unregister observer and close the cursor
+        mContext.getContentResolver().unregisterContentObserver(testContentObserver);
+        cursor.close();
+
+        // Verify that the ContentProvider was updated correctly (with the new ContentValues)
+        // with a query
+        verifyValuesProvider(mContext, KueContract.CalendarEntry.TABLE_NAME, updatedValues,
+                KueContract.CalendarEntry.CONTENT_URI);
+
+        // Delete all records from the database and verify they were deleted
+        deleteAllRecords();
     }
 }

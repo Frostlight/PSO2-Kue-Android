@@ -1,14 +1,17 @@
 package frostlight.pso2kue.data;
 
-import android.content.ContentProviderClient;
 import android.content.ContentValues;
-import android.content.Context;
+import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
 import java.util.Arrays;
 import java.util.HashSet;
+
+import frostlight.pso2kue.util.PollingCheck;
 
 /**
  * TestUtilities
@@ -121,5 +124,48 @@ public class TestUtilities extends AndroidTestCase {
 
         // HashSet should be empty after removing everything
         assertTrue(errorMessage, hashSet.isEmpty());
+    }
+
+    // A mock ContentObserver class used for testing purposes
+    static class TestContentObserver extends ContentObserver {
+        final HandlerThread mHandlerThread;
+        boolean mContentChanged;
+
+        static TestContentObserver getTestContentObserver() {
+            HandlerThread handlerThread = new HandlerThread("ContentObserverThread");
+            handlerThread.start();
+            return new TestContentObserver(handlerThread);
+        }
+
+        private TestContentObserver(HandlerThread handlerThread) {
+            super(new Handler(handlerThread.getLooper()));
+            mHandlerThread = handlerThread;
+        }
+
+        // On earlier versions of Android, this onChange method is called
+        @Override
+        public void onChange(boolean selfChange) {
+            onChange(selfChange, null);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            mContentChanged = true;
+        }
+
+        public void waitForNotificationOrFail() {
+            // Source: Android CTS (Compatibility Test Suite)
+            new PollingCheck(5000) {
+                @Override
+                protected boolean check() {
+                    return mContentChanged;
+                }
+            }.run();
+            mHandlerThread.quit();
+        }
+    }
+
+    static TestContentObserver getTestContentObserver() {
+        return TestContentObserver.getTestContentObserver();
     }
 }
