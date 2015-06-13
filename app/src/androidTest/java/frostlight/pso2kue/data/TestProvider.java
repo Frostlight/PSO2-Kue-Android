@@ -6,7 +6,6 @@ package frostlight.pso2kue.data;
  */
 
 import android.content.ComponentName;
-import android.content.ContentProviderClient;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -17,34 +16,55 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.test.AndroidTestCase;
-import android.util.Log;
-
-import java.util.Calendar;
-
-import frostlight.pso2kue.Utility;
 
 public class TestProvider extends AndroidTestCase {
 
     /**
      * Inserts a set of ContentValues into a database and queries for the same values
+     * [Inserts into sqLiteDatabase, queries using content provider]
      *
+     * @param context        Context containing the content provider
      * @param sqLiteDatabase The database to insert into
      * @param tableName      The name of the table to insert to
      * @param testValues     ContentValues consisting of the entry for insertion
      * @param contentUri     Used for querying and checking if the notification Uri was set properly
      * @return ID of the row the entry was inserted to
      */
-    long insertQueryProvider(SQLiteDatabase sqLiteDatabase, String tableName,
-                                    ContentValues testValues, Uri contentUri) {
+    private long insertAndVerify(Context context, SQLiteDatabase sqLiteDatabase, String tableName,
+                         ContentValues testValues, Uri contentUri) {
         // Insert ContentValues into database and get a row ID back
         long locationRowId = sqLiteDatabase.insert(tableName, null, testValues);
 
         // Verify insertion was successful
-        assertTrue("Error: Insertion into table " + tableName + " was unsuccessful",
+        assertTrue("Error: Insertion into " + contentUri.toString() + " was unsuccessful",
                 locationRowId != -1);
 
         // Query and verify query for the values that were just inserted
-        verifyValuesProvider(mContext, tableName, testValues, contentUri);
+        verifyValues(context, testValues, contentUri);
+
+        return locationRowId;
+    }
+
+    /**
+     * Inserts a set of ContentValues into a database and queries for the same values
+     * [Inserts and queries using content provider]
+     *
+     * @param context        Context containing the content provider
+     * @param testValues     ContentValues consisting of the entry for insertion
+     * @param contentUri     Used for querying and checking if the notification Uri was set properly
+     * @return ID of the row the entry was inserted to
+     */
+    private long insertAndVerify(Context context, Uri contentUri, ContentValues testValues) {
+        // Insert ContentValues into database and get a row ID back
+        Uri uri = context.getContentResolver().insert(contentUri, testValues);
+        long locationRowId = ContentUris.parseId(uri);
+
+        // Verify insertion was successful
+        assertTrue("Error: Insertion into " + contentUri.toString() + " was unsuccessful",
+                locationRowId != -1);
+
+        // Query and verify query for the values that were just inserted
+        verifyValues(context, testValues, contentUri);
 
         return locationRowId;
     }
@@ -54,12 +74,10 @@ public class TestProvider extends AndroidTestCase {
      * This test queries the ContentProvider instead of the database itself
      *
      * @param context        Context of the
-     * @param tableName      The name of the table to check
      * @param expectedValues ContentValues consisting of what to look for
      * @param contentUri     Used for querying and checking if the notification Uri was set properly
      */
-    static void verifyValuesProvider(Context context, String tableName,
-                                     ContentValues expectedValues, Uri contentUri) {
+    private static void verifyValues(Context context, ContentValues expectedValues, Uri contentUri) {
         String whereClause = "";
 
         // Iterate through each ContentValue key-value pair to generate the WHERE clause
@@ -88,7 +106,8 @@ public class TestProvider extends AndroidTestCase {
         }
 
         // Cursor should not be empty
-        assertFalse("Empty cursor returned for query on " + tableName, TestUtilities.isCursorEmpty(cursor));
+        assertFalse("Empty cursor returned for query on " + contentUri.toString(),
+                TestUtilities.isCursorEmpty(cursor));
         cursor.close();
     }
 
@@ -97,7 +116,7 @@ public class TestProvider extends AndroidTestCase {
      * It also queries the ContentProvider to make sure that the database has been successfully
      * deleted
      */
-    public void deleteAllRecords() {
+    private void deleteAllRecords() {
         // Delete all records from database tables
         mContext.getContentResolver().delete(
                 KueContract.CalendarEntry.CONTENT_URI,
@@ -205,41 +224,45 @@ public class TestProvider extends AndroidTestCase {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
         // Insert and query calendar database
-        insertQueryProvider(sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
+        insertAndVerify(mContext, sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
                 TestUtilities.createCalendarValues(), KueContract.CalendarEntry.CONTENT_URI);
 
         // Insert and query twitter database
-        insertQueryProvider(sqLiteDatabase, KueContract.TwitterEntry.TABLE_NAME,
+        insertAndVerify(mContext, sqLiteDatabase, KueContract.TwitterEntry.TABLE_NAME,
                 TestUtilities.createTwitterValues(), KueContract.TwitterEntry.CONTENT_URI);
 
         // Insert and query translation database
-        insertQueryProvider(sqLiteDatabase, KueContract.TranslationEntry.TABLE_NAME,
+        insertAndVerify(mContext, sqLiteDatabase, KueContract.TranslationEntry.TABLE_NAME,
                 TestUtilities.createTranslationValues(), KueContract.TranslationEntry.CONTENT_URI);
     }
 
-    // Insert and update each column in the calendar table
-    public void testUpdate() {
+    // Insert and update each column in the calendar table, and tests the content resolver by
+    // registering a content observer with a cursor
+    public void testInsertUpdate_CursorNotify() {
         DbHelper dbHelper = new DbHelper(this.getContext());
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
-        // Insert and query calendar database
+        // Insert and verify calendar database
         ContentValues contentValues = TestUtilities.createCalendarValues();
-        long locationRowId = insertQueryProvider(sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
-                contentValues, KueContract.CalendarEntry.CONTENT_URI);
+        long locationRowId = insertAndVerify(mContext, sqLiteDatabase,
+                KueContract.CalendarEntry.TABLE_NAME, contentValues, KueContract.CalendarEntry.CONTENT_URI);
 
         // Create new ContentValues to update with
         ContentValues updatedValues = new ContentValues(contentValues);
         updatedValues.put(KueContract.CalendarEntry._ID, locationRowId);
         updatedValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, "Annihilator's Apparition");
 
-        // Create a cursor with observer to make sure that the content provider is notifying
-        // the observers as expected
+        // Create and register the content observer with a cursor
         Cursor calendarCursor = mContext.getContentResolver().query(
-                KueContract.CalendarEntry.CONTENT_URI, null, null, null, null);
-
+                KueContract.CalendarEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
         TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
         calendarCursor.registerContentObserver(testContentObserver);
 
+        // Perform the update and make sure it was successful
         int updateCount = mContext.getContentResolver().update(
                 KueContract.CalendarEntry.CONTENT_URI, updatedValues, KueContract.CalendarEntry._ID + "= ?",
                 new String[] { Long.toString(locationRowId)});
@@ -254,45 +277,27 @@ public class TestProvider extends AndroidTestCase {
         calendarCursor.close();
 
         // Verify that the ContentProvider was updated correctly (with the new ContentValues)
-        // with a query
-        verifyValuesProvider(mContext, KueContract.CalendarEntry.TABLE_NAME, updatedValues,
-                KueContract.CalendarEntry.CONTENT_URI);
+        verifyValues(mContext, updatedValues, KueContract.CalendarEntry.CONTENT_URI);
     }
 
 
-    // Delete after inserting and updating data in the calendar table
-    public void testInsertReadProvider() {
+    // Insert and update each column in the calendar table, and tests the content resolver by
+    // registering a content observer with the content resolver
+    public void testInsertUpdate_Resolver() {
         ContentValues contentValues = TestUtilities.createCalendarValues();
 
-        // Register a content observer for the insert with the content resolver
+        // Register a content observer with the content resolver
         TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
         mContext.getContentResolver().registerContentObserver(KueContract.CalendarEntry.CONTENT_URI,
                 true, testContentObserver);
 
-        // Directly insert through the ContentProvider
-        Uri locationUri = mContext.getContentResolver().insert(KueContract.CalendarEntry.CONTENT_URI,
+        // Directly insert and verify calendar database through the ContentProvider
+        long locationRowId = insertAndVerify(mContext, KueContract.CalendarEntry.CONTENT_URI,
                 contentValues);
 
         // Test to make sure the observer is called by waiting for a notification
         // from the content observer (caused by the insert action)
         testContentObserver.waitForNotificationOrFail();
-
-        long locationRowId = ContentUris.parseId(locationUri);
-
-        // Verify we got a row back
-        assertTrue(locationRowId != -1);
-
-        // Query the calendar database
-        Cursor cursor = mContext.getContentResolver().query(
-                KueContract.CalendarEntry.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        verifyValuesProvider(getContext(), KueContract.CalendarEntry.TABLE_NAME, contentValues,
-                KueContract.CalendarEntry.CONTENT_URI);
 
         // Create new ContentValues to update with
         ContentValues updatedValues = new ContentValues(contentValues);
@@ -309,16 +314,10 @@ public class TestProvider extends AndroidTestCase {
         // from the content observer (caused by the update action)
         testContentObserver.waitForNotificationOrFail();
 
-        // Unregister observer and close the cursor
+        // Unregister the content observer
         mContext.getContentResolver().unregisterContentObserver(testContentObserver);
-        cursor.close();
 
-        // Verify that the ContentProvider was updated correctly (with the new ContentValues)
-        // with a query
-        verifyValuesProvider(mContext, KueContract.CalendarEntry.TABLE_NAME, updatedValues,
-                KueContract.CalendarEntry.CONTENT_URI);
-
-        // Delete all records from the database and verify they were deleted
-        deleteAllRecords();
+        // Query the database to verify the update
+        verifyValues(mContext, updatedValues, KueContract.CalendarEntry.CONTENT_URI);
     }
 }

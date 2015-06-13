@@ -20,7 +20,8 @@ public class TestDb extends AndroidTestCase {
      * @param testValues     ContentValues consisting of the entry for insertion
      * @return ID of the row the entry was inserted to
      */
-    static long insertQueryDb(SQLiteDatabase sqLiteDatabase, String tableName, ContentValues testValues) {
+    private static long insertAndVerify(SQLiteDatabase sqLiteDatabase, String tableName,
+                                        ContentValues testValues) {
         // Insert ContentValues into database and get a row ID back
         long locationRowId = sqLiteDatabase.insert(tableName, null, testValues);
 
@@ -29,7 +30,7 @@ public class TestDb extends AndroidTestCase {
                 locationRowId != -1);
 
         // Query and verify query for the values that were just inserted
-        verifyValuesDb(sqLiteDatabase, tableName, testValues);
+        verifyValues(sqLiteDatabase, tableName, testValues);
 
         return locationRowId;
     }
@@ -42,8 +43,8 @@ public class TestDb extends AndroidTestCase {
      * @param tableName      The name of the table to check
      * @param expectedValues ContentValues consisting of what to look for
      */
-    static void verifyValuesDb(SQLiteDatabase sqLiteDatabase, String tableName,
-                               ContentValues expectedValues) {
+    private static void verifyValues(SQLiteDatabase sqLiteDatabase, String tableName,
+                                     ContentValues expectedValues) {
         String whereClause = "";
 
         // Iterate through each ContentValue key-value pair to generate the WHERE clause
@@ -73,7 +74,7 @@ public class TestDb extends AndroidTestCase {
     }
 
     // Call this before each test to start clean
-    void deleteDb() {
+    private void deleteDb() {
         mContext.deleteDatabase(DbHelper.DATABASE_NAME);
     }
 
@@ -113,15 +114,15 @@ public class TestDb extends AndroidTestCase {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
         // Insert and query calendar database
-        insertQueryDb(sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
+        insertAndVerify(sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
                 TestUtilities.createCalendarValues());
 
         // Insert and query twitter database
-        insertQueryDb(sqLiteDatabase, KueContract.TwitterEntry.TABLE_NAME,
+        insertAndVerify(sqLiteDatabase, KueContract.TwitterEntry.TABLE_NAME,
                 TestUtilities.createTwitterValues());
 
         // Insert and query translation database
-        insertQueryDb(sqLiteDatabase, KueContract.TranslationEntry.TABLE_NAME,
+        insertAndVerify(sqLiteDatabase, KueContract.TranslationEntry.TABLE_NAME,
                 TestUtilities.createTranslationValues());
     }
 }
