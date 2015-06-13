@@ -19,7 +19,7 @@ import java.util.List;
  * Parses the received XML from an input stream (Google calendar XML)
  * Created by Vincent on 5/30/2015.
  */
-public class XmlHelper {
+public class XmlParse {
 
     // Parse returns a list of these objects
     public static class Entry {

@@ -62,11 +62,11 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
             try {
                 // Read input stream to get a list of entries
-                List<XmlHelper.Entry> entryList = XmlHelper.parse(inputStream);
+                List<XmlParse.Entry> entryList = XmlParse.parse(inputStream);
 
                 // Wipe the Calendar database before inserting
                 mSQLiteDatabase.delete(KueContract.CalendarEntry.TABLE_NAME, null, null);
-                for (XmlHelper.Entry entry : entryList) {
+                for (XmlParse.Entry entry : entryList) {
                     // Insert each element into the database
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, entry.title);
