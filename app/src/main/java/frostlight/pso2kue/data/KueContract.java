@@ -20,6 +20,7 @@ public class KueContract {
     public static final String PATH_CALENDAR = "calendar";
     public static final String PATH_TWITTER = "twitter";
     public static final String PATH_TRANSLATION = "translation";
+    public static final String PATH_EMERGENCYQUEST = "emergencyquest";
 
     /**
      * Inner class that defines the table contents of the calendar table
@@ -113,5 +114,17 @@ public class KueContract {
 
         // The corresponding english translation
         public static final String COLUMN_ENGLISH = "english";
+    }
+
+    /**
+     * Inner class that contains the union of the calendar table and Twitter table
+     * Table: ID | Japanese Name | English Name
+     */
+    public static final class EmergencyQuest {
+        /** ----------------  Uri definitions and functions ---------------- */
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_EMERGENCYQUEST).build();
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_EMERGENCYQUEST;
     }
 }

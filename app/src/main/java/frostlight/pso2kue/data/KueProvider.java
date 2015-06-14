@@ -5,7 +5,11 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQuery;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+
+import java.util.Calendar;
 
 /**
  * KueProvider
@@ -25,6 +29,9 @@ public class KueProvider extends ContentProvider {
     static final int TWITTER = 2;
     static final int TRANSLATION = 3;
 
+    // Union of calendar and Twitter, only supports queries
+    static final int EMERGENCYQUEST = 10;
+
     /**
      * Creates a UriMatcher for the content provider
      * @return UriMatcher with all the relevant tables
@@ -37,16 +44,9 @@ public class KueProvider extends ContentProvider {
         uriMatcher.addURI(authority, KueContract.PATH_CALENDAR, CALENDAR);
         uriMatcher.addURI(authority, KueContract.PATH_TWITTER, TWITTER);
         uriMatcher.addURI(authority, KueContract.PATH_TRANSLATION, TRANSLATION);
+        uriMatcher.addURI(authority, KueContract.PATH_EMERGENCYQUEST, EMERGENCYQUEST);
 
         return uriMatcher;
-    }
-
-    /**
-     * Returns the SQLiteDatabase to read from
-     * @return SQLiteDatabase associated with the ContentProvider
-     */
-    public SQLiteDatabase getReadableDatabase(){
-        return mDbHelper.getReadableDatabase();
     }
 
     @Override
@@ -68,6 +68,8 @@ public class KueProvider extends ContentProvider {
                 return KueContract.TwitterEntry.CONTENT_TYPE;
             case TRANSLATION:
                 return KueContract.TranslationEntry.CONTENT_TYPE;
+            case EMERGENCYQUEST:
+                return KueContract.EmergencyQuest.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Error: Unknown URI " + uri);
         }
@@ -115,6 +117,18 @@ public class KueProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
+            case EMERGENCYQUEST:
+                // Union SELECT * from both the calendar and Twitter tables
+                SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
+                String[] queryArray = {
+                        "SELECT * FROM " + KueContract.CalendarEntry.TABLE_NAME,
+                        "SELECT * FROM " + KueContract.TwitterEntry.TABLE_NAME
+                };
+
+                String unionQuery = sqLiteQueryBuilder.buildUnionQuery(queryArray,
+                        KueContract.CalendarEntry.COLUMN_DATE + " DESC", null);
+                returnCursor = sqLiteDatabase.rawQuery(unionQuery, null);
+                break;
             default:
                 throw new UnsupportedOperationException("Error: Unknown URI " + uri);
         }
@@ -135,7 +149,8 @@ public class KueProvider extends ContentProvider {
 
         // Use the uriMatcher to match the URI's we are going to handle
         // If it doesn't match these, throw an UnsupportedOperationException
-        switch(sUriMatcher.match(uri))
+        int uriMatch = sUriMatcher.match(uri);
+        switch(uriMatch)
         {
             case CALENDAR:
                 _id = sqLiteDatabase.insert(KueContract.CalendarEntry.TABLE_NAME, null, values);
@@ -158,12 +173,19 @@ public class KueProvider extends ContentProvider {
                 else
                     throw new android.database.SQLException("Error: Failed to insert row into " + uri);
                 break;
+            case EMERGENCYQUEST:
+                throw new UnsupportedOperationException("Error: Insert is not support for URI " + uri);
             default:
                 throw new UnsupportedOperationException("Error: Unknown URI " + uri);
         }
 
         // Notify the content observers
         getContext().getContentResolver().notifyChange(uri, null);
+
+        // Also notify observers on the EMERGENCYQUEST Uri if the insertion was into
+        // one of the unioned tables
+        if (uriMatch == CALENDAR || uriMatch == TWITTER)
+            getContext().getContentResolver().notifyChange(KueContract.EmergencyQuest.CONTENT_URI, null);
 
         // Return the Uri of the entry that was just inserted
         return returnUri;
@@ -177,7 +199,8 @@ public class KueProvider extends ContentProvider {
 
         // Use the uriMatcher to match the URI's we are going to handle
         // If it doesn't match these, throw an UnsupportedOperationException
-        switch(sUriMatcher.match(uri))
+        int uriMatch = sUriMatcher.match(uri);
+        switch(uriMatch)
         {
             case CALENDAR:
                 deleteCount = sqLiteDatabase.delete(KueContract.CalendarEntry.TABLE_NAME, selection,
@@ -191,6 +214,8 @@ public class KueProvider extends ContentProvider {
                 deleteCount = sqLiteDatabase.delete(KueContract.TranslationEntry.TABLE_NAME, selection,
                         selectionArgs);
                 break;
+            case EMERGENCYQUEST:
+                throw new UnsupportedOperationException("Error: Insert is not support for URI " + uri);
             default:
                 throw new UnsupportedOperationException("Error: Unknown URI " + uri);
         }
@@ -211,7 +236,8 @@ public class KueProvider extends ContentProvider {
 
         // Use the uriMatcher to match the URI's we are going to handle
         // If it doesn't match these, throw an UnsupportedOperationException
-        switch(sUriMatcher.match(uri))
+        int uriMatch = sUriMatcher.match(uri);
+        switch(uriMatch)
         {
             case CALENDAR:
                 updateCount = sqLiteDatabase.update(KueContract.CalendarEntry.TABLE_NAME, values,
@@ -225,6 +251,8 @@ public class KueProvider extends ContentProvider {
                 updateCount = sqLiteDatabase.update(KueContract.TranslationEntry.TABLE_NAME, values,
                         selection, selectionArgs);
                 break;
+            case EMERGENCYQUEST:
+                throw new UnsupportedOperationException("Error: Insert is not support for URI " + uri);
             default:
                 throw new UnsupportedOperationException("Error: Unknown URI " + uri);
         }

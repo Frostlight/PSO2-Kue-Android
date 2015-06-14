@@ -241,9 +241,9 @@ public class TestProvider extends AndroidTestCase {
     public void testInsertUpdate_CursorNotify() {
         DbHelper dbHelper = new DbHelper(this.getContext());
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+        ContentValues contentValues = TestUtilities.createCalendarValues();
 
         // Insert and verify calendar database
-        ContentValues contentValues = TestUtilities.createCalendarValues();
         long locationRowId = insertAndVerify(mContext, sqLiteDatabase,
                 KueContract.CalendarEntry.TABLE_NAME, contentValues, KueContract.CalendarEntry.CONTENT_URI);
 
@@ -280,7 +280,6 @@ public class TestProvider extends AndroidTestCase {
         verifyValues(mContext, updatedValues, KueContract.CalendarEntry.CONTENT_URI);
     }
 
-
     // Insert and update each column in the calendar table, and tests the content resolver by
     // registering a content observer with the content resolver
     public void testInsertUpdate_Resolver() {
@@ -291,7 +290,7 @@ public class TestProvider extends AndroidTestCase {
         mContext.getContentResolver().registerContentObserver(KueContract.CalendarEntry.CONTENT_URI,
                 true, testContentObserver);
 
-        // Directly insert and verify calendar database through the ContentProvider
+        // Directly insert into the calendar URI and verify with a query
         long locationRowId = insertAndVerify(mContext, KueContract.CalendarEntry.CONTENT_URI,
                 contentValues);
 
@@ -317,7 +316,57 @@ public class TestProvider extends AndroidTestCase {
         // Unregister the content observer
         mContext.getContentResolver().unregisterContentObserver(testContentObserver);
 
-        // Query the database to verify the update
+        // Query the calendar URI to verify the update
         verifyValues(mContext, updatedValues, KueContract.CalendarEntry.CONTENT_URI);
+    }
+
+    // Insert and update each column in the calendar table, and tests the content resolver by
+    // registering a content observer with the content resolver
+    // Queries here are done through the EmergencyQuest URI, which is the union of the calendar
+    // and Twitter tables
+    public void testInsertUpdate_EmergencyQuest() {
+        ContentValues contentValues = TestUtilities.createCalendarValues();
+
+        // Register a content observer with the content resolver
+        TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
+        mContext.getContentResolver().registerContentObserver(KueContract.CalendarEntry.CONTENT_URI,
+                true, testContentObserver);
+
+        // Insert and verify calendar URI
+        Uri uri = mContext.getContentResolver().insert(KueContract.CalendarEntry.CONTENT_URI, contentValues);
+        long locationRowId = ContentUris.parseId(uri);
+
+        // Verify insertion was successful
+        assertTrue("Error: Insertion into " + KueContract.CalendarEntry.CONTENT_URI.toString() +
+                        " was unsuccessful", locationRowId != -1);
+
+        // Verify the table by querying using the EmergencyQuest URI, which is the union of the
+        // calendar and Twitter tables
+        verifyValues(mContext, contentValues, KueContract.EmergencyQuest.CONTENT_URI);
+
+        // Test to make sure the observer is called by waiting for a notification
+        // from the content observer (caused by the insert action)
+        testContentObserver.waitForNotificationOrFail();
+
+        // Create new ContentValues to update with
+        ContentValues updatedValues = new ContentValues(contentValues);
+        updatedValues.put(KueContract.CalendarEntry._ID, locationRowId);
+        updatedValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, "Annihilator's Apparition");
+
+        // Perform the update and make sure it was successful
+        int updateCount = mContext.getContentResolver().update(
+                KueContract.CalendarEntry.CONTENT_URI, updatedValues, KueContract.CalendarEntry._ID + "= ?",
+                new String[] { Long.toString(locationRowId)});
+        assertEquals(updateCount, 1);
+
+        // Test to make sure the observer is called by waiting for a notification
+        // from the content observer (caused by the update action)
+        testContentObserver.waitForNotificationOrFail();
+
+        // Unregister the content observer
+        mContext.getContentResolver().unregisterContentObserver(testContentObserver);
+
+        // Query the EmergencyQuest URI to verify the update
+        verifyValues(mContext, updatedValues, KueContract.EmergencyQuest.CONTENT_URI);
     }
 }
