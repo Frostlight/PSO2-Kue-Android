@@ -5,6 +5,7 @@ import android.text.format.Time;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -51,66 +52,40 @@ public class Utility {
     /**
      * Rounds the date/time up to the nearest hour
      *
-     * @param date date/time in milliseconds
+     * @param dateInMillis Date/time in milliseconds
      * @return Rounded date/time in milliseconds
      */
-    public static long roundUpHour(long date) {
-        DateTime dateTime = new DateTime(date);
+    public static long roundUpHour(long dateInMillis) {
+        DateTime dateTime = new DateTime(dateInMillis);
         dateTime = dateTime.plusSeconds(60 - dateTime.getSecondOfMinute());
         dateTime = dateTime.plusMinutes(60 - dateTime.getMinuteOfHour());
         return dateTime.getMillis();
     }
 
     /**
-     * Get the difference in minutes between two dates
-     *
-     * @param now      The current date
-     * @param previous The past date
-     * @return The number of minutes difference as an integer
-     */
-    public static int getMinuteDifference(Date now, Date previous) {
-        // Date.getTime() returns in milliseconds, convert it to minutes
-        return (int) Math.abs(now.getTime() - previous.getTime()) / 1000 / 60;
-    }
-
-    /**
      * Given a day, returns just the name to use for that day.
-     * E.g "today", "tomorrow", "wednesday".
+     * E.g "Today", "Tomorrow"
+     *
+     * If the day is not "today" or "tomorrow", just return the formatted month and day
+     * E.g. "June 23", "August 15"
      *
      * @param context Context to use for resource localization
      * @param dateInMillis The date in milliseconds
-     * @return
+     * @return Name of the day
      */
     public static String getDayName(Context context, long dateInMillis) {
-        // If the date is today, return the localized version of "Today" instead of the actual
-        // day name.
+        // Calculate the difference in days between two days
+        int daysBetween = Days.daysBetween(new DateTime(System.currentTimeMillis()).toLocalDate(),
+                new DateTime(dateInMillis).toLocalDate()).getDays();
 
-        Time t = new Time();
-        t.setToNow();
-        int julianDay = Time.getJulianDay(dateInMillis, t.gmtoff);
-        int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
-        if (julianDay == currentJulianDay) {
+        if (daysBetween == 0) {
             return context.getString(R.string.today);
-        } else if ( julianDay == currentJulianDay +1 ) {
+        } else if (daysBetween == 1) {
             return context.getString(R.string.tomorrow);
         } else {
-            return getFormattedMonthDay(context, dateInMillis);
+            // Otherwise, convert millisecond date format to the format "Month day"
+            return (DateTimeFormat.forPattern("MMMM dd")).print(dateInMillis);
         }
-    }
-
-    /**
-     * Converts db date format to the format "Month day", e.g "June 24".
-     * @param context Context to use for resource localization
-     * @param dateInMillis The db formatted date string, expected to be of the form specified
-     *                in Utility.DATE_FORMAT
-     * @return The day in the form of a string formatted "December 6"
-     */
-    public static String getFormattedMonthDay(Context context, long dateInMillis ) {
-        Time time = new Time();
-        time.setToNow();
-        SimpleDateFormat monthDayFormat = new SimpleDateFormat("MMMM dd");
-        String monthDayString = monthDayFormat.format(dateInMillis);
-        return monthDayString;
     }
 
     /**

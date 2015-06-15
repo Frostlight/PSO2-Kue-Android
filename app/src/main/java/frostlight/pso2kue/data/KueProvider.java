@@ -118,7 +118,7 @@ public class KueProvider extends ContentProvider {
                 );
                 break;
             case EMERGENCYQUEST:
-                // Union SELECT * from both the calendar and Twitter tables
+                // Union SELECT from both the calendar and Twitter tables
                 String subQueryCalendar = SQLiteQueryBuilder.buildQueryString(true,
                         KueContract.CalendarEntry.TABLE_NAME, projection, selection, null, null,
                         null, null);
@@ -141,6 +141,8 @@ public class KueProvider extends ContentProvider {
         // Return the cursor containing the results of the query
         return returnCursor;
     }
+
+
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
