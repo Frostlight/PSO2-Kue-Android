@@ -2,6 +2,7 @@ package frostlight.pso2kue;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,15 @@ public class MainAdapter extends CursorAdapter {
         // Make a ViewHolder for the current view
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
+        // Emergency quest name
         int eqNamePosition = cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_EQNAME);
-        viewHolder.nameView.setText(cursor.getString(eqNamePosition));
 
+        // Non-standard text in the database is encoded in HTML symbol form
+        // E.g. apostrophe is encoded as &$39;
+        // The symbols are decoded here with Html.fromHtml()
+        viewHolder.nameView.setText(Html.fromHtml(cursor.getString(eqNamePosition)));
+
+        // Emergency quest date and time
         int eqTime = cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE);
         viewHolder.dayView.setText(Utility.getDayName(context, cursor.getLong(eqTime)));
         viewHolder.timeView.setText(Utility.formatTime(cursor.getLong(eqTime)));

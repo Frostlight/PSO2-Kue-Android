@@ -102,12 +102,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // Where clause: all events scheduled from 30 minutes in the past
+        String whereClause = KueContract.CalendarEntry.COLUMN_DATE + " > " +
+                Long.toString(System.currentTimeMillis() - 1800000);
+
         // Sort order: ascending by date
         String sortOrder = KueContract.CalendarEntry.COLUMN_DATE + " ASC";
+
         return new CursorLoader(getActivity(),
                 KueContract.EmergencyQuest.CONTENT_URI,
                 null,
-                null,
+                whereClause,
                 null,
                 sortOrder
         );
