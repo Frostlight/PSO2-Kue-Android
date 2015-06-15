@@ -50,6 +50,6 @@ public class MainAdapter extends CursorAdapter {
         viewHolder.eqNameView.setText(cursor.getString(eqNamePosition));
 
         int eqTime = cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE);
-        viewHolder.eqTimeView.setText(cursor.getString(eqTime));
+        viewHolder.eqTimeView.setText(Utility.getDayName(context, cursor.getLong(eqTime)));
     }
 }

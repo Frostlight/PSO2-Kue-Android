@@ -7,6 +7,10 @@
     <string name="action_refresh_calendar">Refresh Google Calendar</string>
     <string name="action_refresh_twitter">Refresh Twitter</string>
 
+    <!-- Date Representation -->
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+
     <!-- Default view Strings -->
     <string name="default_eq_name">Chaotic Tranquility</string>
     <string name="default_eq_time">2PM</string>

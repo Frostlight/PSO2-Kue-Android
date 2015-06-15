@@ -89,7 +89,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         // The CursorAdapter will take data from our cursor and populate the ListView
         mMainAdapter = new MainAdapter(getActivity(), null, 0);
         mListView = (ListView) rootView.findViewById(R.id.listview_eq);
-        mListView.setAdapter(mMainAdapter);
         return rootView;
     }
 

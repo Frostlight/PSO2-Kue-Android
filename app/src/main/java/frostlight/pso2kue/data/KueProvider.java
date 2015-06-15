@@ -119,14 +119,16 @@ public class KueProvider extends ContentProvider {
                 break;
             case EMERGENCYQUEST:
                 // Union SELECT * from both the calendar and Twitter tables
-                SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
-                String[] queryArray = {
-                        "SELECT * FROM " + KueContract.CalendarEntry.TABLE_NAME,
-                        "SELECT * FROM " + KueContract.TwitterEntry.TABLE_NAME
-                };
+                String subQueryCalendar = SQLiteQueryBuilder.buildQueryString(true,
+                        KueContract.CalendarEntry.TABLE_NAME, projection, selection, null, null,
+                        null, null);
+                String subQueryTwitter = SQLiteQueryBuilder.buildQueryString(true,
+                        KueContract.TwitterEntry.TABLE_NAME, projection, selection, null, null,
+                        null, null);
+                String[] queryArray = {subQueryCalendar, subQueryTwitter};
 
-                String unionQuery = sqLiteQueryBuilder.buildUnionQuery(queryArray,
-                        KueContract.CalendarEntry.COLUMN_DATE + " DESC", null);
+                String unionQuery = new SQLiteQueryBuilder().buildUnionQuery(queryArray,
+                        sortOrder, null);
                 returnCursor = sqLiteDatabase.rawQuery(unionQuery, null);
                 break;
             default:
