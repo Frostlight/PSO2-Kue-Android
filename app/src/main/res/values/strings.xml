@@ -6,4 +6,8 @@
     <string name="action_settings">Settings</string>
     <string name="action_refresh_calendar">Refresh Google Calendar</string>
     <string name="action_refresh_twitter">Refresh Twitter</string>
+
+    <!-- Default view Strings -->
+    <string name="default_eq_name">Chaotic Tranquility</string>
+    <string name="default_eq_time">2PM</string>
 </resources>

@@ -178,6 +178,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             // Wipe the Twitter database before inserting
             mSQLiteDatabase.delete(KueContract.TwitterEntry.TABLE_NAME, null, null);
 
+            Log.v(Utility.getTag(), "translatedEqName: " + translatedEqName);
+
             // Insert the element into database
             ContentValues contentValues = new ContentValues();
             contentValues.put(KueContract.TwitterEntry.COLUMN_EQNAME, translatedEqName);

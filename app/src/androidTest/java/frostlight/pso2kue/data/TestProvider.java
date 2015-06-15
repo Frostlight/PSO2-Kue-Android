@@ -320,24 +320,24 @@ public class TestProvider extends AndroidTestCase {
         verifyValues(mContext, updatedValues, KueContract.CalendarEntry.CONTENT_URI);
     }
 
-    // Insert and update each column in the calendar table, and tests the content resolver by
+    // Insert and update each column in the Twitter table, and tests the content resolver by
     // registering a content observer with the content resolver
     // Queries here are done through the EmergencyQuest URI, which is the union of the calendar
     // and Twitter tables
     public void testInsertUpdate_EmergencyQuest() {
-        ContentValues contentValues = TestUtilities.createCalendarValues();
+        ContentValues contentValues = TestUtilities.createTwitterValues();
 
         // Register a content observer with the content resolver
         TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
-        mContext.getContentResolver().registerContentObserver(KueContract.CalendarEntry.CONTENT_URI,
+        mContext.getContentResolver().registerContentObserver(KueContract.EmergencyQuest.CONTENT_URI,
                 true, testContentObserver);
 
         // Insert and verify calendar URI
-        Uri uri = mContext.getContentResolver().insert(KueContract.CalendarEntry.CONTENT_URI, contentValues);
+        Uri uri = mContext.getContentResolver().insert(KueContract.TwitterEntry.CONTENT_URI, contentValues);
         long locationRowId = ContentUris.parseId(uri);
 
         // Verify insertion was successful
-        assertTrue("Error: Insertion into " + KueContract.CalendarEntry.CONTENT_URI.toString() +
+        assertTrue("Error: Insertion into " + KueContract.TwitterEntry.CONTENT_URI.toString() +
                         " was unsuccessful", locationRowId != -1);
 
         // Verify the table by querying using the EmergencyQuest URI, which is the union of the
@@ -355,7 +355,7 @@ public class TestProvider extends AndroidTestCase {
 
         // Perform the update and make sure it was successful
         int updateCount = mContext.getContentResolver().update(
-                KueContract.CalendarEntry.CONTENT_URI, updatedValues, KueContract.CalendarEntry._ID + "= ?",
+                KueContract.TwitterEntry.CONTENT_URI, updatedValues, KueContract.TwitterEntry._ID + "= ?",
                 new String[] { Long.toString(locationRowId)});
         assertEquals(updateCount, 1);
 

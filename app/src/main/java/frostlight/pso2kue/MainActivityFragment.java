@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import frostlight.pso2kue.data.KueContract;
 
 /**
  * MainActivityFragment
@@ -23,6 +26,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     private MainAdapter mMainAdapter;
     private ListView mListView;
+
+    public static final int EQ_LOADER = 0;
 
     private void updateCalendar() {
         FetchCalendarTask fetchCalendarTask = new FetchCalendarTask(getActivity());
@@ -47,6 +52,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Allows fragment to handle menu events
         setHasOptionsMenu(true);
     }
@@ -54,6 +60,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
         // Inflate the menu options
         inflater.inflate(R.menu.menu_mainactivityfragment, menu);
     }
@@ -78,6 +85,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                              Bundle savedInstanceState) {
         // Inflate the main fragment XML, and set member variables for the full fragment and ListView
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        // The CursorAdapter will take data from our cursor and populate the ListView
         mMainAdapter = new MainAdapter(getActivity(), null, 0);
         mListView = (ListView) rootView.findViewById(R.id.listview_eq);
         mListView.setAdapter(mMainAdapter);
@@ -85,17 +94,36 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Start the loader to load the EQ schedule from the database
+        getLoaderManager().initLoader(EQ_LOADER, null, this);
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
+        // Sort order: ascending by date
+        String sortOrder = KueContract.CalendarEntry.COLUMN_DATE + " ASC";
+        return new CursorLoader(getActivity(),
+                KueContract.EmergencyQuest.CONTENT_URI,
+                null,
+                null,
+                null,
+                sortOrder
+        );
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // Set the adapter and swap the loaded cursor so the adapter can populate the ListView
+        mListView.setAdapter(mMainAdapter);
         mMainAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        // Garbage collection to avoid memory leak
         mMainAdapter.swapCursor(null);
     }
 }

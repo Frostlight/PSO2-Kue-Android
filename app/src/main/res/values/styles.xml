@@ -5,4 +5,34 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- textview for listitems in forecastFragment -->
+    <style name="list_item_textview">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <!-- Detail text -->
+    <style name="detail_text_condensed">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="detail_text_light">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <!-- Static size for textview (phone) -->
+    <style name="list_item_textview_scale" parent="list_item_textview">
+        <item name="android:width">200dp</item>
+    </style>
+
+    <!-- List padding for phone -->
+    <style name="list_padding">
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+    </style>
 </resources>
