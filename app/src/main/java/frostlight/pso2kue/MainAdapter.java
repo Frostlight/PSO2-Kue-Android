@@ -2,12 +2,10 @@ package frostlight.pso2kue;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import frostlight.pso2kue.data.KueContract;
@@ -24,12 +22,14 @@ public class MainAdapter extends CursorAdapter {
 
     // Cache of the children views for a list item.
     public static class ViewHolder {
-        public final TextView eqNameView;
-        public final TextView eqTimeView;
+        public final TextView nameView;
+        public final TextView timeView;
+        public final TextView dayView;
 
         public ViewHolder(View view) {
-            eqNameView = (TextView) view.findViewById(R.id.list_item_eq_name);
-            eqTimeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+            nameView = (TextView) view.findViewById(R.id.list_item_eq_name);
+            timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+            dayView = (TextView) view.findViewById(R.id.list_item_eq_day);
         }
     }
 
@@ -47,9 +47,10 @@ public class MainAdapter extends CursorAdapter {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         int eqNamePosition = cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_EQNAME);
-        viewHolder.eqNameView.setText(cursor.getString(eqNamePosition));
+        viewHolder.nameView.setText(cursor.getString(eqNamePosition));
 
         int eqTime = cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE);
-        viewHolder.eqTimeView.setText(Utility.getDayName(context, cursor.getLong(eqTime)));
+        viewHolder.dayView.setText(Utility.getDayName(context, cursor.getLong(eqTime)));
+        viewHolder.timeView.setText(Utility.formatTime(cursor.getLong(eqTime)));
     }
 }

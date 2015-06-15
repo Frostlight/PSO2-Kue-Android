@@ -13,5 +13,6 @@
 
     <!-- Default view Strings -->
     <string name="default_eq_name">Chaotic Tranquility</string>
-    <string name="default_eq_time">2PM</string>
+    <string name="default_eq_time">20:00</string>
+    <string name="default_eq_day">"June 30"</string>
 </resources>

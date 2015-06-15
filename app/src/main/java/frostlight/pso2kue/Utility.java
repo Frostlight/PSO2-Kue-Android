@@ -50,6 +50,18 @@ public class Utility {
     }
 
     /**
+     * Returns a formatted time String corresponding to the user's timezone
+     *
+     * @param date Date in milliseconds
+     * @return Formatted date string
+     */
+    public static String formatTime(long date) {
+        DateTime dateTime = new DateTime(date);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm");
+        return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
+    }
+
+    /**
      * Rounds the date/time up to the nearest hour
      *
      * @param dateInMillis Date/time in milliseconds

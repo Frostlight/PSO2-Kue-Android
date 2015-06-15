@@ -45,11 +45,11 @@
             android:id="@+id/list_item_eq_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <!--<TextView
+        <TextView
             style="@style/list_item_textview"
             android:gravity="start"
-            android:text="@string/default_temp_low"
-            android:id="@+id/list_item_low_textview"
+            android:text="@string/default_eq_day"
+            android:id="@+id/list_item_eq_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />-->
     </LinearLayout>
