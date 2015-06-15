@@ -34,6 +34,7 @@ PSO2 will use the following APIs:
 - [Bing Translation API] - Used if there is no translation available
 
 ###Updates
+- 6/15/2015: Basic ListView display implemented and functioning, refresh buttons to gather new data for now
 - 5/31/2015: Implemented translation of Twitter text with Bing Translate
 - 5/30/2015: Google Calendar integration with database completed, Joda-Time added
 - 5/30/2015: Google Calendar fetching/parsing and related tests implemented
