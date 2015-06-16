@@ -28,13 +28,26 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private ListView mListView;
 
     public static final int EQ_LOADER = 0;
+    private static final String[] EQ_COLUMNS = {
+            KueContract.CalendarEntry._ID,
+            KueContract.CalendarEntry.COLUMN_EQNAME,
+            KueContract.CalendarEntry.COLUMN_DATE
+    };
 
+    // These indices are tied to EQ_COLUMNS
+    // Change this when EQ_COLUMNS changes
+    static final int COL_ID = 0;
+    static final int COL_NAME = 1;
+    static final int COL_DATE = 2;
+
+    // Asynchronously update the calendar database
     private void updateCalendar() {
         FetchCalendarTask fetchCalendarTask = new FetchCalendarTask(getActivity());
         fetchCalendarTask.execute();
         super.onStart();
     }
 
+    // Asynchronously update the Twitter database
     private void updateTwitter() {
         FetchTwitterTask fetchTwitterTask = new FetchTwitterTask(getActivity());
         fetchTwitterTask.execute(2);
@@ -47,6 +60,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onStart() {
         super.onStart();
+
     }
 
     @Override
@@ -111,7 +125,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
         return new CursorLoader(getActivity(),
                 KueContract.EmergencyQuest.CONTENT_URI,
-                null,
+                EQ_COLUMNS,
                 whereClause,
                 null,
                 sortOrder

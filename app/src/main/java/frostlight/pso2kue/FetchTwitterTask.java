@@ -26,16 +26,10 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
-    private SQLiteDatabase mSQLiteDatabase;
+    private final Context mContext;
 
-    /**
-     * FetchTwitterTask, initialises database helper on the context
-     *
-     * @param context The context to instantiate
-     */
     public FetchTwitterTask(Context context) {
-        DbHelper DbHelper = new DbHelper(context);
-        mSQLiteDatabase = DbHelper.getWritableDatabase();
+        mContext = context;
     }
 
     /**
@@ -151,9 +145,13 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                     "(?<=で緊急クエスト「).*(?=」が発生します)");
 
             // Try to find the Japanese string in the translation database
-            Cursor cursor = mSQLiteDatabase.rawQuery("SELECT * FROM "
-                    + KueContract.TranslationEntry.TABLE_NAME + " WHERE "
-                    + KueContract.TranslationEntry.COLUMN_JAPANESE + " = \"" + eqName + "\"", null);
+            Cursor cursor = mContext.getContentResolver().query(
+                    KueContract.TranslationEntry.CONTENT_URI,
+                    null,
+                    KueContract.TranslationEntry.COLUMN_JAPANESE + " = \"" + eqName + "\"",
+                    null,
+                    null
+            );
 
             String translatedEqName;
             if (!isCursorEmpty(cursor)) {
@@ -169,14 +167,14 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, eqName);
                 contentValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, translatedEqName);
-                mSQLiteDatabase.insert(KueContract.TranslationEntry.TABLE_NAME, null, contentValues);
+                mContext.getContentResolver().insert(KueContract.TranslationEntry.CONTENT_URI, contentValues);
             }
 
             // Calculate the EQ time from the time the Tweet was posted
             long eqTime = Utility.roundUpHour(response.getCreatedAt().getTime());
 
             // Wipe the Twitter database before inserting
-            mSQLiteDatabase.delete(KueContract.TwitterEntry.TABLE_NAME, null, null);
+            mContext.getContentResolver().delete(KueContract.TwitterEntry.CONTENT_URI, null, null);
 
             Log.v(Utility.getTag(), "translatedEqName: " + translatedEqName);
 
@@ -184,7 +182,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             ContentValues contentValues = new ContentValues();
             contentValues.put(KueContract.TwitterEntry.COLUMN_EQNAME, translatedEqName);
             contentValues.put(KueContract.TwitterEntry.COLUMN_DATE, eqTime);
-            mSQLiteDatabase.insert(KueContract.TwitterEntry.TABLE_NAME, null, contentValues);
+            mContext.getContentResolver().insert(KueContract.TwitterEntry.CONTENT_URI, contentValues);
         } catch (TwitterException e) {
             Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();

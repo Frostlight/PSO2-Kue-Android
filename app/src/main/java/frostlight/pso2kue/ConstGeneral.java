@@ -8,7 +8,7 @@ package frostlight.pso2kue;
 public class ConstGeneral {
 
     // List of Twitter IDs and their associated handles
-    static final String[][] shipId = {
+    public static final String[][] shipId = {
             {"2753540587", "PSO2es_ship01"},    // Ship 1
             {"2791287498", "PSO2es_ship02"},    // Ship 2
             {"2791359409", "PSO2es_ship03"},    // Ship 3
@@ -22,9 +22,9 @@ public class ConstGeneral {
     };
 
     // URL for the google calendar (XML format)
-    static final String googleUrl =
+    public static final String googleUrl =
             "https://www.google.com/calendar/feeds/pso2emgquest%40gmail.com/public/basic";
 
     // Time zone for Google calendar
-    static final String timeZone = "Japan";
+    public static final String timeZone = "Japan";
 }

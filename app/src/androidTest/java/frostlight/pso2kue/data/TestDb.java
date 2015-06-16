@@ -105,6 +105,7 @@ public class TestDb extends AndroidTestCase {
             TestUtilities.hashTest(cursor, "name", TestUtilities.columnNames[i], "Error: The " + TestUtilities.tableNames[i] +
                     " table does not contain all required columns");
         }
+        cursor.close();
     }
 
     // Insert and query each database

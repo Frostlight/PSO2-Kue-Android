@@ -128,8 +128,7 @@ public class KueProvider extends ContentProvider {
                 String[] queryArray = {subQueryCalendar, subQueryTwitter};
 
                 String unionQuery = new SQLiteQueryBuilder().buildUnionQuery(queryArray,
-                        sortOrder, null);
-                returnCursor = sqLiteDatabase.rawQuery(unionQuery, null);
+                        sortOrder, null);                returnCursor = sqLiteDatabase.rawQuery(unionQuery, null);
                 break;
             default:
                 throw new UnsupportedOperationException("Error: Unknown URI " + uri);
@@ -236,7 +235,7 @@ public class KueProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // Start by getting a writable database
         final SQLiteDatabase sqLiteDatabase = mDbHelper.getWritableDatabase();
-        int updateCount = 0;
+        int updateCount;
 
         // Use the uriMatcher to match the URI's we are going to handle
         // If it doesn't match these, throw an UnsupportedOperationException

@@ -78,11 +78,12 @@ public class KueContract {
 
         public static final String TABLE_NAME = "twitter";
 
+        // Columns should be the same as in CalendarEntry
         // The name of the emergency quest
-        public static final String COLUMN_EQNAME = "eq_name";
+        public static final String COLUMN_EQNAME = CalendarEntry.COLUMN_EQNAME;
 
         // The time the emergency quest occurs
-        public static final String COLUMN_DATE = "date";
+        public static final String COLUMN_DATE = CalendarEntry.COLUMN_DATE;
     }
 
     /**
