@@ -8,5 +8,6 @@
         android:key="@string/pref_ship_key"
         android:defaultValue="@string/pref_ship_default"
         android:entries="@array/ship_number"
-        android:entryValues="@array/ship_number"/>
+        android:entryValues="@array/ship_number_values"
+        android:summary="%s" />
 </PreferenceScreen>

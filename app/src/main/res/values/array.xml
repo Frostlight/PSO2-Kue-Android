@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="ship_number">
+        <item>Ship 1</item>
+        <item>Ship 2</item>
+        <item>Ship 3</item>
+        <item>Ship 4</item>
+        <item>Ship 5</item>
+        <item>Ship 6</item>
+        <item>Ship 7</item>
+        <item>Ship 8</item>
+        <item>Ship 9</item>
+        <item>Ship 10</item>
+    </string-array>
+
+    <string-array name="ship_number_values">
         <item>1</item>
         <item>2</item>
         <item>3</item>
