@@ -21,6 +21,17 @@ import java.util.List;
  */
 public class XmlParse {
 
+    // Parse returns a list of these objects
+    public static class Entry {
+        public final String title;      // Title of the entry (EQ)
+        public final String summary;    // The date and time of the EQ
+
+        private Entry(String title, String summary) {
+            this.title = title;
+            this.summary = summary;
+        }
+    }
+
     /**
      * Parses an InputStream for XML data
      *
@@ -171,17 +182,6 @@ public class XmlParse {
                     depth++;
                     break;
             }
-        }
-    }
-
-    // Parse returns a list of these objects
-    public static class Entry {
-        public final String title;      // Title of the entry (EQ)
-        public final String summary;    // The date and time of the EQ
-
-        private Entry(String title, String summary) {
-            this.title = title;
-            this.summary = summary;
         }
     }
 }

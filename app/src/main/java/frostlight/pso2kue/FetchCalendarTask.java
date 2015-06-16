@@ -1,9 +1,13 @@
 package frostlight.pso2kue;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -14,6 +18,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import frostlight.pso2kue.data.DbHelper;
 import frostlight.pso2kue.data.KueContract;
 
 

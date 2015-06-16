@@ -16,9 +16,10 @@ import frostlight.pso2kue.data.KueContract.TwitterEntry;
  */
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "pso2.db";
     // If the database schema is changed, increment the database version
     private static final int DATABASE_VERSION = 2;
+
+    public static final String DATABASE_NAME = "pso2.db";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

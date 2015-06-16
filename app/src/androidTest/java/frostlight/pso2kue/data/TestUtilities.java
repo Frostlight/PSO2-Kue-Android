@@ -126,24 +126,20 @@ public class TestUtilities extends AndroidTestCase {
         assertTrue(errorMessage, hashSet.isEmpty());
     }
 
-    static TestContentObserver getTestContentObserver() {
-        return TestContentObserver.getTestContentObserver();
-    }
-
     // A mock ContentObserver class used for testing purposes
     static class TestContentObserver extends ContentObserver {
         final HandlerThread mHandlerThread;
         boolean mContentChanged;
 
-        private TestContentObserver(HandlerThread handlerThread) {
-            super(new Handler(handlerThread.getLooper()));
-            mHandlerThread = handlerThread;
-        }
-
         static TestContentObserver getTestContentObserver() {
             HandlerThread handlerThread = new HandlerThread("ContentObserverThread");
             handlerThread.start();
             return new TestContentObserver(handlerThread);
+        }
+
+        private TestContentObserver(HandlerThread handlerThread) {
+            super(new Handler(handlerThread.getLooper()));
+            mHandlerThread = handlerThread;
         }
 
         // On earlier versions of Android, this onChange method is called
@@ -167,5 +163,9 @@ public class TestUtilities extends AndroidTestCase {
             }.run();
             mHandlerThread.quit();
         }
+    }
+
+    static TestContentObserver getTestContentObserver() {
+        return TestContentObserver.getTestContentObserver();
     }
 }

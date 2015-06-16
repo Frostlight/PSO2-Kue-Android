@@ -1,6 +1,7 @@
 package frostlight.pso2kue;
 
 import android.content.Context;
+import android.text.format.Time;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -8,6 +9,8 @@ import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,11 +77,11 @@ public class Utility {
     /**
      * Given a day, returns just the name to use for that day.
      * E.g "Today", "Tomorrow"
-     * <p/>
+     *
      * If the day is not "today" or "tomorrow", just return the formatted month and day
      * E.g. "June 23", "August 15"
      *
-     * @param context      Context to use for resource localization
+     * @param context Context to use for resource localization
      * @param dateInMillis The date in milliseconds
      * @return Name of the day
      */

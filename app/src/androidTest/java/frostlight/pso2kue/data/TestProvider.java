@@ -19,7 +19,54 @@ import android.test.AndroidTestCase;
 
 public class TestProvider extends AndroidTestCase {
 
+    /**
+     * Inserts a set of ContentValues into a database and queries for the same values
+     * [Inserts into sqLiteDatabase, queries using content provider]
+     *
+     * @param context        Context containing the content provider
+     * @param sqLiteDatabase The database to insert into
+     * @param tableName      The name of the table to insert to
+     * @param testValues     ContentValues consisting of the entry for insertion
+     * @param contentUri     Used for querying and checking if the notification Uri was set properly
+     * @return ID of the row the entry was inserted to
+     */
+    private long insertAndVerify(Context context, SQLiteDatabase sqLiteDatabase, String tableName,
+                         ContentValues testValues, Uri contentUri) {
+        // Insert ContentValues into database and get a row ID back
+        long locationRowId = sqLiteDatabase.insert(tableName, null, testValues);
 
+        // Verify insertion was successful
+        assertTrue("Error: Insertion into " + contentUri.toString() + " was unsuccessful",
+                locationRowId != -1);
+
+        // Query and verify query for the values that were just inserted
+        verifyValues(context, testValues, contentUri);
+
+        return locationRowId;
+    }
+
+    /**
+     * Inserts a set of ContentValues into a database and queries for the same values
+     * [Inserts and queries using content provider]
+     *
+     * @param context        Context containing the content provider
+     * @param testValues     ContentValues consisting of the entry for insertion
+     * @param contentUri     Used for querying and checking if the notification Uri was set properly
+     * @return ID of the row the entry was inserted to
+     */
+    private long insertAndVerify(Context context, Uri contentUri, ContentValues testValues) {
+        // Insert ContentValues into database and get a row ID back
+        Uri uri = context.getContentResolver().insert(contentUri, testValues);
+        long locationRowId = ContentUris.parseId(uri);
+
+        // Verify insertion was successful
+        assertTrue("Error: Insertion into " + contentUri.toString() + " was unsuccessful",
+                locationRowId != -1);
+
+        // Query and verify query for the values that were just inserted
+        verifyValues(context, testValues, contentUri);
+
+        return locationRowId;
     }
 
     /**
@@ -61,56 +108,7 @@ public class TestProvider extends AndroidTestCase {
         // Cursor should not be empty
         assertFalse("Empty cursor returned for query on " + contentUri.toString(),
                 TestUtilities.isCursorEmpty(cursor));
-        cursor.cl
-
-        /**
-     * Inserts a set of ContentValues into a database and queries for the same values
-     * [Inserts into sqLiteDatabase, queries using content provider]
-     *
-     * @param context        Context containing the content provider
-     * @param sqLiteDatabase The database to insert into
-     * @param tableName      The name of the table to insert to
-     * @param testValues     ContentValues consisting of the entry for insertion
-     * @param contentUri     Used for querying and checking if the notification Uri was set properly
-     * @return ID of the row the entry was inserted to
-     */
-    private long insertAndVerify(Context context, SQLiteDatabase sqLiteDatabase, String tableName,
-                         ContentValues testValues, Uri contentUri) {
-        // Insert ContentValues into database and get a row ID back
-        long locationRowId = sqLiteDatabase.insert(tableName, null, testValues);
-
-        // Verify insertion was successful
-        assertTrue("Error: Insertion into " + contentUri.toString() + " was unsuccessful",
-                locationRowId != -1);
-
-        // Query and verify query for the values that were just inserted
-        verifyValues(context, testValues, contentUri);
-
-        return locationRowId;
-    }RowId;
-/**
-     * Inserts a set of ContentValues into a database and queries for the same values
-     * [Inserts and queries using content provider]
-     *
-     * @param context        Context containing the content provider
-     * @param testValues     ContentValues consisting of the entry for insertion
-     * @param contentUri     Used for querying and checking if the notification Uri was set properly
-     * @return ID of the row the entry was inserted to
-     */
-    private long insertAndVerify(Context context, Uri contentUri, ContentValues testValues) {
-        // Insert ContentValues into database and get a row ID back
-        Uri uri = context.getContentResolver().insert(contentUri, testValues);
-        long locationRowId = ContentUris.parseId(uri);
-
-        // Verify insertion was successful
-        assertTrue("Error: Insertion into " + contentUri.toString() + " was unsuccessful",
-                locationRowId != -1);
-
-        // Query and verify query for the values that were just inserted
-        verifyValues(context, testValues, contentUri);
-
-        return locationose();
-
+        cursor.close();
     }
 
     /**
