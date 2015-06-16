@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">PSO2 Kue</string>
     <string name="hello_world">Hello world!</string>
+
+    <!-- Activity names -->
+    <string name="app_name">PSO2 Kue</string>
+    <string name="settings_name">Settings</string>
 
     <!-- Menu Options -->
     <string name="action_settings">Settings</string>
@@ -15,4 +18,9 @@
     <string name="default_eq_name">Chaotic Tranquility</string>
     <string name="default_eq_time">20:00</string>
     <string name="default_eq_day">"June 30"</string>
+
+    <!-- Preference strings -->
+    <string name="pref_ship_label">Ship Number</string>
+    <string name="pref_ship_key">ship_num</string>
+    <string name="pref_ship_default">2</string>
 </resources>
