@@ -1,6 +1,5 @@
 package frostlight.pso2kue;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.Html;
@@ -10,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import frostlight.pso2kue.data.KueContract;
-
 /**
  * MainAdapter
  * Exposes a schedule from a Cursor to a ListView
@@ -20,19 +17,6 @@ import frostlight.pso2kue.data.KueContract;
 public class MainAdapter extends CursorAdapter {
     public MainAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, flags);
-    }
-
-    // Cache of the children views for a list item.
-    public static class ViewHolder {
-        public final TextView nameView;
-        public final TextView timeView;
-        public final TextView dayView;
-
-        public ViewHolder(View view) {
-            nameView = (TextView) view.findViewById(R.id.list_item_eq_name);
-            timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
-            dayView = (TextView) view.findViewById(R.id.list_item_eq_day);
-        }
     }
 
     @Override
@@ -57,5 +41,18 @@ public class MainAdapter extends CursorAdapter {
         viewHolder.dayView.setText(Utility.getDayName(context,
                 cursor.getLong(MainActivityFragment.COL_DATE)));
         viewHolder.timeView.setText(Utility.formatTime(cursor.getLong(MainActivityFragment.COL_DATE)));
+    }
+
+    // Cache of the children views for a list item.
+    public static class ViewHolder {
+        public final TextView nameView;
+        public final TextView timeView;
+        public final TextView dayView;
+
+        public ViewHolder(View view) {
+            nameView = (TextView) view.findViewById(R.id.list_item_eq_name);
+            timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+            dayView = (TextView) view.findViewById(R.id.list_item_eq_day);
+        }
     }
 }

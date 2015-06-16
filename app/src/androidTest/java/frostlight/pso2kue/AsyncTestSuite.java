@@ -1,7 +1,5 @@
 package frostlight.pso2kue;
 
-import android.test.suitebuilder.TestSuiteBuilder;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -15,15 +13,15 @@ import frostlight.pso2kue.async.TestFetchTwitterTask;
  */
 
 public class AsyncTestSuite extends TestSuite {
+    public AsyncTestSuite() {
+        super();
+    }
+
     public static Test suite() {
         TestSuite testSuite = new TestSuite();
         testSuite.addTestSuite(TestFetchCalendarTask.class);
         testSuite.addTestSuite(TestFetchTwitterTask.class);
         return testSuite;
-    }
-
-    public AsyncTestSuite() {
-        super();
     }
 }
         

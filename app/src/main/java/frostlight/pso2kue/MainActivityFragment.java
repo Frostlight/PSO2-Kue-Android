@@ -3,11 +3,9 @@ package frostlight.pso2kue;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,21 +22,22 @@ import frostlight.pso2kue.data.KueContract;
  */
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private MainAdapter mMainAdapter;
-    private ListView mListView;
-
     public static final int EQ_LOADER = 0;
-    private static final String[] EQ_COLUMNS = {
-            KueContract.CalendarEntry._ID,
-            KueContract.CalendarEntry.COLUMN_EQNAME,
-            KueContract.CalendarEntry.COLUMN_DATE
-    };
-
     // These indices are tied to EQ_COLUMNS
     // Change this when EQ_COLUMNS changes
     static final int COL_ID = 0;
     static final int COL_NAME = 1;
     static final int COL_DATE = 2;
+    private static final String[] EQ_COLUMNS = {
+            KueContract.CalendarEntry._ID,
+            KueContract.CalendarEntry.COLUMN_EQNAME,
+            KueContract.CalendarEntry.COLUMN_DATE
+    };
+    private MainAdapter mMainAdapter;
+    private ListView mListView;
+
+    public MainActivityFragment() {
+    }
 
     // Asynchronously update the calendar database
     private void updateCalendar() {
@@ -52,9 +51,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         FetchTwitterTask fetchTwitterTask = new FetchTwitterTask(getActivity());
         fetchTwitterTask.execute(2);
         super.onStart();
-    }
-
-    public MainActivityFragment() {
     }
 
     @Override

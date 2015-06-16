@@ -14,22 +14,23 @@ import java.util.Calendar;
 /**
  * KueProvider
  * Manages the content provider for the app
- * Created by Vincent on 6/7/2015.
+ * Created by Vincent o();
+
+    // Database helper object
+    private DbHelperrequeselper;
+
+    // IDs for URI tyatcher    static final int CALENDAR = 1; mDbHtatic final int TWITTER = 2;
+    static final int TRANSLATION = 3;
+
+    // Union of calendar and pes
+n 6/7/2015.
  */
 public class KueProvider extends ContentProvider {
 
-    // Matches URIs for content provider requests
-    private static final UriMatcher sUriMatcher = uriMatcher();
-
-    // Database helper object
-    private DbHelper mDbHelper;
-
-    // IDs for URI types
-    static final int CALENDAR = 1;
-    static final int TWITTER = 2;
-    static final int TRANSLATION = 3;
-
-    // Union of calendar and Twitter, only supports queries
+    // Matches URIs for content provider
+    sts
+    private static final UriMatcher sUriMatcher = uriMTwitte
+r, only supports queries
     static final int EMERGENCYQUEST = 10;
 
     /**

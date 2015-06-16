@@ -3,14 +3,12 @@ package frostlight.pso2kue;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
 
-import frostlight.pso2kue.data.DbHelper;
 import frostlight.pso2kue.data.KueContract;
 import twitter4j.Paging;
 import twitter4j.Twitter;
@@ -80,10 +78,11 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
     /**
      * Translates a String from Japanese to English
+     *
      * @param japanese String in Japanese
      * @return String in English
      */
-    public static String translateJpEng (String japanese) {
+    public static String translateJpEng(String japanese) {
         // Set Bing authentication key and Secret
         Translate.setClientId(ConstKey.bingKey);
         Translate.setClientSecret(ConstKey.bingSecret);
@@ -102,7 +101,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      * Query Twitter for updates, update the main thread with a callback if a new random
      * emergency quest was found. The Twitter ID for Tweets for each ship come in the form of
      * PSO2es_ship## [1-10]
-     *
+     * <p/>
      * Note: Twitter ship bots are mapped in ConstGeneral.shipId to array indices 1 lower than the
      * actual ship (i.e. ship 1 = ConstGeneral.shipId[0], ship 10 = ConstGeneral.shipId[9])
      *

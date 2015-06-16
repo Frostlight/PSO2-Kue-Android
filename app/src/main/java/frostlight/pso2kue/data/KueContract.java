@@ -35,7 +35,19 @@ public class KueContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CALENDAR;
 
         /**
-         * Builds a Uri for the CalendarEntry table with a specified ID
+         * Build--------  Table Details ------------------------ */
+        public static final String TABLE_NAME = "calendar";
+
+        // The name of the emergency q----------   public static final String COLUMN_EQNAME = "eq_name";
+
+        // The time the emergency quesuest
+            public static final String COLUMN_DATE = "date";
+    }
+
+    /**
+     * Inner class that t occurs
+
+s a Uri for the CalendarEntry table with a specified ID
          *
          * @param id ID of Uri to build
          * @return Resultant Uri
@@ -44,18 +56,7 @@ public class KueContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        /** ------------------------  Table Details ------------------------ */
-        public static final String TABLE_NAME = "calendar";
-
-        // The name of the emergency quest
-        public static final String COLUMN_EQNAME = "eq_name";
-
-        // The time the emergency quest occurs
-        public static final String COLUMN_DATE = "date";
-    }
-
-    /**
-     * Inner class that defines the table contents of the Twitter table
+        /** ------defines the table contents of the Twitter table
      * The twitter table stores emergency quest alert tweets obtained from Twitter bots
      * Table: ID | EQ Name | Date/Time
      */
@@ -67,7 +68,18 @@ public class KueContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TWITTER;
 
         /**
-         * Builds a Uri for the TwitterEntry table with a specified ID
+         * Builds a Uri for the TwitterEntry table with // Columns should be the same as in CalendarEntry
+
+ The name of the emergency quest
+        public static final String COLUMN_EQNAME = CalendarEntry.COLUMN_EQNAME;
+
+        // The time the emergency quest occurs
+        pub        // final String COLUMN_DATE = CalendarEntry.COLUMN_DATE;
+    }
+
+    /**
+     * Inner class that defines the table colic static
+a specified ID
          *
          * @param id ID of Uri to build
          * @return Resultant Uri
@@ -76,18 +88,7 @@ public class KueContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static final String TABLE_NAME = "twitter";
-
-        // Columns should be the same as in CalendarEntry
-        // The name of the emergency quest
-        public static final String COLUMN_EQNAME = CalendarEntry.COLUMN_EQNAME;
-
-        // The time the emergency quest occurs
-        public static final String COLUMN_DATE = CalendarEntry.COLUMN_DATE;
-    }
-
-    /**
-     * Inner class that defines the table contents of the translation table
+        public static final String TABLE_NAME = "twitter";ntents of the translation table
      * The translation table stores the japanese/english pairs for the emergency quest names
      * Table: ID | Japanese Name | English Name
      */
@@ -100,7 +101,16 @@ public class KueContract {
 
         /**
          * Builds a Uri for the TranslationEntry table with a specified ID
-         *
+         ency quest in Japanese
+        public static final Str the emerg_JAPANESE = "japanese";
+
+        // The corresponding english translation
+        public static final String COing COLUMNSH = "english";
+    }
+
+    /**
+     * Inner class that contains the union of the calendar table and TwiLUMN_ENGLI
+*
          * @param id ID of Uri to build
          * @return Resultant Uri
          */
@@ -110,15 +120,7 @@ public class KueContract {
 
         public static final String TABLE_NAME = "translation";
 
-        // The name of the emergency quest in Japanese
-        public static final String COLUMN_JAPANESE = "japanese";
-
-        // The corresponding english translation
-        public static final String COLUMN_ENGLISH = "english";
-    }
-
-    /**
-     * Inner class that contains the union of the calendar table and Twitter table
+        // The name oftter table
      * Table: ID | Japanese Name | English Name
      */
     public static final class EmergencyQuest {
