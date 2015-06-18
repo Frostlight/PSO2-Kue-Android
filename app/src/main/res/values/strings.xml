@@ -21,10 +21,17 @@
 
     <!-- Preference strings -->
     <string name="pref_update_label">Update Calendar</string>
-    <string name="pref_update_key">update_calendar</string>
+    <string name="pref_update_key" translatable="false">update_calendar</string>
     <string name="pref_update_default">Last Updated: Never</string>
 
     <string name="pref_ship_label">Ship Number</string>
-    <string name="pref_ship_key">ship_num</string>
+    <string name="pref_ship_key" translatable="false">ship_num</string>
     <string name="pref_ship_default">2</string>
+
+    <!-- "Last Updated" string for calendar update in preferences -->
+    <string name="updating">Updating…</string>
+    <string name="last_updated">Last Updated</string>
+
+    <!-- Toast Strings -->
+    <string name="calendar_update_success">Updated calendar database successfully</string>
 </resources>

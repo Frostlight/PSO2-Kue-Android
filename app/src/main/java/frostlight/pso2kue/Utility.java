@@ -38,6 +38,19 @@ public class Utility {
     }
 
     /**
+     * Rounds the date/time up to the nearest hour
+     *
+     * @param dateInMillis Date/time in milliseconds
+     * @return Rounded date/time in milliseconds
+     */
+    public static long roundUpHour(long dateInMillis) {
+        DateTime dateTime = new DateTime(dateInMillis);
+        dateTime = dateTime.plusSeconds(60 - dateTime.getSecondOfMinute());
+        dateTime = dateTime.plusMinutes(60 - dateTime.getMinuteOfHour());
+        return dateTime.getMillis();
+    }
+
+    /**
      * Returns a formatted date String corresponding to the user's timezone
      *
      * @param date Date in milliseconds
@@ -59,19 +72,6 @@ public class Utility {
         DateTime dateTime = new DateTime(date);
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm");
         return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
-    }
-
-    /**
-     * Rounds the date/time up to the nearest hour
-     *
-     * @param dateInMillis Date/time in milliseconds
-     * @return Rounded date/time in milliseconds
-     */
-    public static long roundUpHour(long dateInMillis) {
-        DateTime dateTime = new DateTime(dateInMillis);
-        dateTime = dateTime.plusSeconds(60 - dateTime.getSecondOfMinute());
-        dateTime = dateTime.plusMinutes(60 - dateTime.getMinuteOfHour());
-        return dateTime.getMillis();
     }
 
     /**

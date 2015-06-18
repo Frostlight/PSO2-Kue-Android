@@ -5,7 +5,8 @@
 
     <Preference android:title="@string/pref_update_label"
         android:key="@string/pref_update_key"
-        android:summary="@string/pref_update_default"/>
+        android:defaultValue="@string/pref_update_default"
+        android:summary="%s"/>
     <ListPreference
         android:title="@string/pref_ship_label"
         android:key="@string/pref_ship_key"
