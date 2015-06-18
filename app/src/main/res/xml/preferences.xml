@@ -3,6 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Preference android:title="@string/pref_update_label"
+        android:key="@string/pref_update_key"
+        android:summary="@string/pref_update_default"/>
     <ListPreference
         android:title="@string/pref_ship_label"
         android:key="@string/pref_ship_key"

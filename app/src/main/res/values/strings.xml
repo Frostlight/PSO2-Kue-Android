@@ -20,6 +20,10 @@
     <string name="default_eq_day">"June 30"</string>
 
     <!-- Preference strings -->
+    <string name="pref_update_label">Update Calendar</string>
+    <string name="pref_update_key">update_calendar</string>
+    <string name="pref_update_default">Last Updated: Never</string>
+
     <string name="pref_ship_label">Ship Number</string>
     <string name="pref_ship_key">ship_num</string>
     <string name="pref_ship_default">2</string>

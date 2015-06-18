@@ -27,6 +27,8 @@ import frostlight.pso2kue.data.KueContract;
  * Async task to fetch the emergency quest timetable from Google Calendars
  * Created by Vincent on 5/19/2015.
  */
+// TODO: http://www.udel.edu/CIS/software/dist/google/calendar/java.client/gdata/doc/calendar.html
+    // Build query with start-min set to now minus 30 minutes ago, max results = infinity
 public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
     private Context mContext;
