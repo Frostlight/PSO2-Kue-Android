@@ -34,4 +34,5 @@
 
     <!-- Toast Strings -->
     <string name="calendar_update_success">Updated calendar database successfully</string>
+    <string name="calendar_update_failure">Failed to update calendar database, check your network connection</string>
 </resources>

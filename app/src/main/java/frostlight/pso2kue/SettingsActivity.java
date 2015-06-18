@@ -44,6 +44,21 @@ public class SettingsActivity extends PreferenceActivity {
                     mUpdateCalendar.setSummary(getString(R.string.updating));
                 }
 
+                @Override
+                protected void onCancelled() {
+                    super.onCancelled();
+
+                    // This means the FetchCalendarTask failed to complete (No internet connection?)
+                    // Display a toast to confirm the calendar update failed
+                    Toast.makeText(getActivity(), getString(R.string.calendar_update_failure),
+                            Toast.LENGTH_LONG).show();
+
+                    // Update the summary to show the new last updated date
+                    mUpdateCalendar.setSummary(getString(R.string.last_updated) + " " +
+                            mSharedPreferences.getString(getString(R.string.pref_update_key),
+                                    getString(R.string.pref_update_default)));
+                }
+
                 @SuppressLint("CommitPrefEdits")
                 @Override
                 protected void onPostExecute(Void aVoid) {

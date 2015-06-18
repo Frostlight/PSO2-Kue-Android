@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -55,6 +56,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
             // Nothing to do if input stream fails
             if (inputStream == null) {
+                cancel(true);
                 return null;
             }
 
@@ -72,12 +74,16 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                     mContext.getContentResolver().insert(KueContract.CalendarEntry.CONTENT_URI, contentValues);
                 }
             } catch (XmlPullParserException e) {
+                // XML failed to parse
                 Log.e(Utility.getTag(), "Error: ", e);
                 e.printStackTrace();
+                cancel(true);
             }
         } catch (IOException e) {
+            // Hostname wasn't resolved properly, etc.
             Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();
+            cancel(true);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
