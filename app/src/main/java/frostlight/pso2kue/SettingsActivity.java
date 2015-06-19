@@ -3,10 +3,12 @@ package frostlight.pso2kue;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 /**
@@ -28,60 +30,78 @@ public class SettingsActivity extends PreferenceActivity {
 
     public static class SettingsFragment extends PreferenceFragment {
 
-        static SharedPreferences mSharedPreferences;
+        // SharedPreferences object to retrieve preferences
+        private SharedPreferences mSharedPreferences;
 
         // Preference option used to update the calendar database
-        static Preference mUpdateCalendar;
+        private Preference mUpdateCalendar;
+
+        // AsyncTask for updating the calendar database; only one can exist at a time
+        private FetchCalendarTask mFetchCalendarTask = null;
 
         // Asynchronously update the calendar database
         private void updateCalendarSetDate() {
-            FetchCalendarTask fetchCalendarTask = new FetchCalendarTask(getActivity()) {
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
+            // Only create an AsyncTask if there is not already one running
+            if (mFetchCalendarTask == null) {
+                mFetchCalendarTask = new FetchCalendarTask(getActivity()) {
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
 
-                    // Update the summary to show that the calendar is currently updating
-                    mUpdateCalendar.setSummary(getString(R.string.updating));
-                }
+                        if (isAdded()) {
+                            // Update the summary to show that the calendar is currently updating
+                            mUpdateCalendar.setSummary(getString(R.string.updating));
+                        }
+                    }
 
-                @Override
-                protected void onCancelled() {
-                    super.onCancelled();
+                    @Override
+                    protected void onCancelled() {
+                        super.onCancelled();
 
-                    // This means the FetchCalendarTask failed to complete (No internet connection?)
-                    // Display a toast to confirm the calendar update failed
-                    Toast.makeText(getActivity(), getString(R.string.calendar_update_failure),
-                            Toast.LENGTH_LONG).show();
+                        if (isAdded()) {
+                            // This means the FetchCalendarTask failed to complete (No internet connection?)
+                            // Display a toast to confirm the calendar update failed
+                            Toast.makeText(getActivity(), getString(R.string.calendar_update_failure),
+                                    Toast.LENGTH_LONG).show();
 
-                    // Update the summary to show the new last updated date
-                    mUpdateCalendar.setSummary(getString(R.string.last_updated) + " " +
-                            mSharedPreferences.getString(getString(R.string.pref_update_key),
-                                    getString(R.string.pref_update_default)));
-                }
+                            // Update the summary to show the new last updated date
+                            mUpdateCalendar.setSummary(getString(R.string.last_updated) + " " +
+                                    mSharedPreferences.getString(getString(R.string.pref_update_key),
+                                            getString(R.string.pref_update_default)));
 
-                @SuppressLint("CommitPrefEdits")
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    super.onPostExecute(aVoid);
+                        }
+                    }
 
-                    // Save the last updated date as the current date to preferences
-                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    editor.putString(getString(R.string.pref_update_key),
-                            Utility.getDayName(getActivity(), System.currentTimeMillis()) + " " +
-                            Utility.formatTime(System.currentTimeMillis()));
-                    editor.commit();
+                    @SuppressLint("CommitPrefEdits")
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
 
-                    // Display a toast to confirm the calendar update was successful
-                    Toast.makeText(getActivity(), getString(R.string.calendar_update_success),
-                            Toast.LENGTH_LONG).show();
+                        if (isAdded()) {
+                            // Save the last updated date as the current date to preferences
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.putString(getString(R.string.pref_update_key),
+                                    Utility.getDayName(getActivity(), System.currentTimeMillis()) + " " +
+                                            Utility.formatTime(System.currentTimeMillis()));
+                            editor.commit();
 
-                    // Update the summary to show the new last updated date
-                    mUpdateCalendar.setSummary(getString(R.string.last_updated) + " " +
-                            mSharedPreferences.getString(getString(R.string.pref_update_key),
-                                    getString(R.string.pref_update_default)));
-                }
-            };
-            fetchCalendarTask.execute();
+                            // Update the summary to show the new last updated date
+                            mUpdateCalendar.setSummary(getString(R.string.last_updated) + " " +
+                                    mSharedPreferences.getString(getString(R.string.pref_update_key),
+                                            getString(R.string.pref_update_default)));
+
+                            // Display a toast to confirm the calendar update was successful
+                            Toast.makeText(getActivity(), getString(R.string.calendar_update_success),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                };
+                mFetchCalendarTask.execute();
+            } else {
+                // Display a toast notifying that there is already an AsyncTask running
+                Toast.makeText(getActivity(), getString(R.string.calendar_update_success),
+                        Toast.LENGTH_LONG).show();
+            }
             super.onStart();
         }
 
