@@ -20,8 +20,8 @@
     <string name="default_eq_day">"June 30"</string>
 
     <!-- Preference strings -->
-    <string name="pref_update_label">Update Calendar</string>
-    <string name="pref_update_key" translatable="false">update_calendar</string>
+    <string name="pref_update_label">Update Timetable</string>
+    <string name="pref_update_key" translatable="false">update_timetable</string>
     <string name="pref_update_default">Last Updated: Never</string>
 
     <string name="pref_ship_label">Ship Number</string>
@@ -33,7 +33,11 @@
     <string name="last_updated">Last Updated</string>
 
     <!-- Toast Strings -->
-    <string name="calendar_update_success">Updated calendar database successfully</string>
-    <string name="calendar_update_failure">Failed to update calendar database, check your network connection</string>
-    <string name="calendar_update_in_use">Error: Update task already in progress</string>
+    <string name="calendar_update_success">Updated emergency quest timetable successfully</string>
+    <string name="calendar_update_failure">Failed to update timetable, check your network connection</string>
+    <string name="calendar_update_in_use">Failed to update timetable, task already in progress</string>
+
+    <!-- Progress Dialog Strings -->
+    <string name="calendar_progress_updating">Updating Timetable…</string>
+    <string name="calendar_progress_wait">Please wait.</string>
 </resources>

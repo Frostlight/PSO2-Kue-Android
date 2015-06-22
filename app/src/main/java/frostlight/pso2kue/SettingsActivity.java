@@ -2,6 +2,7 @@ package frostlight.pso2kue;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.audiofx.BassBoost;
@@ -40,10 +41,8 @@ public class SettingsActivity extends PreferenceActivity {
         // AsyncTask for updating the calendar database; only one can exist at a time
         private FetchCalendarTask mFetchCalendarTask = null;
 
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-        }
+        // ProgressDialog to show while the AsyncTask is updating the calendar database
+        private ProgressDialog progressDialog;
 
         // Asynchronously update the calendar database
         private void updateCalendarSetDate() {
@@ -60,6 +59,14 @@ public class SettingsActivity extends PreferenceActivity {
 
                             // Update the summary to show that the calendar is currently updating
                             mUpdateCalendar.setSummary(getString(R.string.updating));
+
+                            // Show a ProgressDialog while the AsyncTask is updating the calendar database
+                            progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setTitle(getString(R.string.calendar_progress_updating));
+                            progressDialog.setMessage("Please wait.");
+                            progressDialog.setCancelable(false);
+                            progressDialog.setIndeterminate(true);
+                            progressDialog.show();
                         }
                     }
 
@@ -83,6 +90,10 @@ public class SettingsActivity extends PreferenceActivity {
 
                             // Nullify the AsyncTask since it was canceled
                             mFetchCalendarTask = null;
+
+                            // Dismiss the ProgressDialog
+                            if (progressDialog != null)
+                                progressDialog.dismiss();
                         }
                     }
 
@@ -113,6 +124,10 @@ public class SettingsActivity extends PreferenceActivity {
 
                             // Nullify the AsyncTask since it already completed
                             mFetchCalendarTask = null;
+
+                            // Dismiss the ProgressDialog
+                            if (progressDialog != null)
+                                progressDialog.dismiss();
                         }
                     }
                 };
@@ -149,6 +164,15 @@ public class SettingsActivity extends PreferenceActivity {
                     return true;
                 }
             });
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+
+            // Dismiss the ProgressDialog
+            if (progressDialog != null)
+                progressDialog.dismiss();
         }
     }
 }
