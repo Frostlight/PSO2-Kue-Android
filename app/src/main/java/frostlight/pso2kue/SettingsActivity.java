@@ -46,7 +46,7 @@ public class SettingsActivity extends PreferenceActivity {
         }
 
         // Asynchronously update the calendar database
-        private void updateCalendarSetDate(Preference preference) {
+        private void updateCalendarSetDate() {
             // Only create an AsyncTask if there is not already one running
             if (mFetchCalendarTask == null) {
                 mFetchCalendarTask = new FetchCalendarTask(getActivity()) {
@@ -145,7 +145,7 @@ public class SettingsActivity extends PreferenceActivity {
             mUpdateCalendar.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    updateCalendarSetDate(preference);
+                    updateCalendarSetDate();
                     return true;
                 }
             });
