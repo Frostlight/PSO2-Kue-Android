@@ -118,6 +118,12 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
         // Authentication with Twitter
         OAuth2Token token = getOAuth2Token();
+
+        if (token == null) {
+            // Nothing to do, likely no network connection
+            return null;
+        }
+
         ConfigurationBuilder configurationBuilder = getConfigurationBuilder();
         configurationBuilder.setOAuth2TokenType(token.getTokenType());
         configurationBuilder.setOAuth2AccessToken(token.getAccessToken());
