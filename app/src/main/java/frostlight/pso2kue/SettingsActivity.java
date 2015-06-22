@@ -1,6 +1,7 @@
 package frostlight.pso2kue;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.audiofx.BassBoost;
@@ -39,8 +40,13 @@ public class SettingsActivity extends PreferenceActivity {
         // AsyncTask for updating the calendar database; only one can exist at a time
         private FetchCalendarTask mFetchCalendarTask = null;
 
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+        }
+
         // Asynchronously update the calendar database
-        private void updateCalendarSetDate() {
+        private void updateCalendarSetDate(Preference preference) {
             // Only create an AsyncTask if there is not already one running
             if (mFetchCalendarTask == null) {
                 mFetchCalendarTask = new FetchCalendarTask(getActivity()) {
@@ -49,6 +55,9 @@ public class SettingsActivity extends PreferenceActivity {
                         super.onPreExecute();
 
                         if (isAdded()) {
+                            // Disable the update button preference
+                            mUpdateCalendar.setEnabled(false);
+
                             // Update the summary to show that the calendar is currently updating
                             mUpdateCalendar.setSummary(getString(R.string.updating));
                         }
@@ -69,6 +78,11 @@ public class SettingsActivity extends PreferenceActivity {
                                     mSharedPreferences.getString(getString(R.string.pref_update_key),
                                             getString(R.string.pref_update_default)));
 
+                            // Re-enable the update button preference
+                            mUpdateCalendar.setEnabled(true);
+
+                            // Nullify the AsyncTask since it was canceled
+                            mFetchCalendarTask = null;
                         }
                     }
 
@@ -93,13 +107,19 @@ public class SettingsActivity extends PreferenceActivity {
                             // Display a toast to confirm the calendar update was successful
                             Toast.makeText(getActivity(), getString(R.string.calendar_update_success),
                                     Toast.LENGTH_LONG).show();
+
+                            // Re-enable the update button preference
+                            mUpdateCalendar.setEnabled(true);
+
+                            // Nullify the AsyncTask since it already completed
+                            mFetchCalendarTask = null;
                         }
                     }
                 };
                 mFetchCalendarTask.execute();
             } else {
                 // Display a toast notifying that there is already an AsyncTask running
-                Toast.makeText(getActivity(), getString(R.string.calendar_update_success),
+                Toast.makeText(getActivity(), getString(R.string.calendar_update_in_use),
                         Toast.LENGTH_LONG).show();
             }
             super.onStart();
@@ -125,7 +145,7 @@ public class SettingsActivity extends PreferenceActivity {
             mUpdateCalendar.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    updateCalendarSetDate();
+                    updateCalendarSetDate(preference);
                     return true;
                 }
             });
