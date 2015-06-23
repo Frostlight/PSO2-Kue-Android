@@ -107,7 +107,7 @@ public class TestProvider extends AndroidTestCase {
 
         // Cursor should not be empty
         assertFalse("Empty cursor returned for query on " + contentUri.toString(),
-                TestUtilities.isCursorEmpty(cursor));
+                TestUtilitiesData.isCursorEmpty(cursor));
         cursor.close();
     }
 
@@ -225,15 +225,15 @@ public class TestProvider extends AndroidTestCase {
 
         // Insert and query calendar database
         insertAndVerify(mContext, sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
-                TestUtilities.createCalendarValues(), KueContract.CalendarEntry.CONTENT_URI);
+                TestUtilitiesData.createCalendarValues(), KueContract.CalendarEntry.CONTENT_URI);
 
         // Insert and query twitter database
         insertAndVerify(mContext, sqLiteDatabase, KueContract.TwitterEntry.TABLE_NAME,
-                TestUtilities.createTwitterValues(), KueContract.TwitterEntry.CONTENT_URI);
+                TestUtilitiesData.createTwitterValues(), KueContract.TwitterEntry.CONTENT_URI);
 
         // Insert and query translation database
         insertAndVerify(mContext, sqLiteDatabase, KueContract.TranslationEntry.TABLE_NAME,
-                TestUtilities.createTranslationValues(), KueContract.TranslationEntry.CONTENT_URI);
+                TestUtilitiesData.createTranslationValues(), KueContract.TranslationEntry.CONTENT_URI);
     }
 
     // Insert and update each column in the calendar table, and tests the content resolver by
@@ -241,7 +241,7 @@ public class TestProvider extends AndroidTestCase {
     public void testInsertUpdate_CursorNotify() {
         DbHelper dbHelper = new DbHelper(this.getContext());
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-        ContentValues contentValues = TestUtilities.createCalendarValues();
+        ContentValues contentValues = TestUtilitiesData.createCalendarValues();
 
         // Insert and verify calendar database
         long locationRowId = insertAndVerify(mContext, sqLiteDatabase,
@@ -259,7 +259,7 @@ public class TestProvider extends AndroidTestCase {
                 null,
                 null,
                 null);
-        TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
+        TestUtilitiesData.TestContentObserver testContentObserver = TestUtilitiesData.getTestContentObserver();
         calendarCursor.registerContentObserver(testContentObserver);
 
         // Perform the update and make sure it was successful
@@ -283,10 +283,10 @@ public class TestProvider extends AndroidTestCase {
     // Insert and update each column in the calendar table, and tests the content resolver by
     // registering a content observer with the content resolver
     public void testInsertUpdate_Resolver() {
-        ContentValues contentValues = TestUtilities.createCalendarValues();
+        ContentValues contentValues = TestUtilitiesData.createCalendarValues();
 
         // Register a content observer with the content resolver
-        TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
+        TestUtilitiesData.TestContentObserver testContentObserver = TestUtilitiesData.getTestContentObserver();
         mContext.getContentResolver().registerContentObserver(KueContract.CalendarEntry.CONTENT_URI,
                 true, testContentObserver);
 
@@ -325,10 +325,10 @@ public class TestProvider extends AndroidTestCase {
     // Queries here are done through the EmergencyQuest URI, which is the union of the calendar
     // and Twitter tables
     public void testInsertUpdate_EmergencyQuest() {
-        ContentValues contentValues = TestUtilities.createTwitterValues();
+        ContentValues contentValues = TestUtilitiesData.createTwitterValues();
 
         // Register a content observer with the content resolver
-        TestUtilities.TestContentObserver testContentObserver = TestUtilities.getTestContentObserver();
+        TestUtilitiesData.TestContentObserver testContentObserver = TestUtilitiesData.getTestContentObserver();
         mContext.getContentResolver().registerContentObserver(KueContract.EmergencyQuest.CONTENT_URI,
                 true, testContentObserver);
 

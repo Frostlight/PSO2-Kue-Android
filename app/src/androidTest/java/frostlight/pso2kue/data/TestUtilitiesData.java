@@ -8,17 +8,22 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
 import frostlight.pso2kue.util.PollingCheck;
 
 /**
- * TestUtilities
+ * TestUtilitiesData
  * Helper functions and constants for TestDb
  * Created by Vincent on 5/29/2015.
  */
-public class TestUtilities extends AndroidTestCase {
+public class TestUtilitiesData extends AndroidTestCase {
 
     // Test values to use when inserting into the tables
     static final String TEST_EQ_JAPANESE = "平穏を引き裂く混沌";

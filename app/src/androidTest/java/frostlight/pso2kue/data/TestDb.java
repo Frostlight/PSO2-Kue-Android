@@ -69,7 +69,7 @@ public class TestDb extends AndroidTestCase {
         );
 
         // Cursor should not be empty
-        assertFalse("Empty cursor returned for query on " + tableName, TestUtilities.isCursorEmpty(cursor));
+        assertFalse("Empty cursor returned for query on " + tableName, TestUtilitiesData.isCursorEmpty(cursor));
         cursor.close();
     }
 
@@ -95,14 +95,14 @@ public class TestDb extends AndroidTestCase {
         assertTrue("Error: The database has not been created correctly", cursor.moveToFirst());
 
         // Verify that the tables have been created
-        TestUtilities.hashTest(cursor, "name", TestUtilities.tableNames, "Error: Database was created without all entries");
+        TestUtilitiesData.hashTest(cursor, "name", TestUtilitiesData.tableNames, "Error: Database was created without all entries");
 
         // Verify that each table contains all the required columns
-        for (int i = 0; i < TestUtilities.tableNames.length; i++) {
-            cursor = sqLiteDatabase.rawQuery("PRAGMA table_info(" + TestUtilities.tableNames[i] + ")", null);
+        for (int i = 0; i < TestUtilitiesData.tableNames.length; i++) {
+            cursor = sqLiteDatabase.rawQuery("PRAGMA table_info(" + TestUtilitiesData.tableNames[i] + ")", null);
             assertTrue("Error: Unable to query the database for table information",
                     cursor.moveToFirst());
-            TestUtilities.hashTest(cursor, "name", TestUtilities.columnNames[i], "Error: The " + TestUtilities.tableNames[i] +
+            TestUtilitiesData.hashTest(cursor, "name", TestUtilitiesData.columnNames[i], "Error: The " + TestUtilitiesData.tableNames[i] +
                     " table does not contain all required columns");
         }
         cursor.close();
@@ -116,14 +116,14 @@ public class TestDb extends AndroidTestCase {
 
         // Insert and query calendar database
         insertAndVerify(sqLiteDatabase, KueContract.CalendarEntry.TABLE_NAME,
-                TestUtilities.createCalendarValues());
+                TestUtilitiesData.createCalendarValues());
 
         // Insert and query twitter database
         insertAndVerify(sqLiteDatabase, KueContract.TwitterEntry.TABLE_NAME,
-                TestUtilities.createTwitterValues());
+                TestUtilitiesData.createTwitterValues());
 
         // Insert and query translation database
         insertAndVerify(sqLiteDatabase, KueContract.TranslationEntry.TABLE_NAME,
-                TestUtilities.createTranslationValues());
+                TestUtilitiesData.createTranslationValues());
     }
 }

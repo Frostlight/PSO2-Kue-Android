@@ -1,7 +1,6 @@
 package frostlight.pso2kue.async;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -11,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import frostlight.pso2kue.FetchCalendarTask;
 import frostlight.pso2kue.Utility;
 import frostlight.pso2kue.data.KueContract;
-import frostlight.pso2kue.data.DbHelper;
 
 /**
  * TestFetchCalendarTask
@@ -64,7 +62,7 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
                         // Log the Calendar entries from the database
                         do {
                             Log.v(Utility.getTag(), cursor.getColumnName(1) + ": " + cursor.getString(1));
-                            Log.v(Utility.getTag(), cursor.getColumnName(2) + ": " + Utility.formatDate(
+                            Log.v(Utility.getTag(), cursor.getColumnName(2) + ": " + TestUtilitiesAsync.formatDate(
                                     Long.parseLong(cursor.getString(2))));
                         } while (cursor.moveToNext());
 

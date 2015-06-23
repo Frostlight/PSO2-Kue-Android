@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +14,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.List;
 
@@ -28,8 +31,6 @@ import frostlight.pso2kue.data.KueContract;
  * Async task to fetch the emergency quest timetable from Google Calendars
  * Created by Vincent on 5/19/2015.
  */
-// TODO: http://www.udel.edu/CIS/software/dist/google/calendar/java.client/gdata/doc/calendar.html
-    // Build query with start-min set to now minus 30 minutes ago, max results = infinity
 public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
     private Context mContext;
@@ -43,8 +44,23 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
         // Declared outside try/catch block so it can be closed in the finally block
         HttpsURLConnection urlConnection = null;
 
+        // Parameter values for querying
+        // Maximum results to return from calendar
+        int maxResults = 99;
+
+        // Start date in RFC3339 format (current time minus 30 minutes)
+        String startDateRFC3339 = Utility.dateToRFC3339(System.currentTimeMillis() - 1800000);
+
         try {
-            URL url = new URL(ConstGeneral.googleUrl);
+            final String START_MIN_PARAM = "start-min";
+            final String MAX_RESULTS_PARAM = "max-results";
+
+            // Build the URL using uri builder
+            Uri built_uri = Uri.parse(ConstGeneral.googleUrl).buildUpon()
+                    .appendQueryParameter(START_MIN_PARAM, startDateRFC3339)
+                    .appendQueryParameter(MAX_RESULTS_PARAM, Integer.toString(maxResults))
+                    .build();
+            URL url = new URL(built_uri.toString());
 
             // Create the request to Google calendar, and open the connection
             urlConnection = (HttpsURLConnection) url.openConnection();
@@ -80,7 +96,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                 cancel(true);
             }
         } catch (IOException e) {
-            // Hostname wasn't resolved properly, etc.
+            // Hostname wasn't resolved properly, start date couldn't be encoded, etc.
             Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();
             cancel(true);

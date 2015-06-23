@@ -2,12 +2,14 @@ package frostlight.pso2kue;
 
 import android.content.Context;
 import android.text.format.Time;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,31 +53,38 @@ public class Utility {
     }
 
     /**
-     * Returns a formatted date String corresponding to the user's timezone
+     * Converts a long date to a date string in RFC3339 format
+     * Used in the query for Google calendar, in the start-date parameter
+     * (which accepts a date in RFC3339 format)
      *
-     * @param date Date in milliseconds
-     * @return Formatted date string
+     * @param dateInMillis Date in milliseconds
+     * @return Date in RFC3339 format
      */
-    public static String formatDate(long date) {
-        DateTime dateTime = new DateTime(date);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
-        return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
+    public static String dateToRFC3339 (long dateInMillis) {
+        Date date = new Date(dateInMillis);
+
+        // Apply RFC3339 format using Joda-Time
+        DateTime dateTime = new DateTime(date.getTime(), DateTimeZone.UTC);
+        DateTimeFormatter dateFormatter = ISODateTimeFormat.dateTime();
+        return dateFormatter.print(dateTime);
     }
 
     /**
      * Returns a formatted time String corresponding to the user's timezone
+     * Used to display times in the MainActivity's ListView
      *
      * @param date Date in milliseconds
      * @return Formatted date string
      */
-    public static String formatTime(long date) {
+    public static String formatTimeForDisplay(long date) {
         DateTime dateTime = new DateTime(date);
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm");
         return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
     }
 
     /**
-     * Given a day, returns just the name to use for that day.
+     * Given a day, returns just the name to use for that day
+     * Used to display day names in the MainActivity's ListView
      * E.g "Today", "Tomorrow"
      *
      * If the day is not "today" or "tomorrow", just return the formatted month and day

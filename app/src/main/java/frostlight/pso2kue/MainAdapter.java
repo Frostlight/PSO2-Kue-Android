@@ -1,6 +1,5 @@
 package frostlight.pso2kue;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.Html;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
-
-import frostlight.pso2kue.data.KueContract;
 
 /**
  * MainAdapter
@@ -56,6 +53,6 @@ public class MainAdapter extends CursorAdapter {
         // Emergency quest date and time
         viewHolder.dayView.setText(Utility.getDayName(context,
                 cursor.getLong(MainActivityFragment.COL_DATE)));
-        viewHolder.timeView.setText(Utility.formatTime(cursor.getLong(MainActivityFragment.COL_DATE)));
+        viewHolder.timeView.setText(Utility.formatTimeForDisplay(cursor.getLong(MainActivityFragment.COL_DATE)));
     }
 }

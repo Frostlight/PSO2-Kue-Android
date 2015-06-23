@@ -23,7 +23,7 @@ public class ConstGeneral {
 
     // URL for the google calendar (XML format)
     public static final String googleUrl =
-            "https://www.google.com/calendar/feeds/pso2emgquest%40gmail.com/public/basic";
+            "https://www.google.com/calendar/feeds/pso2emgquest%40gmail.com/public/basic?";
 
     // Time zone for Google calendar
     public static final String timeZone = "Japan";

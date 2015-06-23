@@ -1,16 +1,13 @@
 package frostlight.pso2kue;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 /**
@@ -107,7 +104,7 @@ public class SettingsActivity extends PreferenceActivity {
                             SharedPreferences.Editor editor = mSharedPreferences.edit();
                             editor.putString(getString(R.string.pref_update_key),
                                     Utility.getDayName(getActivity(), System.currentTimeMillis()) + " " +
-                                            Utility.formatTime(System.currentTimeMillis()));
+                                            Utility.formatTimeForDisplay(System.currentTimeMillis()));
                             editor.commit();
 
                             // Update the summary to show the new last updated date
