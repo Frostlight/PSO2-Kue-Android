@@ -45,28 +45,47 @@ public class TestFetchCalendarTask extends InstrumentationTestCase {
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
 
-                        Log.d(Utility.getTag(), "onPostExecute");
+                        Log.d(Utility.getTag(), "Debug: onPostExecute");
 
-                        // Query the database the AsyncTask inserted into for the entries
+                        // Check if database is empty
+                        // E.g. No future events/calendar has not been updated yet
                         Cursor cursor = getInstrumentation().getTargetContext().getContentResolver()
                                 .query(
                                         KueContract.CalendarEntry.CONTENT_URI,
-                                        null,
+                                        new String[] {"count(*)"},
                                         null,
                                         null,
                                         null
                                 );
                         assertTrue("Error: The database has not been created correctly",
                                 cursor.moveToFirst());
-
-                        // Log the Calendar entries from the database
-                        do {
-                            Log.v(Utility.getTag(), cursor.getColumnName(1) + ": " + cursor.getString(1));
-                            Log.v(Utility.getTag(), cursor.getColumnName(2) + ": " + TestUtilitiesAsync.formatDate(
-                                    Long.parseLong(cursor.getString(2))));
-                        } while (cursor.moveToNext());
-
+                        int rowCount = cursor.getInt(0);
                         cursor.close();
+
+                        if (rowCount > 0) {
+                            // If CalendarTable is not empty, query the database the AsyncTask
+                            // inserted into for the entries
+                            cursor = getInstrumentation().getTargetContext().getContentResolver()
+                                    .query(
+                                            KueContract.CalendarEntry.CONTENT_URI,
+                                            null,
+                                            null,
+                                            null,
+                                            null
+                                    );
+                            assertTrue("Error: The database has not been created correctly",
+                                    cursor.moveToFirst());
+
+                            // Log the Calendar entries from the database
+                            do {
+                                Log.v(Utility.getTag(), cursor.getColumnName(1) + ": " + cursor.getString(1));
+                                Log.v(Utility.getTag(), cursor.getColumnName(2) + ": " + TestUtilitiesAsync.formatDate(
+                                        Long.parseLong(cursor.getString(2))));
+                            } while (cursor.moveToNext());
+                            cursor.close();
+                        } else {
+                            Log.d(Utility.getTag(), "Debug: CalendarTable is empty");
+                        }
 
                         /* Normally we would use some type of listener to notify the activity
                          * that the async call was finished

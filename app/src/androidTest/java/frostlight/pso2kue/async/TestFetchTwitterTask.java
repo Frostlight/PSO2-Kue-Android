@@ -43,7 +43,7 @@ public class TestFetchTwitterTask extends InstrumentationTestCase {
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
 
-                        Log.d(Utility.getTag(), "onPostExecute");
+                        Log.d(Utility.getTag(), "Debug: onPostExecute");
 
                         // Query the database the AsyncTask inserted into for the entries
                         Cursor cursor = getInstrumentation().getTargetContext().getContentResolver()
