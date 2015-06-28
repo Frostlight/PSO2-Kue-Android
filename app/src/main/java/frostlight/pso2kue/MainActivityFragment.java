@@ -44,23 +44,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     static final int COL_NAME = 1;
     static final int COL_DATE = 2;
 
-    // Asynchronously update the calendar database
-    private void updateCalendar() {
-        FetchCalendarTask fetchCalendarTask = new FetchCalendarTask(getActivity());
-        fetchCalendarTask.execute();
-        super.onStart();
-    }
-
     // Asynchronously update the Twitter database
     private void updateTwitter() {
         FetchTwitterTask fetchTwitterTask = new FetchTwitterTask(getActivity());
         fetchTwitterTask.execute(2);
+
         super.onStart();
     }
 
     /**
-     * Set a handler to automatically fetch from Twitter (AsyncTask FetchTwitterTask) every
-     * specified interval
+     * Set a handler to automatically fetch from Twitter (AsyncTask FetchTwitterTask) and restart
+     * the loader every specified interval
      *
      * Current Interval: 5 minutes
      */
@@ -72,21 +66,21 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             @Override
             public void run() {
                 handler.post(new Runnable() {
-                   public void run() {
-                       try {
-                           FetchTwitterTask fetchTwitterTask = new FetchTwitterTask(getActivity());
-                           fetchTwitterTask.execute(2);
-                       } catch (Exception e) {
-                           Log.e(Utility.getTag(), "Error: ", e);
-                           e.printStackTrace();
-                       }
+                    public void run() {
+                       // Fetch from Twitter
+                       updateTwitter();
+
+                       // Restart the loader
+                       getLoaderManager().restartLoader(EQ_LOADER, null, MainActivityFragment.this);
                    }
                 });
             }
         };
 
         // Interval in milliseconds, set to five minutes
-        timer.schedule(task, 0, 60*1000*5);
+        // The first execution is also delayed to the five minute mark because onResume() already
+        // takes care of that
+        timer.schedule(task, 60*1000*5, 60*1000*5);
     }
 
     public MainActivityFragment() {
@@ -104,6 +98,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        // Fetch from Twitter
+        updateTwitter();
+
+        // Restart the loader
+        getLoaderManager().restartLoader(EQ_LOADER, null, this);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
@@ -115,9 +120,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.action_refresh_calendar:
-                updateCalendar();
-                return true;
             case R.id.action_refresh_twitter:
                 updateTwitter();
                 return true;
