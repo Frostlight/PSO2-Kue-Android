@@ -22,6 +22,14 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * FetchTwitterTask
  * Async task to fetch tweets from Twitter
+ *
+ * Currently fetches:
+ * 1) onResume
+ * 2) every 5 minutes (does not include initially)
+ *
+ * FetchTwitterTask will not do anything if the EQ in the Twitter database is within one
+ * hour of the current time
+ *
  * Created by Vincent on 5/19/2015.
  */
 public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
@@ -114,15 +122,37 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         // If there are no servers selected, there's nothing to look up
         if (params.length == 0)
             return null;
+
+        // Look up the last entry in the Twitter database
+        Cursor cursor = mContext.getContentResolver().query(
+                KueContract.TwitterEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        // If the Twitter entry exists, compare the Tweet date with the current date
+        if (!isCursorEmpty(cursor)) {
+            long lastDate = Long.parseLong(cursor.getString(
+                    cursor.getColumnIndex(KueContract.TwitterEntry.COLUMN_DATE)));
+
+            // If the difference is less than an hour (i.e. the EQ happens within 1 hour before to 1
+            // hour after, then there is no need to Twitter fetch)
+            // This should save some of the data overhead
+            if (Math.abs(System.currentTimeMillis() - lastDate) < 60*60*1000)
+                return null;
+        }
+        cursor.close();
+
         int ship = params[0];
 
         // Authentication with Twitter
         OAuth2Token token = getOAuth2Token();
 
-        if (token == null) {
-            // Nothing to do, likely no network connection
+        // Nothing to do, likely no network connection
+        if (token == null)
             return null;
-        }
 
         ConfigurationBuilder configurationBuilder = getConfigurationBuilder();
         configurationBuilder.setOAuth2TokenType(token.getTokenType());
@@ -151,7 +181,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                     "(?<=で緊急クエスト「).*(?=」が発生します)");
 
             // Try to find the Japanese string in the translation database
-            Cursor cursor = mContext.getContentResolver().query(
+            cursor = mContext.getContentResolver().query(
                     KueContract.TranslationEntry.CONTENT_URI,
                     null,
                     KueContract.TranslationEntry.COLUMN_JAPANESE + " = \"" + eqName + "\"",
@@ -164,6 +194,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                 // If the Japanese entry exists in the translation database, just use that
                 translatedEqName = cursor.getString(
                         cursor.getColumnIndex(KueContract.TranslationEntry.COLUMN_ENGLISH));
+                cursor.close();
             } else {
                 // If the Japanese entry doesn't exist in the translation database, translate it
                 // to English with the Bing Translate API
