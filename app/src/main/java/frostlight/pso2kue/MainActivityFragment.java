@@ -2,6 +2,7 @@ package frostlight.pso2kue;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -15,6 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import frostlight.pso2kue.data.KueContract;
 
@@ -54,13 +58,38 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         super.onStart();
     }
 
-    public MainActivityFragment() {
+    /**
+     * Set a handler to automatically fetch from Twitter (AsyncTask FetchTwitterTask) every
+     * specified interval
+     *
+     * Current Interval: 5 minutes
+     */
+    private void setRepeatUpdateTwitter() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                   public void run() {
+                       try {
+                           FetchTwitterTask fetchTwitterTask = new FetchTwitterTask(getActivity());
+                           fetchTwitterTask.execute(2);
+                       } catch (Exception e) {
+                           Log.e(Utility.getTag(), "Error: ", e);
+                           e.printStackTrace();
+                       }
+                   }
+                });
+            }
+        };
+
+        // Interval in milliseconds, set to five minutes
+        timer.schedule(task, 0, 60*1000*5);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
+    public MainActivityFragment() {
     }
 
     @Override
@@ -69,6 +98,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
         // Allows fragment to handle menu events
         setHasOptionsMenu(true);
+
+        // Set up automatic twitter updates
+        setRepeatUpdateTwitter();
     }
 
     @Override
