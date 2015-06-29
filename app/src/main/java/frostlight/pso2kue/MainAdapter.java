@@ -19,6 +19,17 @@ public class MainAdapter extends CursorAdapter {
         super(context, cursor, flags);
     }
 
+    // Disable ListView Items
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
     // Cache of the children views for a list item.
     public static class ViewHolder {
         public final TextView nameView;
