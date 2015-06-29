@@ -10,6 +10,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
+import frostlight.pso2kue.data.KueContract;
+
 /**
  * SettingsActivity
  * A PreferenceActivity that presents a list of Application settings
@@ -145,6 +147,7 @@ public class SettingsActivity extends PreferenceActivity {
             addPreferencesFromResource(R.xml.preferences);
             mSharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
 
+            // Preference #1: Update Timetable Button
             // The update button in the PreferenceFragment updates the calendar database
             mUpdateCalendar = (Preference) findPreference(getString(R.string.pref_update_key));
 
@@ -161,6 +164,20 @@ public class SettingsActivity extends PreferenceActivity {
                     return true;
                 }
             });
+
+            // Preference #2: Ship name (i.e. server name)
+            Preference shipName = (Preference) findPreference(getString(R.string.pref_ship_key));
+
+            // Erase the Twitter database whenever the ship name changes (so FetchTwitterTask will
+            // fill it with new information)
+            shipName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    getActivity().getContentResolver().delete(KueContract.TwitterEntry.CONTENT_URI, null, null);
+                    return true;
+                }
+            });
+
         }
 
         @Override
