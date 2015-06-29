@@ -119,6 +119,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      */
     @Override
     protected Void doInBackground(Integer... params) {
+        Log.v(Utility.getTag(), "FetchTwitterTask");
+
         // If there are no servers selected, there's nothing to look up
         if (params.length == 0)
             return null;
