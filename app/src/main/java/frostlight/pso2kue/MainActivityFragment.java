@@ -47,8 +47,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     // Asynchronously update the Twitter database
     private void updateTwitter() {
         FetchTwitterTask fetchTwitterTask = new FetchTwitterTask(getActivity());
-        fetchTwitterTask.execute(2);
-
+        fetchTwitterTask.execute(Utility.getPreferenceShip(getActivity()));
         super.onStart();
     }
 

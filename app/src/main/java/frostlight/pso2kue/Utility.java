@@ -1,6 +1,8 @@
 package frostlight.pso2kue;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -22,6 +24,18 @@ import java.util.regex.Pattern;
  * Created by Vincent on 5/26/2015.
  */
 public class Utility {
+
+    /**
+     * Gets the ship (server) number from the preferences
+     *
+     * @param context Context to use for resource fetching
+     * @return The ship number from preferences, or a default (ship 2) if no ship number is specified
+     */
+    public static int getPreferenceShip(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return Integer.parseInt(sharedPreferences.getString(
+                context.getString(R.string.pref_ship_key), context.getString(R.string.pref_ship_default)));
+    }
 
     /**
      * Matches an input string with a regular expression, and returns the first result
