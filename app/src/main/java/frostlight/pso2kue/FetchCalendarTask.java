@@ -83,6 +83,18 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                 // Wipe the Calendar database before inserting
                 mContext.getContentResolver().delete(KueContract.CalendarEntry.CONTENT_URI, null, null);
                 for (XmlParse.Entry entry : entryList) {
+                    /**
+                     * Find anything that isn't EQ related on the calendar entries
+                     * If there are any matches, the event isn't EQ related, so it is not added to the database
+                     *
+                     * Examples below are separated by commas
+                     * Original:    Limited Quest Boost Day, Black Nyack Boost Period, Round 10 Start, Round 10 Ends
+                     * Result:      Boost Day, Boost Period, Round 10 Start, Round 10 Ends
+                     */
+                    if (Utility.matchPattern(entry.title,
+                            "(Boost Day)|(Boost Period)|(Round.*Start)|(Round.*Start)|(Round.*Ends)").length() > 0)
+                        continue;
+
                     // Insert each element into the database
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, entry.title);

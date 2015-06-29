@@ -36,7 +36,17 @@ public class Utility {
 
         //noinspection ResultOfMethodCallIgnored
         matcher.find();
-        return matcher.group();
+
+        String matchedString;
+        // If there are no matches, matcher.group() throws an exception
+        // In that case, we just return an empty string
+        try {
+            matchedString = matcher.group();
+        } catch (Exception e) {
+            matchedString = "";
+        }
+
+        return matchedString;
     }
 
     /**
