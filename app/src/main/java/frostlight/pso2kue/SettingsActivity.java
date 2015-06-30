@@ -57,12 +57,12 @@ public class SettingsActivity extends PreferenceActivity {
                             mUpdateCalendar.setEnabled(false);
 
                             // Update the summary to show that the calendar is currently updating
-                            mUpdateCalendar.setSummary(getString(R.string.updating));
+                            mUpdateCalendar.setSummary(getString(R.string.update_updating));
 
                             // Show a ProgressDialog while the AsyncTask is updating the calendar database
                             progressDialog = new ProgressDialog(getActivity());
                             progressDialog.setTitle(getString(R.string.calendar_progress_updating));
-                            progressDialog.setMessage("Please wait.");
+                            progressDialog.setMessage(getString(R.string.calendar_progress_wait));
                             progressDialog.setCancelable(false);
                             progressDialog.setIndeterminate(true);
                             progressDialog.show();
@@ -80,7 +80,7 @@ public class SettingsActivity extends PreferenceActivity {
                                     Toast.LENGTH_LONG).show();
 
                             // Update the summary to show the new last updated date
-                            mUpdateCalendar.setSummary(getString(R.string.last_updated) + " " +
+                            mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
                                     mSharedPreferences.getString(getString(R.string.pref_update_key),
                                             getString(R.string.pref_update_default)));
 
@@ -110,7 +110,7 @@ public class SettingsActivity extends PreferenceActivity {
                             editor.commit();
 
                             // Update the summary to show the new last updated date
-                            mUpdateCalendar.setSummary(getString(R.string.last_updated) + " " +
+                            mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
                                     mSharedPreferences.getString(getString(R.string.pref_update_key),
                                             getString(R.string.pref_update_default)));
 
@@ -149,10 +149,10 @@ public class SettingsActivity extends PreferenceActivity {
 
             // Preference #1: Update Timetable Button
             // The update button in the PreferenceFragment updates the calendar database
-            mUpdateCalendar = (Preference) findPreference(getString(R.string.pref_update_key));
+            mUpdateCalendar = findPreference(getString(R.string.pref_update_key));
 
             // Initialise the last updated date on the summary of the calendar update button
-            mUpdateCalendar.setSummary(getString(R.string.last_updated) + " " +
+            mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
                     mSharedPreferences.getString(getString(R.string.pref_update_key),
                             getString(R.string.pref_update_default)));
 
@@ -166,7 +166,7 @@ public class SettingsActivity extends PreferenceActivity {
             });
 
             // Preference #2: Ship name (i.e. server name)
-            Preference shipName = (Preference) findPreference(getString(R.string.pref_ship_key));
+            Preference shipName = findPreference(getString(R.string.pref_ship_key));
 
             // Erase the Twitter database whenever the ship name changes (so FetchTwitterTask will
             // fill it with new information)

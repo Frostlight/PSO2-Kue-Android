@@ -29,11 +29,11 @@
     <string name="pref_ship_default">2</string>
 
     <!-- "Last Updated" string for calendar update in preferences -->
-    <string name="updating">Updating…</string>
-    <string name="last_updated">Last Updated</string>
+    <string name="update_updating">Updating…</string>
+    <string name="update_last">Last Updated</string>
 
     <!-- Toast Strings -->
-    <string name="calendar_update_success">Updated emergency quest timetable successfully</string>
+    <string name="calendar_update_success">Updated emergency quest timetable</string>
     <string name="calendar_update_failure">Failed to update timetable, check your network connection</string>
     <string name="calendar_update_in_use">Failed to update timetable, task already in progress</string>
 
