@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import frostlight.pso2kue.data.KueContract;
@@ -17,7 +19,7 @@ import frostlight.pso2kue.data.KueContract;
  * A PreferenceActivity that presents a list of Application settings
  * Created by Vincent on 5/19/2015.
  */
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
