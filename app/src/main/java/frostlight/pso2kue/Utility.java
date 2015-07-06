@@ -32,9 +32,13 @@ public class Utility {
      * @return The ship number from preferences, or a default (ship 2) if no ship number is specified
      */
     public static int getPreferenceShip(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return Integer.parseInt(sharedPreferences.getString(
-                context.getString(R.string.pref_ship_key), context.getString(R.string.pref_ship_default)));
+        try {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            return Integer.parseInt(sharedPreferences.getString(
+                    context.getString(R.string.pref_ship_key), context.getString(R.string.pref_ship_default)));
+        } catch (Exception e) {
+            return ConstGeneral.defaultShip;
+        }
     }
 
     /**

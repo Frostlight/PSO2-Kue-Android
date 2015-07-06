@@ -7,6 +7,9 @@ package frostlight.pso2kue;
  */
 public class ConstGeneral {
 
+    // Default ship if Preferences are not available
+    public static int defaultShip = 2;
+
     // List of Twitter IDs and their associated handles
     public static final String[][] shipId = {
             {"2753540587", "PSO2es_ship01"},    // Ship 1
