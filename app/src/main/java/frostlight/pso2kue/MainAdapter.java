@@ -35,14 +35,12 @@ public class MainAdapter extends CursorAdapter {
     // Cache of the children views for a list item.
     public static class ViewHolder {
         public final LinearLayout layoutHeaderView;
-        public final LinearLayout layoutDetailView;
         public final TextView nameView;
         public final TextView timeView;
         public final TextView dayView;
 
         public ViewHolder(View view) {
             layoutHeaderView = (LinearLayout) view.findViewById(R.id.list_layout_sectionheader);
-            layoutDetailView = (LinearLayout) view.findViewById(R.id.list_layout_details);
             nameView = (TextView) view.findViewById(R.id.list_item_eq_name);
             timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
             dayView = (TextView) view.findViewById(R.id.list_item_eq_day);
@@ -89,12 +87,6 @@ public class MainAdapter extends CursorAdapter {
                 // Set up the section header view
                 viewHolder.dayView.setText(currentDayName);
                 viewHolder.layoutHeaderView.setVisibility(LinearLayout.VISIBLE);
-            }
-
-            // If the difference in dates between this entry and the previous entry is less than
-            // one minute, we can assume they both belong to the same event and prune the second one
-            if (Math.abs(currentDate - previousDate) < 60000) { // 1 minute = 60000 ms
-                viewHolder.layoutDetailView.setVisibility(LinearLayout.GONE);
             }
         } else {
             // If cursor.moveToPrevious() failed, the entry is the first entry on the query

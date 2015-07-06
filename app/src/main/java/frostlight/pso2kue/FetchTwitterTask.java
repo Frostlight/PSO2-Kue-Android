@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.v4.content.CursorLoader;
 import android.util.Log;
 
 import com.memetix.mst.language.Language;
@@ -107,6 +108,27 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
     }
 
     /**
+     * Queries the calendar database for all entries that are scheduled since 30 minutes in the past
+     * @return  Associated cursor for that query
+     */
+    public Cursor queryCalendar () {
+        // Where clause: all events scheduled from 30 minutes in the past
+        String whereClause = KueContract.CalendarEntry.COLUMN_DATE + " > " +
+                Long.toString(System.currentTimeMillis() - 1800000);
+
+        // Sort order: ascending by date
+        String sortOrder = KueContract.CalendarEntry.COLUMN_DATE + " ASC";
+
+        return mContext.getContentResolver().query(
+                KueContract.CalendarEntry.CONTENT_URI,
+                null,
+                whereClause,
+                null,
+                sortOrder
+        );
+    }
+
+    /**
      * Query Twitter for updates, update the main thread with a callback if a new random
      * emergency quest was found. The Twitter ID for Tweets for each ship come in the form of
      * PSO2es_ship## [1-10]
@@ -144,6 +166,21 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                 return null;
         }
         cursor.close();
+
+        // Look up the first entry in the calendar database
+        cursor = queryCalendar();
+
+        // If the entry exists, compare the first calendar entry date with the current date
+        if (!isCursorEmpty(cursor)) {
+            long lastDate = Long.parseLong(cursor.getString(
+                    cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE)));
+
+            // If the difference is less than an hour (i.e. the EQ happens within 1 hour before to 1
+            // hour after, then it overlaps with the Twitter fetch -- there is no need to fetch)
+            if (Math.abs(System.currentTimeMillis() - lastDate) < 60*60*1000)
+                return null;
+        }
+
 
         int ship = params[0];
 
