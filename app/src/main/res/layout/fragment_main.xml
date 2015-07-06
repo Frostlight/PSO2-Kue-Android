@@ -14,5 +14,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/listview_eq"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:divider="@color/color_divider"
+        android:dividerHeight="1dp"/>
 </FrameLayout>

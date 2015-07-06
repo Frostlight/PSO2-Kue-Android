@@ -17,7 +17,7 @@
     <!-- Default view Strings -->
     <string name="default_eq_name">Chaotic Tranquility</string>
     <string name="default_eq_time">20:00</string>
-    <string name="default_eq_day">"June 30"</string>
+    <string name="default_eq_day">"Tuesday, June 30"</string>
 
     <!-- Preference strings -->
     <string name="pref_update_label">Update Timetable</string>
