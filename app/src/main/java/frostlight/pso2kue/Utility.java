@@ -107,8 +107,37 @@ public class Utility {
     }
 
     /**
-     * Given a day, returns just the name to use for that day
+     * Given a day, a name to use for that day
      * Used to display day names in the MainActivity's ListView
+     * E.g "Today, July 15", "Tomorrow, June 28"
+     *
+     * If the day is not "today" or "tomorrow", just return the formatted day of week, month and day
+     * E.g. "Tuesday, June 23", "Wednesday, August 15"
+     *
+     * @param context Context to use for resource localization
+     * @param dateInMillis The date in milliseconds
+     * @return Name of the day
+     */
+    public static String getDayName(Context context, long dateInMillis) {
+        // Calculate the difference in days between two days
+        int daysBetween = Days.daysBetween(new DateTime(System.currentTimeMillis()).toLocalDate(),
+                new DateTime(dateInMillis).toLocalDate()).getDays();
+
+        if (daysBetween == 0) {
+            return context.getString(R.string.today) + ", "
+                    + (DateTimeFormat.forPattern("MMMM dd")).print(dateInMillis);
+        } else if (daysBetween == 1) {
+            return context.getString(R.string.tomorrow) + ", "
+                    + (DateTimeFormat.forPattern("MMMM dd")).print(dateInMillis);
+        } else {
+            // Otherwise, convert millisecond date format to the format "Month day"
+            return (DateTimeFormat.forPattern("EEEE, MMMM dd")).print(dateInMillis);
+        }
+    }
+
+    /**
+     * Given a day, a name to use for that day
+     * Like getDayName but returns shorter versions of the dates
      * E.g "Today", "Tomorrow"
      *
      * If the day is not "today" or "tomorrow", just return the formatted month and day
@@ -118,7 +147,7 @@ public class Utility {
      * @param dateInMillis The date in milliseconds
      * @return Name of the day
      */
-    public static String getDayName(Context context, long dateInMillis) {
+    public static String getDayNameShort(Context context, long dateInMillis) {
         // Calculate the difference in days between two days
         int daysBetween = Days.daysBetween(new DateTime(System.currentTimeMillis()).toLocalDate(),
                 new DateTime(dateInMillis).toLocalDate()).getDays();

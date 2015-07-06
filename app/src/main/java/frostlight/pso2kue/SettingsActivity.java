@@ -107,7 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
                             // Save the last updated date as the current date to preferences
                             SharedPreferences.Editor editor = mSharedPreferences.edit();
                             editor.putString(getString(R.string.pref_update_key),
-                                    Utility.getDayName(getActivity(), System.currentTimeMillis()) + " " +
+                                    Utility.getDayNameShort(getActivity(), System.currentTimeMillis()) + " " +
                                             Utility.formatTimeForDisplay(System.currentTimeMillis()));
                             editor.commit();
 

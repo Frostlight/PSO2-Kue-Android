@@ -3,7 +3,6 @@ package frostlight.pso2kue;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +34,15 @@ public class MainAdapter extends CursorAdapter {
 
     // Cache of the children views for a list item.
     public static class ViewHolder {
-        public final LinearLayout sectionHeaderView;
+        public final LinearLayout layoutHeaderView;
+        public final LinearLayout layoutDetailView;
         public final TextView nameView;
         public final TextView timeView;
         public final TextView dayView;
 
         public ViewHolder(View view) {
-            sectionHeaderView = (LinearLayout) view.findViewById(R.id.list_item_sectionheader);
+            layoutHeaderView = (LinearLayout) view.findViewById(R.id.list_layout_sectionheader);
+            layoutDetailView = (LinearLayout) view.findViewById(R.id.list_layout_details);
             nameView = (TextView) view.findViewById(R.id.list_item_eq_name);
             timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
             dayView = (TextView) view.findViewById(R.id.list_item_eq_day);
@@ -74,7 +75,8 @@ public class MainAdapter extends CursorAdapter {
         // Set the section header (which is hidden by default) if either:
         //      1. Current entry's day name is different from the previous entry's day name
         //      2. Cursor is on the first row
-        String currentDayName = Utility.getDayName(context, cursor.getLong(MainActivityFragment.COL_DATE));
+        long currentDate = cursor.getLong(MainActivityFragment.COL_DATE);
+        String currentDayName = Utility.getDayName(context, currentDate);
 
         // Move to the previous entry in the cursor to get the previous day's name
         if (cursor.moveToPrevious()) {
@@ -86,13 +88,19 @@ public class MainAdapter extends CursorAdapter {
             if (currentDayName.compareTo(previousDayName) != 0) {
                 // Set up the section header view
                 viewHolder.dayView.setText(currentDayName);
-                viewHolder.sectionHeaderView.setVisibility(LinearLayout.VISIBLE);
+                viewHolder.layoutHeaderView.setVisibility(LinearLayout.VISIBLE);
+            }
+
+            // If the difference in dates between this entry and the previous entry is less than
+            // one minute, we can assume they both belong to the same event and prune the second one
+            if (Math.abs(currentDate - previousDate) < 60000) { // 1 minute = 60000 ms
+                viewHolder.layoutDetailView.setVisibility(LinearLayout.GONE);
             }
         } else {
             // If cursor.moveToPrevious() failed, the entry is the first entry on the query
             // Set up the section header view
             viewHolder.dayView.setText(currentDayName);
-            viewHolder.sectionHeaderView.setVisibility(LinearLayout.VISIBLE);
+            viewHolder.layoutHeaderView.setVisibility(LinearLayout.VISIBLE);
         }
     }
 }
