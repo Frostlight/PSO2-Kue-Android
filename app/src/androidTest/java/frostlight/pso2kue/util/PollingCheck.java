@@ -1,6 +1,7 @@
 package frostlight.pso2kue.util;
 
 import junit.framework.Assert;
+
 import java.util.concurrent.Callable;
 
 /*

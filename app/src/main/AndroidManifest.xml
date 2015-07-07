@@ -39,5 +39,7 @@
             android:name=".data.KueProvider"
             android:enabled="true"
             android:exported="true"/>
+
+
     </application>
 </manifest>

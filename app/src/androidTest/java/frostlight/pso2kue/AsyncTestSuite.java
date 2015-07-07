@@ -1,7 +1,5 @@
 package frostlight.pso2kue;
 
-import android.test.suitebuilder.TestSuiteBuilder;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 

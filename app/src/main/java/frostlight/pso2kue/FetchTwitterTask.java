@@ -3,15 +3,12 @@ package frostlight.pso2kue;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.v4.content.CursorLoader;
 import android.util.Log;
 
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
 
-import frostlight.pso2kue.data.DbHelper;
 import frostlight.pso2kue.data.KueContract;
 import twitter4j.Paging;
 import twitter4j.Twitter;

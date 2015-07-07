@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.CountDownTimer;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,92 +108,87 @@ public class MainAdapter extends CursorAdapter {
 
         // Difference of time between now and the EQ
         long timeDifference = entryDate - System.currentTimeMillis();
-        Log.v(Utility.getTag(), Long.toString(timeDifference));
 
         // EQ occurs within 60 minutes to the future
         if (timeDifference < (60*60*1000) && timeDifference > 0) {
             viewHolder.layoutAlertView.setVisibility(LinearLayout.VISIBLE);
 
+            // Cancel the timer if it already exists
             if (mCountDownTimer != null) {
-                Log.v(Utility.getTag(), "Cancelling countdown timer");
                 mCountDownTimer.cancel();
                 mCountDownTimer = null;
             }
 
-            if (mCountDownTimer == null) {
-                // Count down until EQ starts
-                Log.v(Utility.getTag(), "Making new Pre-EQ Timer");
-                mCountDownTimer = new CountDownTimer(timeDifference, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
-                        timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
-                                + String.format("%02d", millisUntilFinished / 1000 % 60));
-                    }
+            // Make a new Timer that counts down until EQ starts
+            mCountDownTimer = new CountDownTimer(timeDifference, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
+                    timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
+                            + String.format("%02d", millisUntilFinished / 1000 % 60));
+                }
 
-                    @Override
-                    public void onFinish() {
-                        Log.v(Utility.getTag(), "Pre-EQ Timer Finished");
-                        // EQ Started
-                        LinearLayout layoutAlertView = (LinearLayout) view.findViewById(R.id.list_layout_eq_alert);
-                        layoutAlertView.setVisibility(LinearLayout.VISIBLE);
-                        layoutAlertView.setBackgroundColor(mContext.getApplicationContext().
-                                getResources().getColor(R.color.color_red));
+                @Override
+                public void onFinish() {
+                    // EQ Started
+                    LinearLayout layoutAlertView = (LinearLayout) view.findViewById(R.id.list_layout_eq_alert);
+                    layoutAlertView.setVisibility(LinearLayout.VISIBLE);
+                    layoutAlertView.setBackgroundColor(mContext.getApplicationContext().
+                            getResources().getColor(R.color.color_red));
 
-                        TextView eqAlertView = (TextView) view.findViewById(R.id.list_item_eq_alert);
-                        eqAlertView.setText(mContext.getText(R.string.list_item_eq_active));
+                    TextView eqAlertView = (TextView) view.findViewById(R.id.list_item_eq_alert);
+                    eqAlertView.setText(mContext.getText(R.string.list_item_eq_active));
 
-                        // Count down until EQ ends
-                        mCountDownTimer = new CountDownTimer(30 * 60 * 1000, 1000) {
-                            public void onTick(long millisUntilFinished) {
-                                TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
-                                timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
-                                        + String.format("%02d", millisUntilFinished / 1000 % 60));
-                            }
+                    // Make a new Timer that counts down until EQ ends
+                    mCountDownTimer = new CountDownTimer(30 * 60 * 1000, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
+                            timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
+                                    + String.format("%02d", millisUntilFinished / 1000 % 60));
+                        }
 
-                            @Override
-                            public void onFinish() {
-                                // Nothing to do.
-                                Log.v(Utility.getTag(), "Current-EQ Timer Finished");
-                                mCountDownTimer = null;
-                            }
-                        }.start();
-                    }
-                }.start();
-            }
+                        @Override
+                        public void onFinish() {
+                            // Set the CountDownTimer back to null
+                            mCountDownTimer = null;
+                        }
+                    }.start();
+                }
+            }.start();
 
-            // EQ started within 30 minutes in the past
+        // EQ started within 30 minutes in the past
         } else if (timeDifference > (-30*60*1000) && timeDifference < 0) {
             viewHolder.layoutAlertView.setVisibility(LinearLayout.VISIBLE);
             viewHolder.layoutAlertView.setBackgroundColor(context.getApplicationContext().
                     getResources().getColor(R.color.color_red));
             viewHolder.eqAlertView.setText(context.getText(R.string.list_item_eq_active));
 
+            // Cancel the timer if it already exists
             if (mCountDownTimer != null) {
-                Log.v(Utility.getTag(), "Cancelling countdown timer");
                 mCountDownTimer.cancel();
                 mCountDownTimer = null;
             }
 
-            if (mCountDownTimer == null) {
-                Log.v(Utility.getTag(), "Making new Current-EQ Timer");
-                // Count down until EQ ends
-                mCountDownTimer = new CountDownTimer((30 * 60 * 1000) + timeDifference, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
-                        timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
-                                + String.format("%02d", millisUntilFinished / 1000 % 60));
-                    }
+            // Make a new Timer that counts down until EQ ends
+            mCountDownTimer = new CountDownTimer((30 * 60 * 1000) + timeDifference, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
+                    timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
+                            + String.format("%02d", millisUntilFinished / 1000 % 60));
+                }
 
-                    @Override
-                    public void onFinish() {
-                        // TODO: Hide elements here
+                @Override
+                public void onFinish() {
+                    // Hide elements here until loader cleans up the data
+                    LinearLayout layoutAlertView = (LinearLayout) view.findViewById(R.id.list_layout_eq_alert);
+                    layoutAlertView.setVisibility(LinearLayout.GONE);
 
-                        // Nothing to do.
-                        Log.v(Utility.getTag(), "Current-EQ Timer Finished");
-                        mCountDownTimer = null;
-                    }
-                }.start();
-            }
+                    LinearLayout layoutDetailView = (LinearLayout) view.findViewById(R.id.list_layout_eq_details);
+                    layoutDetailView.setVisibility(LinearLayout.GONE);
+
+                    // Set the CountDownTimer back to null
+                    mCountDownTimer = null;
+                }
+            }.start();
         }
     }
 }
