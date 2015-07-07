@@ -19,6 +19,10 @@
     <string name="default_eq_time">20:00</string>
     <string name="default_eq_day">"Tuesday, June 30"</string>
 
+    <!-- Alert Strings -->
+    <string name="list_item_eq_approaching">Emergency Quest Approaching</string>
+    <string name="list_item_eq_active">Emergency Quest Active</string>
+
     <!-- Preference strings -->
     <string name="pref_update_label">Update Timetable</string>
     <string name="pref_update_key" translatable="false">update_timetable</string>

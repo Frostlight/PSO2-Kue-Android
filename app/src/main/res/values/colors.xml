@@ -8,4 +8,7 @@
     <color name="color_primary_text">#212121</color>
     <color name="color_secondary_text">#727272</color>
     <color name="color_divider">#B6B6B6</color>
+
+    <color name="color_yellow">#FFEB3B</color>
+    <color name="color_red">#FF5252</color>
 </resources>

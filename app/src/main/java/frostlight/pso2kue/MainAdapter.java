@@ -2,7 +2,9 @@ package frostlight.pso2kue;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.CountDownTimer;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +19,12 @@ import android.widget.TextView;
  */
 public class MainAdapter extends CursorAdapter {
 
+    private Context mContext;
+
     public MainAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, flags);
+
+        mContext = context;
     }
 
     // Disable ListView Items
@@ -35,15 +41,19 @@ public class MainAdapter extends CursorAdapter {
     // Cache of the children views for a list item.
     public static class ViewHolder {
         public final LinearLayout layoutHeaderView;
+        public final LinearLayout layoutAlertView;
         public final TextView nameView;
         public final TextView timeView;
         public final TextView dayView;
+        public final TextView eqAlertView;
 
         public ViewHolder(View view) {
             layoutHeaderView = (LinearLayout) view.findViewById(R.id.list_layout_sectionheader);
+            layoutAlertView = (LinearLayout) view.findViewById(R.id.list_layout_eq_alert);
             nameView = (TextView) view.findViewById(R.id.list_item_eq_name);
             timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
             dayView = (TextView) view.findViewById(R.id.list_item_eq_day);
+            eqAlertView = (TextView) view.findViewById(R.id.list_item_eq_alert);
         }
     }
 
@@ -56,7 +66,7 @@ public class MainAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(final View view, Context context, Cursor cursor) {
         // Make a ViewHolder for the current view
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
@@ -74,8 +84,8 @@ public class MainAdapter extends CursorAdapter {
         // Set the section header (which is hidden by default) if either:
         //      1. Current entry's day name is different from the previous entry's day name
         //      2. Cursor is on the first row
-        long currentDate = cursor.getLong(MainActivityFragment.COL_DATE);
-        String currentDayName = Utility.getDayName(context, currentDate);
+        long entryDate = cursor.getLong(MainActivityFragment.COL_DATE);
+        String entryDayName = Utility.getDayName(context, entryDate);
 
         // Move to the previous entry in the cursor to get the previous day's name
         if (cursor.moveToPrevious()) {
@@ -84,16 +94,81 @@ public class MainAdapter extends CursorAdapter {
 
             // If the current entry's day name is different from the previous entry's day name,
             // then we are on a new day and need a section header
-            if (currentDayName.compareTo(previousDayName) != 0) {
+            if (entryDayName.compareTo(previousDayName) != 0) {
                 // Set up the section header view
-                viewHolder.dayView.setText(currentDayName);
+                viewHolder.dayView.setText(entryDayName);
                 viewHolder.layoutHeaderView.setVisibility(LinearLayout.VISIBLE);
             }
         } else {
             // If cursor.moveToPrevious() failed, the entry is the first entry on the query
             // Set up the section header view
-            viewHolder.dayView.setText(currentDayName);
+            viewHolder.dayView.setText(entryDayName);
             viewHolder.layoutHeaderView.setVisibility(LinearLayout.VISIBLE);
+        }
+
+        // Difference of time between now and the EQ
+        long timeDifference = entryDate - System.currentTimeMillis();
+        Log.v(Utility.getTag(), Long.toString(timeDifference));
+
+        // EQ occurs within 60 minutes to the future
+        if (timeDifference < (60*60*1000) && timeDifference > 0) {
+            viewHolder.layoutAlertView.setVisibility(LinearLayout.VISIBLE);
+
+            // Count down until EQ starts
+            new CountDownTimer(timeDifference, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+                    timeView.setText(String.format("%02d", millisUntilFinished/1000/60) + ":"
+                            + String.format("%02d", millisUntilFinished / 1000 % 60));
+                }
+
+                @Override
+                public void onFinish() {
+                    // EQ Started
+                    LinearLayout layoutAlertView = (LinearLayout) view.findViewById(R.id.list_layout_eq_alert);
+                    layoutAlertView.setVisibility(LinearLayout.VISIBLE);
+                    layoutAlertView.setBackgroundColor(mContext.getApplicationContext().
+                            getResources().getColor(R.color.color_red));
+
+                    TextView eqAlertView = (TextView) view.findViewById(R.id.list_item_eq_alert);
+                    eqAlertView.setText(mContext.getText(R.string.list_item_eq_active));
+
+                    // Count down until EQ ends
+                    new CountDownTimer(30*60*1000, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+                            timeView.setText(String.format("%02d", millisUntilFinished/1000/60) + ":"
+                                    + String.format("%02d", millisUntilFinished / 1000 % 60));
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            // Nothing to do.
+                        }
+                    }.start();
+                }
+            }.start();
+
+            // EQ started within 30 minutes in the past
+        } else if (timeDifference > (-30*60*1000) && timeDifference < 0) {
+            viewHolder.layoutAlertView.setVisibility(LinearLayout.VISIBLE);
+            viewHolder.layoutAlertView.setBackgroundColor(context.getApplicationContext().
+                    getResources().getColor(R.color.color_red));
+            viewHolder.eqAlertView.setText(context.getText(R.string.list_item_eq_active));
+
+            // Count down until EQ ends
+            new CountDownTimer((30*60*1000) + timeDifference, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+                    timeView.setText(String.format("%02d", millisUntilFinished/1000/60) + ":"
+                            + String.format("%02d", millisUntilFinished / 1000 % 60));
+                }
+
+                @Override
+                public void onFinish() {
+                    // Nothing to do.
+                }
+            }.start();
         }
     }
 }
