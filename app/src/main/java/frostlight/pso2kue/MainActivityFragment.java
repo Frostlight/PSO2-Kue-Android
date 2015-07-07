@@ -48,7 +48,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private void updateTwitter() {
         FetchTwitterTask fetchTwitterTask = new FetchTwitterTask(getActivity());
         fetchTwitterTask.execute(Utility.getPreferenceShip(getActivity()));
-        super.onStart();
     }
 
     /**
