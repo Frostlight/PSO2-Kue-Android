@@ -46,6 +46,7 @@ public class MainAdapter extends CursorAdapter {
         public final TextView timeView;
         public final TextView dayView;
         public final TextView eqAlertView;
+        public final TextView eqCountdownView;
 
         public ViewHolder(View view) {
             layoutHeaderView = (LinearLayout) view.findViewById(R.id.list_layout_sectionheader);
@@ -54,6 +55,7 @@ public class MainAdapter extends CursorAdapter {
             timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
             dayView = (TextView) view.findViewById(R.id.list_item_eq_day);
             eqAlertView = (TextView) view.findViewById(R.id.list_item_eq_alert);
+            eqCountdownView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
         }
     }
 
@@ -117,7 +119,7 @@ public class MainAdapter extends CursorAdapter {
             // Count down until EQ starts
             new CountDownTimer(timeDifference, 1000) {
                 public void onTick(long millisUntilFinished) {
-                    TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+                    TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
                     timeView.setText(String.format("%02d", millisUntilFinished/1000/60) + ":"
                             + String.format("%02d", millisUntilFinished / 1000 % 60));
                 }
@@ -136,7 +138,7 @@ public class MainAdapter extends CursorAdapter {
                     // Count down until EQ ends
                     new CountDownTimer(30*60*1000, 1000) {
                         public void onTick(long millisUntilFinished) {
-                            TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+                            TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
                             timeView.setText(String.format("%02d", millisUntilFinished/1000/60) + ":"
                                     + String.format("%02d", millisUntilFinished / 1000 % 60));
                         }
@@ -159,7 +161,7 @@ public class MainAdapter extends CursorAdapter {
             // Count down until EQ ends
             new CountDownTimer((30*60*1000) + timeDifference, 1000) {
                 public void onTick(long millisUntilFinished) {
-                    TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_time);
+                    TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
                     timeView.setText(String.format("%02d", millisUntilFinished/1000/60) + ":"
                             + String.format("%02d", millisUntilFinished / 1000 % 60));
                 }
