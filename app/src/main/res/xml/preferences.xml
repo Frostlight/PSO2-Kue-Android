@@ -3,22 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Preference android:title="@string/pref_update_label"
-        android:key="@string/pref_update_key"
-        android:defaultValue="@string/pref_update_default"
-        android:summary="%s" />
-    <ListPreference
-        android:title="@string/pref_ship_label"
-        android:key="@string/pref_ship_key"
-        android:defaultValue="@string/pref_ship_default"
-        android:entries="@array/ship_number"
-        android:entryValues="@array/ship_number_values"
-        android:summary="%s" />
-    <ListPreference
-        android:title="@string/pref_clock_label"
-        android:key="@string/pref_clock_key"
-        android:defaultValue="@string/pref_clock_default"
-        android:entries="@array/clock"
-        android:entryValues="@array/clock_values"
-        android:summary="%s" />
+    <PreferenceCategory
+        android:title="Updates">
+        <Preference
+            android:title="@string/pref_update_label"
+            android:key="@string/pref_update_key"
+            android:defaultValue="@string/pref_update_default"
+            android:summary="%s" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Preferences">
+        <ListPreference
+            android:title="@string/pref_ship_label"
+            android:key="@string/pref_ship_key"
+            android:defaultValue="@string/pref_ship_default"
+            android:entries="@array/ship_number"
+            android:entryValues="@array/ship_number_values"
+            android:summary="%s" />
+        <ListPreference
+            android:title="@string/pref_clock_label"
+            android:key="@string/pref_clock_key"
+            android:defaultValue="@string/pref_clock_default"
+            android:entries="@array/clock"
+            android:entryValues="@array/clock_values"
+            android:summary="%s" />
+    </PreferenceCategory>
 </PreferenceScreen>
