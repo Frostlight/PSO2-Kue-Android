@@ -8,7 +8,12 @@ package frostlight.pso2kue;
 public class ConstGeneral {
 
     // Default ship if Preferences are not available
+    // Ranges from Ship 1 to 10
     public static int defaultShip = 2;
+
+    // Default time display setting if Preferences are not available
+    // Either 24 or 12, corresponding to the type of clock
+    public static int defaultClock = 24;
 
     // List of Twitter IDs and their associated handles
     public static final String[][] shipId = {

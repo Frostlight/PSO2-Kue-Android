@@ -105,10 +105,11 @@ public class SettingsActivity extends AppCompatActivity {
 
                         if (isAdded()) {
                             // Save the last updated date as the current date to preferences
+                            // Always use the 24 hour clock here
                             SharedPreferences.Editor editor = mSharedPreferences.edit();
                             editor.putString(getString(R.string.pref_update_key),
                                     Utility.getDayNameShort(getActivity(), System.currentTimeMillis()) + " " +
-                                            Utility.formatTimeForDisplay(System.currentTimeMillis()));
+                                            Utility.formatTimeForDisplay(System.currentTimeMillis(), 24));
                             editor.commit();
 
                             // Update the summary to show the new last updated date

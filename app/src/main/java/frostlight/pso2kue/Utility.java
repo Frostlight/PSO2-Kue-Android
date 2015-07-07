@@ -42,6 +42,22 @@ public class Utility {
     }
 
     /**
+     * Gets the time display setting from the preferences
+     *
+     * @param context Context to use for resource fetching
+     * @return Either 24 or 12, corresponding to the type of clock
+     */
+    public static int getPreferenceClock(Context context) {
+        try {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            return Integer.parseInt(sharedPreferences.getString(
+                    context.getString(R.string.pref_clock_key), context.getString(R.string.pref_clock_default)));
+        } catch (Exception e) {
+            return ConstGeneral.defaultClock;
+        }
+    }
+
+    /**
      * Matches an input string with a regular expression, and returns the first result
      *
      * @param input Input string to match with
@@ -102,11 +118,19 @@ public class Utility {
      * Used to display times in the MainActivity's ListView
      *
      * @param date Date in milliseconds
+     * @param timeDisplayPreference Type of clock to use, either 24 or 12
      * @return Formatted date string
      */
-    public static String formatTimeForDisplay(long date) {
+    public static String formatTimeForDisplay(long date, int timeDisplayPreference) {
         DateTime dateTime = new DateTime(date);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm");
+        DateTimeFormatter dateTimeFormatter;
+
+        // 24 hour clock
+        if (timeDisplayPreference == 24)
+            dateTimeFormatter = DateTimeFormat.forPattern("HH:mm");
+        // 12 hour clock
+        else
+            dateTimeFormatter = DateTimeFormat.forPattern("hh:mm aa");
         return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
     }
 

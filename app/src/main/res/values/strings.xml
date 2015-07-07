@@ -28,6 +28,10 @@
     <string name="pref_ship_key" translatable="false">ship_num</string>
     <string name="pref_ship_default">2</string>
 
+    <string name="pref_clock_label">Time Display</string>
+    <string name="pref_clock_key" translatable="false">clock</string>
+    <string name="pref_clock_default">24</string>
+
     <!-- "Last Updated" string for calendar update in preferences -->
     <string name="update_updating">Updating…</string>
     <string name="update_last">Last Updated</string>
