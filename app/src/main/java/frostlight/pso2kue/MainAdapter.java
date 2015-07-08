@@ -189,6 +189,9 @@ public class MainAdapter extends CursorAdapter {
                     mCountDownTimer = null;
                 }
             }.start();
+        } else {
+            // Alert view should not be visible otherwise
+            viewHolder.layoutAlertView.setVisibility(LinearLayout.GONE);
         }
     }
 }
