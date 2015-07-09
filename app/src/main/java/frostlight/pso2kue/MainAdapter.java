@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,9 @@ public class MainAdapter extends CursorAdapter {
                 // Set up the section header view
                 viewHolder.dayView.setText(entryDayName);
                 viewHolder.layoutHeaderView.setVisibility(LinearLayout.VISIBLE);
+            } else {
+                // Otherwise, the section header is hidden
+                viewHolder.layoutHeaderView.setVisibility(LinearLayout.GONE);
             }
         } else {
             // If cursor.moveToPrevious() failed, the entry is the first entry on the query
