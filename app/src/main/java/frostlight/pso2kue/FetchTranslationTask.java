@@ -28,7 +28,7 @@ import frostlight.pso2kue.data.KueContract;
 
 
 /**
- * FetchCalenderTask
+ * FetchTranslationTask
  * Async task to fetch the translation timetable from Google Spreadsheets
  * Created by Vincent on 5/19/2015.
  */
@@ -81,51 +81,26 @@ public class FetchTranslationTask extends AsyncTask<Void, Void, Void> {
                 JSONArray array = new JSONObject(responseStrBuilder.toString())
                         .getJSONObject("feed").getJSONArray("entry");
 
-
-                List<String> list = new ArrayList<String>();
-                //JSONArray array = jsonObject.getJSONArray("feed");
+                // Wipe the Translation database before inserting
+                mContext.getContentResolver().delete(KueContract.TranslationEntry.CONTENT_URI, null, null);
                 for(int i = 0 ; i < array.length() ; i++){
                     //list.add(array.getJSONObject(i).getString("interestKey"));
-                    String japanese = array.getJSONObject(i).getJSONObject("title").getString("$t");
-                    String english = array.getJSONObject(i).getJSONObject("content").getString("$t");
+                    String japanese = array.getJSONObject(i).getJSONObject("gsx$japanese").getString("$t");
+                    String english = array.getJSONObject(i).getJSONObject("gsx$english").getString("$t");
 
-                    Log.v(Utility.getTag(), "JP: " + japanese + " ENG: " + english);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, japanese);
+                    contentValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, english);
+                    mContext.getContentResolver().insert(KueContract.TranslationEntry.CONTENT_URI, contentValues);
                 }
-
-
-//                // Read input stream to get a list of entries
-//                List<XmlParse.Entry> entryList = XmlParse.parse(inputStream);
-//
-//                // Wipe the Calendar database before inserting
-//                mContext.getContentResolver().delete(KueContract.CalendarEntry.CONTENT_URI, null, null);
-//                for (XmlParse.Entry entry : entryList) {
-//                    /**
-//                     * Find anything that isn't EQ related on the calendar entries
-//                     * If there are any matches, the event isn't EQ related, so it is not added to the database
-//                     *
-//                     * Examples below are separated by commas
-//                     * Original:    Limited Quest Boost Day, Black Nyack Boost Period, Round 10 Start, Round 10 Ends
-//                     * Result:      Boost Day, Boost Period, Round 10 Start, Round 10 Ends
-//                     */
-//                    if (Utility.matchPattern(entry.title,
-//                            "(Boost Day)|(Boost Period)|(Round.*Start)|(Round.*Start)" +
-//                                    "|(Round.*Ends)|(Time Attack Ranking)").length() > 0)
-//                        continue;
-//
-//                    // Insert each element into the database
-//                    ContentValues contentValues = new ContentValues();
-//                    contentValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, entry.title);
-//                    contentValues.put(KueContract.CalendarEntry.COLUMN_DATE, entry.summary);
-//                    mContext.getContentResolver().insert(KueContract.CalendarEntry.CONTENT_URI, contentValues);
-//                }
             } catch (Exception e) {
-                // XML failed to parse
+                // JSON failed to parse
                 Log.e(Utility.getTag(), "Error: ", e);
                 e.printStackTrace();
                 cancel(true);
             }
         } catch (IOException e) {
-            // Hostname wasn't resolved properly, start date couldn't be encoded, etc.
+            // Hostname wasn't resolved properly, no internet?
             Log.e(Utility.getTag(), "Error: ", e);
             e.printStackTrace();
             cancel(true);
