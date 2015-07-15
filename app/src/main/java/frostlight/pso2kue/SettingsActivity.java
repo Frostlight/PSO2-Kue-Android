@@ -189,7 +189,7 @@ public class SettingsActivity extends AppCompatActivity {
                             mUpdateTranslations.setEnabled(true);
 
                             // Nullify the AsyncTask since it was canceled
-                            mUpdateTranslations = null;
+                            mFetchTranslationTask = null;
 
                             // Dismiss the ProgressDialog
                             if (progressDialog != null)
@@ -224,7 +224,7 @@ public class SettingsActivity extends AppCompatActivity {
                             mUpdateTranslations.setEnabled(true);
 
                             // Nullify the AsyncTask since it already completed
-                            mUpdateTranslations = null;
+                            mFetchTranslationTask = null;
 
                             // Dismiss the ProgressDialog
                             if (progressDialog != null)
