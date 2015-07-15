@@ -6,8 +6,13 @@
     <PreferenceCategory
         android:title="Updates">
         <Preference
-            android:title="@string/pref_update_label"
-            android:key="@string/pref_update_key"
+            android:title="@string/pref_update_timetable_label"
+            android:key="@string/pref_update_timetable_key"
+            android:defaultValue="@string/pref_update_default"
+            android:summary="%s" />
+        <Preference
+            android:title="@string/pref_update_translation_label"
+            android:key="@string/pref_update_translation_key"
             android:defaultValue="@string/pref_update_default"
             android:summary="%s" />
     </PreferenceCategory>

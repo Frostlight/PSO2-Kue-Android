@@ -34,11 +34,15 @@ public class SettingsActivity extends AppCompatActivity {
         // SharedPreferences object to retrieve preferences
         private SharedPreferences mSharedPreferences;
 
-        // Preference option used to update the calendar database
+        // Preference options used to update databases
         private Preference mUpdateCalendar;
+        private Preference mUpdateTranslations;
 
         // AsyncTask for updating the calendar database; only one can exist at a time
         private FetchCalendarTask mFetchCalendarTask = null;
+
+        // AsyncTask for updating the translations; only one can exist at a time
+        private FetchTranslationTask mFetchTranslationTask = null;
 
         // ProgressDialog to show while the AsyncTask is updating the calendar database
         private ProgressDialog progressDialog;
@@ -62,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
                             // Show a ProgressDialog while the AsyncTask is updating the calendar database
                             progressDialog = new ProgressDialog(getActivity());
                             progressDialog.setTitle(getString(R.string.calendar_progress_updating));
-                            progressDialog.setMessage(getString(R.string.calendar_progress_wait));
+                            progressDialog.setMessage(getString(R.string.general_progress_wait));
                             progressDialog.setCancelable(false);
                             progressDialog.setIndeterminate(true);
                             progressDialog.show();
@@ -81,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                             // Update the summary to show the new last updated date
                             mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
-                                    mSharedPreferences.getString(getString(R.string.pref_update_key),
+                                    mSharedPreferences.getString(getString(R.string.pref_update_timetable_key),
                                             getString(R.string.pref_update_default)));
 
                             // Re-enable the update button preference
@@ -105,14 +109,14 @@ public class SettingsActivity extends AppCompatActivity {
                             // Save the last updated date as the current date to preferences
                             // Always use the 24 hour clock here
                             SharedPreferences.Editor editor = mSharedPreferences.edit();
-                            editor.putString(getString(R.string.pref_update_key),
+                            editor.putString(getString(R.string.pref_update_timetable_key),
                                     Utility.getDayNameShort(getActivity(), System.currentTimeMillis()) + " " +
                                             Utility.formatTimeForDisplay(System.currentTimeMillis(), 24));
                             editor.commit();
 
                             // Update the summary to show the new last updated date
                             mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
-                                    mSharedPreferences.getString(getString(R.string.pref_update_key),
+                                    mSharedPreferences.getString(getString(R.string.pref_update_timetable_key),
                                             getString(R.string.pref_update_default)));
 
                             // Display a toast to confirm the calendar update was successful
@@ -140,6 +144,103 @@ public class SettingsActivity extends AppCompatActivity {
             super.onStart();
         }
 
+        // Asynchronously update the translation database
+        private void updateTranslationSetDate() {
+            // Only create an AsyncTask if there is not already one running
+            if (mFetchTranslationTask == null) {
+                mFetchTranslationTask = new FetchTranslationTask(getActivity()) {
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+
+                        if (isAdded()) {
+                            // Disable the update button preference
+                            mUpdateTranslations.setEnabled(false);
+
+                            // Update the summary to show that the translation table is currently updating
+                            mUpdateTranslations.setSummary(getString(R.string.update_updating));
+
+                            // Show a ProgressDialog while the AsyncTask is updating the translation database
+                            progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setTitle(getString(R.string.translation_progress_updating));
+                            progressDialog.setMessage(getString(R.string.general_progress_wait));
+                            progressDialog.setCancelable(false);
+                            progressDialog.setIndeterminate(true);
+                            progressDialog.show();
+                        }
+                    }
+
+                    @Override
+                    protected void onCancelled() {
+                        super.onCancelled();
+
+                        if (isAdded()) {
+                            // This means the FetchTranslationTask failed to complete (No internet connection?)
+                            // Display a toast to confirm the translation update failed
+                            Toast.makeText(getActivity(), getString(R.string.translation_update_failure),
+                                    Toast.LENGTH_LONG).show();
+
+                            // Update the summary to show the new last updated date
+                            mUpdateTranslations.setSummary(getString(R.string.update_last) + " " +
+                                    mSharedPreferences.getString(getString(R.string.pref_update_translation_key),
+                                            getString(R.string.pref_update_default)));
+
+                            // Re-enable the update button preference
+                            mUpdateTranslations.setEnabled(true);
+
+                            // Nullify the AsyncTask since it was canceled
+                            mUpdateTranslations = null;
+
+                            // Dismiss the ProgressDialog
+                            if (progressDialog != null)
+                                progressDialog.dismiss();
+                        }
+                    }
+
+                    @SuppressLint("CommitPrefEdits")
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+
+                        if (isAdded()) {
+                            // Save the last updated date as the current date to preferences
+                            // Always use the 24 hour clock here
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.putString(getString(R.string.pref_update_translation_key),
+                                    Utility.getDayNameShort(getActivity(), System.currentTimeMillis()) + " " +
+                                            Utility.formatTimeForDisplay(System.currentTimeMillis(), 24));
+                            editor.commit();
+
+                            // Update the summary to show the new last updated date
+                            mUpdateTranslations.setSummary(getString(R.string.update_last) + " " +
+                                    mSharedPreferences.getString(getString(R.string.pref_update_translation_key),
+                                            getString(R.string.pref_update_default)));
+
+                            // Display a toast to confirm the translation update was successful
+                            Toast.makeText(getActivity(), getString(R.string.translation_update_success),
+                                    Toast.LENGTH_LONG).show();
+
+                            // Re-enable the update button preference
+                            mUpdateTranslations.setEnabled(true);
+
+                            // Nullify the AsyncTask since it already completed
+                            mUpdateTranslations = null;
+
+                            // Dismiss the ProgressDialog
+                            if (progressDialog != null)
+                                progressDialog.dismiss();
+                        }
+                    }
+                };
+                mFetchTranslationTask.execute();
+            } else {
+                // Display a toast notifying that there is already an AsyncTask running
+                Toast.makeText(getActivity(), getString(R.string.translation_update_in_use),
+                        Toast.LENGTH_LONG).show();
+            }
+            super.onStart();
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -150,11 +251,11 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Preference #1: Update Timetable Button
             // The update button in the PreferenceFragment updates the calendar database
-            mUpdateCalendar = findPreference(getString(R.string.pref_update_key));
+            mUpdateCalendar = findPreference(getString(R.string.pref_update_timetable_key));
 
             // Initialise the last updated date on the summary of the calendar update button
             mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
-                    mSharedPreferences.getString(getString(R.string.pref_update_key),
+                    mSharedPreferences.getString(getString(R.string.pref_update_timetable_key),
                             getString(R.string.pref_update_default)));
 
             // Set up the functionality of the update button
@@ -166,7 +267,25 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            // Preference #2: Ship name (i.e. server name)
+            // Preference #2: Update Translation Button
+            // The update button in the PreferenceFragment updates the translations database
+            mUpdateTranslations = findPreference(getString(R.string.pref_update_translation_key));
+
+            // Initialise the last updated date on the summary of the translations update button
+            mUpdateTranslations.setSummary(getString(R.string.update_last) + " " +
+                    mSharedPreferences.getString(getString(R.string.pref_update_translation_key),
+                            getString(R.string.pref_update_default)));
+
+            // Set up the functionality of the update button
+            mUpdateTranslations.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    updateTranslationSetDate();
+                    return true;
+                }
+            });
+
+            // Preference #3: Ship name (i.e. server name)
             Preference shipName = findPreference(getString(R.string.pref_ship_key));
 
             // Erase the Twitter database whenever the ship name changes (so FetchTwitterTask will

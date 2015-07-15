@@ -35,4 +35,8 @@ public class ConstGeneral {
 
     // Time zone for Google calendar
     public static final String timeZone = "Japan";
+
+    // URL for the translation table (querying)
+    public static final String translationUrl =
+            "https://spreadsheets.google.com/feeds/list/15W5QrDp3U8umUHxSUXJLd9dOFXGWv7gbqtWZk9qP5V8/od6/public/values?";
 }
