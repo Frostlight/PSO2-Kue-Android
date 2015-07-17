@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * XMLHelper
@@ -138,8 +139,12 @@ public class XmlParse {
          */
         summary = Utility.matchPattern(summary, "(?<=When: ....).*(?= to)");
 
+        // If string is empty, nothing to do
+        if (summary == null || summary.equals(""))
+            return "";
+
         // Parse the time with Japan timezone
-        DateTime dateTime = new DateTime();
+        DateTime dateTime;
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
         dateTime = dateTimeFormatter.withZone(DateTimeZone.forID(ConstGeneral.timeZone))
                 .parseDateTime(summary);
