@@ -132,6 +132,10 @@ public class XmlParse {
         String summary = readText(parser);
         parser.require(XmlPullParser.END_TAG, null, "summary");
 
+        // If string is null, nothing to do
+        if (summary == null)
+            return "";
+
         /**
          * Get only the date and starting time
          * Original:    When: Sat 30 May 2015 1:00 to 1:30
@@ -139,8 +143,8 @@ public class XmlParse {
          */
         summary = Utility.matchPattern(summary, "(?<=When: ....).*(?= to)");
 
-        // If string is empty, nothing to do
-        if (summary == null || summary.equals(""))
+        // If there are no matches, nothing to do
+        if (summary.equals(""))
             return "";
 
         // Parse the time with Japan timezone
