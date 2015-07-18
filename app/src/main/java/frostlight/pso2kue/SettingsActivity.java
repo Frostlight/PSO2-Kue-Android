@@ -263,6 +263,9 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     updateCalendarSetDate();
+
+                    // Erase the Twitter database so it is hidden if there is already one scheduled in the calendar
+                    getActivity().getContentResolver().delete(KueContract.TwitterEntry.CONTENT_URI, null, null);
                     return true;
                 }
             });
@@ -281,6 +284,9 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     updateTranslationSetDate();
+
+                    // Erase the Twitter database so the translation can be properly loaded
+                    getActivity().getContentResolver().delete(KueContract.TwitterEntry.CONTENT_URI, null, null);
                     return true;
                 }
             });
