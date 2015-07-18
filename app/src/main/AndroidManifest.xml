@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="frostlight.pso2kue">
+    package="frostlight.pso2kue"
+    android:versionCode="2"
+    android:versionName="1.01">
 
     <!-- Necessary for PSO2 Kue to perform network access -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,7 +41,6 @@
             android:name=".data.KueProvider"
             android:enabled="true"
             android:exported="true"/>
-
-
     </application>
+
 </manifest>
