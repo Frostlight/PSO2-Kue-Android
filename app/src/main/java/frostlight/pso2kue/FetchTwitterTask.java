@@ -9,6 +9,8 @@ import android.util.Log;
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
 
+import java.util.Objects;
+
 import frostlight.pso2kue.data.KueContract;
 import twitter4j.Paging;
 import twitter4j.Twitter;
@@ -213,6 +215,11 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
              */
             String eqName = Utility.matchPattern(response.getText(),
                     "(?<=で緊急クエスト「).*(?=」が発生します)");
+
+            if (eqName.equals("")) {
+                // This means the Tweet isn't actually of an EQ
+                return null;
+            }
 
             // Try to find the Japanese string in the translation database
             cursor = mContext.getContentResolver().query(
