@@ -171,8 +171,15 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
         // If the entry exists, compare the first calendar entry date with the current date
         if (!isCursorEmpty(cursor)) {
-            long lastDate = Long.parseLong(cursor.getString(
-                    cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE)));
+            String dateIndex = cursor.getString(
+                    cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE));
+
+            if (dateIndex.equals("")) {
+                // This means we failed to retrieve the date index
+                return null;
+            }
+
+            long lastDate = Long.parseLong(dateIndex);
 
             // If the difference is less than an hour (i.e. the EQ happens within 1 hour before to 1
             // hour after, then it overlaps with the Twitter fetch -- there is no need to fetch)
