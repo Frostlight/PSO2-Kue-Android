@@ -16,6 +16,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Register device with backend
+        new GcmRegistrationTask(this).execute();
     }
 
     @Override

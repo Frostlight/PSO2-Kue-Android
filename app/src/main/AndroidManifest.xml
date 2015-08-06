@@ -26,6 +26,17 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="MY_PACKAGE" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".GcmIntentService" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
