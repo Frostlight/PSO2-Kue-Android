@@ -40,8 +40,6 @@ class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
             // Connect to PSO2-Kue's backend
             Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl("https://pso2-kue.appspot.com/_ah/api/");
-            // end of optional local run code
-
             regService = builder.build();
         }
 
@@ -59,16 +57,18 @@ class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
             // is using accounts.
             regService.register(regId).execute();
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            msg = "Error: " + ex.getMessage();
+            // Save the registration ID to GcmPreferences
+            GcmHelper.setRegistrationId(context, regId);
+        } catch (IOException e) {
+            e.printStackTrace();
+            msg = "Error: " + e.getMessage();
         }
         return msg;
     }
 
-    @Override
-    protected void onPostExecute(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-        Logger.getLogger("REGISTRATION").log(Level.INFO, msg);
-    }
+//    @Override
+//    protected void onPostExecute(String msg) {
+//        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+//        Logger.getLogger("REGISTRATION").log(Level.INFO, msg);
+//    }
 }

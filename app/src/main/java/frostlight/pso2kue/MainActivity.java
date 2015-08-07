@@ -18,7 +18,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Register device with backend
-        new GcmRegistrationTask(this).execute();
+        String regId = GcmHelper.getRegistrationId(getApplicationContext());
+        if (regId.equals(""))
+            new GcmRegistrationTask(this).execute();
     }
 
     @Override

@@ -23,49 +23,6 @@ import java.util.regex.Pattern;
  */
 public class Utility {
 
-    // Stores the GCM registration ID
-    static final String GCM_PREFERENCES = "frostlight.pso2kue.gcm";
-
-    // Registration ID
-    private static final String PROPERTY_REG_ID = "GCMregId";
-
-    // App version
-    private static final String PROPERTY_APP_VERSION = "AppVersion";
-
-    private static SharedPreferences getGCMPreferences(Context context) {
-        return context.getSharedPreferences(GCM_PREFERENCES, Context.MODE_PRIVATE);
-    }
-
-//    public static String getRegistrationId(Context context) {
-//        final SharedPreferences prefs = getGCMPreferences(context);
-//        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
-//        // check if app was updated; if so, it must clear registration id to
-//        // avoid a race condition if GCM sends a message
-//        int oldVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-//        int newVersion = getAppVersion(context);
-//        if (oldVersion != Integer.MIN_VALUE && oldVersion != newVersion) {
-//            Log.v(getTag(), "App version changed from " + oldVersion + " to " +
-//                    newVersion + "; resetting registration id");
-//            clearRegistrationId(context);
-//            registrationId = "";
-//        }
-//        return registrationId;
-//    }
-//
-//    public static void setRegistrationId(Context context, String regId) {
-//        final SharedPreferences prefs = getGCMPreferences(context);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putString(PROPERTY_REG_ID, regId);
-//        editor.commit();
-//    }
-//
-//    public static void clearRegistrationId(Context context) {
-//        final SharedPreferences prefs = getGCMPreferences(context);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.remove(PROPERTY_REG_ID);
-//        editor.commit();
-//    }
-
     /**
      * Gets the ship (server) number from the preferences
      *
