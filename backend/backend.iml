@@ -50,5 +50,6 @@
     <orderEntry type="library" exported="" name="appengine-api-labs-1.7.6" level="project" />
     <orderEntry type="library" exported="" name="json-simple-1.1" level="project" />
     <orderEntry type="library" exported="" name="backend.backend-android-endpoints" level="project" />
+    <orderEntry type="library" name="twitter4j-core-4.0.3" level="project" />
   </component>
 </module>
