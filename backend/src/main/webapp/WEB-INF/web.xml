@@ -14,8 +14,7 @@
         <init-param>
             <param-name>services</param-name>
             <param-value>frostlight.pso2kue.backend.RegistrationEndpoint,
-                frostlight.pso2kue.backend.MessagingEndpoint
-            </param-value>
+                frostlight.pso2kue.backend.MessagingEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
