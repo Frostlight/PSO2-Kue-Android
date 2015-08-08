@@ -22,6 +22,15 @@
         <url-pattern>/_ah/spi/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>TwitterServlet</servlet-name>
+        <servlet-class>frostlight.pso2kue.backend.TwitterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TwitterServlet</servlet-name>
+        <url-pattern>/twitter</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

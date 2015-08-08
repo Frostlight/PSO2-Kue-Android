@@ -14,13 +14,21 @@
         <init-param>
             <param-name>services</param-name>
             <param-value>frostlight.pso2kue.backend.RegistrationEndpoint,
-                frostlight.pso2kue.backend.MessagingEndpoint
-            </param-value>
+                frostlight.pso2kue.backend.MessagingEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TwitterServlet</servlet-name>
+        <servlet-class>frostlight.pso2kue.backend.TwitterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TwitterServlet</servlet-name>
+        <url-pattern>/twitter</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
