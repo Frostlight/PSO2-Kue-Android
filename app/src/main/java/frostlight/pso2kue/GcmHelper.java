@@ -28,7 +28,8 @@ public class GcmHelper {
         // avoid a race condition if GCM sends a message
         int oldVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
         int newVersion = getAppVersion(context);
-        if (oldVersion != Integer.MIN_VALUE && oldVersion != newVersion) {
+
+        if (oldVersion != newVersion) {
             Log.v(Utility.getTag(), "App version changed from " + oldVersion + " to " +
                     newVersion + "; resetting registration id");
             clearRegistrationId(context);

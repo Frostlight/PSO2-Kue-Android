@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import twitter4j.Paging;
+import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.OAuth2Token;
@@ -40,7 +41,7 @@ public class TwitterServlet extends HttpServlet {
      *
      * @return The authentication token
      */
-    public static OAuth2Token getOAuth2Token() {
+    private static OAuth2Token getOAuth2Token() {
         OAuth2Token token = null;
         ConfigurationBuilder configurationBuilder = getConfigurationBuilder();
 
@@ -59,7 +60,7 @@ public class TwitterServlet extends HttpServlet {
      *
      * @return The ConfigurationBuilder
      */
-    public static ConfigurationBuilder getConfigurationBuilder() {
+    private static ConfigurationBuilder getConfigurationBuilder() {
         ConfigurationBuilder configurationBuilder;
 
         configurationBuilder = new ConfigurationBuilder();
@@ -69,7 +70,7 @@ public class TwitterServlet extends HttpServlet {
         return configurationBuilder;
     }
 
-    public static twitter4j.Twitter getTwitter(){
+    private static twitter4j.Twitter getTwitter(){
         // Authentication with TwitterServlet
         OAuth2Token token = getOAuth2Token();
 
@@ -85,13 +86,7 @@ public class TwitterServlet extends HttpServlet {
         return new TwitterFactory(configurationBuilder.build()).getInstance();
     }
 
-    public String fetchTwitter(int ship) {
-        // Authenticate and get a TwitterServlet object
-        twitter4j.Twitter twitter = getTwitter();
-
-        if (twitter == null)
-            return null;
-
+    private String fetchTwitter(Twitter twitter, int ship) {
         try {
             // For bot ID, subtract 1 from the ship number to get the array index
             Long bot_id = Long.parseLong(frostlight.pso2kue.backend.ConstGeneral.shipId[ship - 1][0]);
@@ -125,10 +120,7 @@ public class TwitterServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String message = fetchTwitter(3);
-
+    private void sendShip(String message, int ship) {
         if (message == null || message.trim().length() == 0) {
             log.warning("Not sending message because it is empty");
             return;
@@ -139,27 +131,45 @@ public class TwitterServlet extends HttpServlet {
         }
         Sender sender = new Sender(API_KEY);
         Message msg = new Message.Builder().addData("message", message).build();
-        List<RegistrationRecord> records = ofy().load().type(RegistrationRecord.class).limit(10).list();
+        List<RegistrationRecord> records = ofy().load().type(RegistrationRecord.class).filter("ship ==", ship).list();
         for (RegistrationRecord record : records) {
-            Result result = sender.send(msg, record.getRegId(), 5);
-            if (result.getMessageId() != null) {
-                log.info("Message sent to " + record.getRegId());
-                String canonicalRegId = result.getCanonicalRegistrationId();
-                if (canonicalRegId != null) {
-                    // if the regId changed, we have to update the datastore
-                    log.info("Registration Id changed for " + record.getRegId() + " updating to " + canonicalRegId);
-                    record.setRegId(canonicalRegId);
-                    ofy().save().entity(record).now();
-                }
-            } else {
-                String error = result.getErrorCodeName();
-                if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
-                    log.warning("Registration Id " + record.getRegId() + " no longer registered with GCM, removing from datastore");
-                    // if the device is no longer registered with Gcm, remove it from the datastore
-                    ofy().delete().entity(record).now();
+            Result result = null;
+            try {
+                result = sender.send(msg, record.getRegId(), 5);
+                if (result.getMessageId() != null) {
+                    log.info("Message sent to " + record.getRegId());
+                    String canonicalRegId = result.getCanonicalRegistrationId();
+                    if (canonicalRegId != null) {
+                        // if the regId changed, we have to update the datastore
+                        log.info("Registration Id changed for " + record.getRegId() + " updating to " + canonicalRegId);
+                        record.setRegId(canonicalRegId);
+                        ofy().save().entity(record).now();
+                    }
                 } else {
-                    log.warning("Error when sending message : " + error);
+                    String error = result.getErrorCodeName();
+                    if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
+                        log.warning("Registration Id " + record.getRegId() + " no longer registered with GCM, removing from datastore");
+                        // if the device is no longer registered with Gcm, remove it from the datastore
+                        ofy().delete().entity(record).now();
+                    } else {
+                        log.warning("Error when sending message : " + error);
+                    }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Authenticate and get a Twitter object
+        twitter4j.Twitter twitter = getTwitter();
+
+        if (twitter != null) {
+            for (int ship = 1; ship <= 10; ship++) {
+                String message = fetchTwitter(twitter, ship);
+                sendShip(message, ship);
             }
         }
     }

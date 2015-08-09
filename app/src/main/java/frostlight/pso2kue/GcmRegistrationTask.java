@@ -69,7 +69,7 @@ class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
             // so it can use GCM/HTTP or CCS to send messages to your app.
             // The request to your server should be authenticated if your app
             // is using accounts.
-            regService.register(regId).execute();
+            regService.register(regId, String.valueOf(Utility.getPreferenceShip(context))).execute();
 
             // Save the registration ID to GcmPreferences
             GcmHelper.setRegistrationId(context, regId);

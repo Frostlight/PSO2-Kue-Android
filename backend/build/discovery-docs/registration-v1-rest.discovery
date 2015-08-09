@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/5gQ1g-zT8xm33sbuemsmPVWYCu4\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/93mT3pIYmiNQ4gpHxh5WxE1PRD8\"",
  "discoveryVersion": "v1",
  "id": "registration:v1",
  "name": "registration",
@@ -94,6 +94,10 @@
    "properties": {
     "regId": {
      "type": "string"
+    },
+    "ship": {
+     "type": "integer",
+     "format": "int32"
     }
    }
   }
@@ -123,17 +127,23 @@
   },
   "register": {
    "id": "registration.register",
-   "path": "registerDevice/{regId}",
+   "path": "registerDevice/{regId}/{ship}",
    "httpMethod": "POST",
    "parameters": {
     "regId": {
      "type": "string",
      "required": true,
      "location": "path"
+    },
+    "ship": {
+     "type": "string",
+     "required": true,
+     "location": "path"
     }
    },
    "parameterOrder": [
-    "regId"
+    "regId",
+    "ship"
    ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
