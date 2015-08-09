@@ -127,7 +127,8 @@ public class TwitterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String message = "hello";
+        String message = fetchTwitter(3);
+
         if (message == null || message.trim().length() == 0) {
             log.warning("Not sending message because it is empty");
             return;

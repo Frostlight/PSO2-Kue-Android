@@ -15,6 +15,7 @@ repositories {
 }
 
 apply plugin: 'java'
+compileJava.options.encoding = 'UTF-8'
 apply plugin: 'war'
 apply plugin: 'appengine'
 

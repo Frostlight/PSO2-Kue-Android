@@ -1,9 +1,14 @@
 package frostlight.pso2kue;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.memetix.mst.language.Language;
+import com.memetix.mst.translate.Translate;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -16,12 +21,75 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import frostlight.pso2kue.data.KueContract;
+
 /**
  * Utility
  * A set of helper functions for the App
  * Created by Vincent on 5/26/2015.
  */
 public class Utility {
+
+    public static String getEqTranslation(Context context, String eqName) {
+        // Try to find the Japanese string in the translation database
+        Cursor cursor = context.getContentResolver().query(
+                KueContract.TranslationEntry.CONTENT_URI,
+                null,
+                KueContract.TranslationEntry.COLUMN_JAPANESE + " = \"" + eqName + "\"",
+                null,
+                null
+        );
+
+        String translatedEqName;
+        if (!isCursorEmpty(cursor)) {
+            // If the Japanese entry exists in the translation database, just use that
+            translatedEqName = cursor.getString(
+                    cursor.getColumnIndex(KueContract.TranslationEntry.COLUMN_ENGLISH));
+        } else {
+            // If the Japanese entry doesn't exist in the translation database, translate it
+            // to English with the Bing Translate API
+            translatedEqName = translateJpEng(eqName);
+
+            // Add the translation to the database
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, eqName);
+            contentValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, translatedEqName);
+            context.getContentResolver().insert(KueContract.TranslationEntry.CONTENT_URI, contentValues);
+        }
+
+        cursor.close();
+        return translatedEqName;
+    }
+
+    /**
+     * Checks if a cursor is empty
+     *
+     * @param cursor Cursor to check
+     * @return True if the cursor is empty, False if the cursor is not empty
+     */
+    public static boolean isCursorEmpty(Cursor cursor) {
+        return !cursor.moveToFirst() || cursor.getCount() == 0;
+    }
+
+    /**
+     * Translates a String from Japanese to English
+     * @param japanese String in Japanese
+     * @return String in English
+     */
+    public static String translateJpEng (String japanese) {
+        // Set Bing authentication key and Secret
+        Translate.setClientId(ConstKey.bingKey);
+        Translate.setClientSecret(ConstKey.bingSecret);
+
+        // Attempt to translate the text from Japanese to English
+        try {
+            return Translate.execute(japanese, Language.JAPANESE, Language.ENGLISH);
+        } catch (Exception e) {
+            Log.e(Utility.getTag(), "Error: ", e);
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * Gets the ship (server) number from the preferences

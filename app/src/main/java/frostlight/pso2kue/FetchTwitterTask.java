@@ -77,36 +77,6 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
     }
 
     /**
-     * Checks if a cursor is empty
-     *
-     * @param cursor Cursor to check
-     * @return True if the cursor is empty, False if the cursor is not empty
-     */
-    static boolean isCursorEmpty(Cursor cursor) {
-        return !cursor.moveToFirst() || cursor.getCount() == 0;
-    }
-
-    /**
-     * Translates a String from Japanese to English
-     * @param japanese String in Japanese
-     * @return String in English
-     */
-    public static String translateJpEng (String japanese) {
-        // Set Bing authentication key and Secret
-        Translate.setClientId(ConstKey.bingKey);
-        Translate.setClientSecret(ConstKey.bingSecret);
-
-        // Attempt to translate the text from Japanese to English
-        try {
-            return Translate.execute(japanese, Language.JAPANESE, Language.ENGLISH);
-        } catch (Exception e) {
-            Log.e(Utility.getTag(), "Error: ", e);
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * Queries the calendar database for all entries that are scheduled since 30 minutes in the past
      * @return  Associated cursor for that query
      */
@@ -154,7 +124,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         );
 
         // If the Twitter entry exists, compare the Tweet date with the current date
-        if (!isCursorEmpty(cursor)) {
+        if (!Utility.isCursorEmpty(cursor)) {
             long lastDate = Long.parseLong(cursor.getString(
                     cursor.getColumnIndex(KueContract.TwitterEntry.COLUMN_DATE)));
 
@@ -170,7 +140,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         cursor = queryCalendar();
 
         // If the entry exists, compare the first calendar entry date with the current date
-        if (!isCursorEmpty(cursor)) {
+        if (!Utility.isCursorEmpty(cursor)) {
             String dateIndex = cursor.getString(
                     cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE));
 
@@ -228,32 +198,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                 return null;
             }
 
-            // Try to find the Japanese string in the translation database
-            cursor = mContext.getContentResolver().query(
-                    KueContract.TranslationEntry.CONTENT_URI,
-                    null,
-                    KueContract.TranslationEntry.COLUMN_JAPANESE + " = \"" + eqName + "\"",
-                    null,
-                    null
-            );
-
-            String translatedEqName;
-            if (!isCursorEmpty(cursor)) {
-                // If the Japanese entry exists in the translation database, just use that
-                translatedEqName = cursor.getString(
-                        cursor.getColumnIndex(KueContract.TranslationEntry.COLUMN_ENGLISH));
-                cursor.close();
-            } else {
-                // If the Japanese entry doesn't exist in the translation database, translate it
-                // to English with the Bing Translate API
-                translatedEqName = translateJpEng(eqName);
-
-                // Add the translation to the database
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, eqName);
-                contentValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, translatedEqName);
-                mContext.getContentResolver().insert(KueContract.TranslationEntry.CONTENT_URI, contentValues);
-            }
+            String translatedEqName = Utility.translateJpEng(eqName);
 
             // Calculate the EQ time from the time the Tweet was posted
             long eqTime = Utility.roundUpHour(response.getCreatedAt().getTime());

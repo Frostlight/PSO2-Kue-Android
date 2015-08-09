@@ -44,7 +44,8 @@ public class GcmIntentService extends IntentService {
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 Logger.getLogger("GCM_RECEIVED").log(Level.INFO, extras.toString());
 
-                showToast(extras.getString("message"));
+                String eqName = Utility.getEqTranslation(getApplicationContext(),
+                        extras.getString("message"));
 
                 mNotificationManager = (NotificationManager)
                         this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -57,21 +58,12 @@ public class GcmIntentService extends IntentService {
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.ic_notify_eq)
                                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                                .setContentTitle(extras.getString("message"))
+                                .setContentTitle(eqName)
                                 .setSound(soundUri);
                 mBuilder.setContentIntent(contentIntent);
                 mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
-    }
-
-    protected void showToast(final String message) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 }
