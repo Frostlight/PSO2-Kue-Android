@@ -179,14 +179,20 @@ public class TwitterServlet extends HttpServlet {
 
                 // If there are no date records, just set the last date to 0
                 long lastDate;
-                if (records.isEmpty())
+                ShipNotifyRecord record;
+                if (records.isEmpty()) {
+                    // Make a new ShipNotifyRecord since there is none existing
+                    record = new ShipNotifyRecord();
                     lastDate = 0;
-                else
-                    lastDate = records.get(0).getLastDate();
+                } else {
+                    // Use the previous ShipNotifyRecord
+                    record = records.get(0);
+                    lastDate = record.getLastDate();
+                }
 
-                // If it has been over one and a half hours since the last notification,
-                // fetch Twitter for a possible notification
-                if (System.currentTimeMillis() - lastDate > 1.5*60*60*1000) {
+                // If it has been over one hour since the last notification, fetch Twitter for a
+                // possible new notification
+                if (System.currentTimeMillis() - lastDate > 60*60*1000) {
                     String message = fetchTwitter(twitter, ship);
 
                     // Send the notification if the message is not empty
@@ -194,7 +200,6 @@ public class TwitterServlet extends HttpServlet {
                         sendShip(message, ship);
 
                         // Update the last time this notification has been sent
-                        ShipNotifyRecord record = new ShipNotifyRecord();
                         record.setShip(ship);
                         record.setLastDate(System.currentTimeMillis());
                         ofy().save().entity(record).now();

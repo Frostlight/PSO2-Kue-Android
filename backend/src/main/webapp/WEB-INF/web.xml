@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+
     <filter>
         <filter-name>ObjectifyFilter</filter-name>
         <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
@@ -8,6 +9,7 @@
         <filter-name>ObjectifyFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
     <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
@@ -30,11 +32,10 @@
         <servlet-name>TwitterServlet</servlet-name>
         <url-pattern>/twitter</url-pattern>
     </servlet-mapping>
-
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>PSO2-Kue</web-resource-name>
-            <url-pattern>/*</url-pattern>
+            <web-resource-name>TwitterServlet</web-resource-name>
+            <url-pattern>/twitter</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
@@ -44,4 +45,14 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Messaging</web-resource-name>
+            <url-pattern>/messaging.html</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

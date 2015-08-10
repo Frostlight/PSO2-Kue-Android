@@ -27,11 +27,8 @@ public class MainActivity extends ActionBarActivity {
         // Register device with backend
         String regId = GcmHelper.getRegistrationId(getApplicationContext());
 
-        Log.v(Utility.getTag(), "RegId: " + regId);
-        if (regId == null || regId.equals("")) {
-            Log.v(Utility.getTag(), "New RegId");
+        if (regId == null || regId.equals(""))
             new GcmRegistrationTask(this).execute();
-        }
     }
 
     @Override
