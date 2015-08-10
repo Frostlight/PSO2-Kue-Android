@@ -3,6 +3,6 @@
   <cron>
     <url>/twitter</url>
     <description>Check for EQ notifications on Twitter</description>
-    <schedule>every 10 minutes</schedule>
+    <schedule>every 5 minutes</schedule>
   </cron>
 </cronentries>
