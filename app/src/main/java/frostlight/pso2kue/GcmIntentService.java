@@ -59,6 +59,7 @@ public class GcmIntentService extends IntentService {
                                 .setSmallIcon(R.drawable.ic_notify_eq)
                                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                                 .setContentTitle(eqName)
+                                .setContentInfo(getString(R.string.list_item_eq_approaching))
                                 .setSound(soundUri);
                 mBuilder.setContentIntent(contentIntent);
                 mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

@@ -26,7 +26,6 @@ public class RegistrationRecord {
         return regId;
     }
 
-
     public void setRegId(String regId) {
         this.regId = regId;
     }

@@ -38,22 +38,20 @@ class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         if (regService == null) {
             // Use this for local testing
-            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(),
-                    new AndroidJsonFactory(), null)
-                    // Need setRootUrl and setGoogleClientRequestInitializer only for local testing,
-                    // otherwise they can be skipped
-                    .setRootUrl("http://10.0.2.2:8080/_ah/api/")
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest)
-                                throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
+//            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(),
+//                    new AndroidJsonFactory(), null)
+//                    .setRootUrl("http://10.0.2.2:8080/_ah/api/")
+//                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+//                        @Override
+//                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest)
+//                                throws IOException {
+//                            abstractGoogleClientRequest.setDisableGZipContent(true);
+//                        }
+//                    });
 
             // Connect to PSO2-Kue's backend
-//            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-//                    .setRootUrl("https://pso2-kue.appspot.com/_ah/api/");
+            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                    .setRootUrl("https://pso2-kue.appspot.com/_ah/api/");
             regService = builder.build();
         }
 
@@ -80,9 +78,10 @@ class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
         return msg;
     }
 
-    @Override
-    protected void onPostExecute(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-        Logger.getLogger("REGISTRATION").log(Level.INFO, msg);
-    }
+    // Registration ID debugging
+//    @Override
+//    protected void onPostExecute(String msg) {
+//        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+//        Logger.getLogger("REGISTRATION").log(Level.INFO, msg);
+//    }
 }

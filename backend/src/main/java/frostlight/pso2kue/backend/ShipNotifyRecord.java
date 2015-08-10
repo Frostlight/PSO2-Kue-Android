@@ -14,8 +14,10 @@ public class ShipNotifyRecord {
     Long id;
 
     @Index
+    private int ship;
+
+    @Index
     private long lastDate;
-    // you can add more fields...
 
     public ShipNotifyRecord() {
     }
@@ -26,5 +28,13 @@ public class ShipNotifyRecord {
 
     public void setLastDate(long lastDate) {
         this.lastDate = lastDate;
+    }
+
+    public int getShip() {
+        return ship;
+    }
+
+    public void setShip(int ship) {
+        this.ship = ship;
     }
 }
