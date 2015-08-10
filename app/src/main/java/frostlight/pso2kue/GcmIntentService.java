@@ -61,7 +61,8 @@ public class GcmIntentService extends IntentService {
                                 .setContentTitle("[Ship " + Utility.getPreferenceShip(getApplicationContext())
                                         + "] " + eqName)
                                 .setContentInfo(getString(R.string.list_item_eq_approaching))
-                                .setSound(soundUri);
+                                .setSound(soundUri)
+                                .setAutoCancel(true);
                 mBuilder.setContentIntent(contentIntent);
                 mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
