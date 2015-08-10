@@ -40,11 +40,18 @@ public class RegistrationEndpoint {
      */
     @ApiMethod(name = "register")
     public void registerDevice(@Named("regId") String regId, @Named("ship") String ship) {
-        if (findRecord(regId) != null) {
-            log.info("Device " + regId + " already registered, skipping register");
+        RegistrationRecord record = findRecord(regId);
+        if (record != null) {
+            log.info("Device " + regId + " already registered; updating ship if necessary");
+
+            // If the ship setting changed, update it in the data store
+            if (record.getShip() != Integer.parseInt(ship)) {
+                record.setShip(Integer.parseInt(ship));
+                ofy().save().entity(record).now();
+            }
             return;
         }
-        RegistrationRecord record = new RegistrationRecord();
+        record = new RegistrationRecord();
         record.setRegId(regId);
         record.setShip(Integer.parseInt(ship));
         ofy().save().entity(record).now();

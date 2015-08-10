@@ -294,12 +294,15 @@ public class SettingsActivity extends AppCompatActivity {
             // Preference #3: Ship name (i.e. server name)
             Preference shipName = findPreference(getString(R.string.pref_ship_key));
 
-            // Erase the Twitter database whenever the ship name changes (so FetchTwitterTask will
-            // fill it with new information)
             shipName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    // Erase the Twitter database whenever the ship name changes (so FetchTwitterTask will
+                    // fill it with new information)
                     getActivity().getContentResolver().delete(KueContract.TwitterEntry.CONTENT_URI, null, null);
+
+                    // Also clear the registration ID so the App can register with the new ship number
+                    GcmHelper.clearRegistrationId(getActivity());
                     return true;
                 }
             });

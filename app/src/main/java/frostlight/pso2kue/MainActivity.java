@@ -3,6 +3,7 @@ package frostlight.pso2kue;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,12 +16,22 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         // Register device with backend
         String regId = GcmHelper.getRegistrationId(getApplicationContext());
-        if (regId == null || regId.equals(""))
+
+        Log.v(Utility.getTag(), "RegId: " + regId);
+        if (regId == null || regId.equals("")) {
+            Log.v(Utility.getTag(), "New RegId");
             new GcmRegistrationTask(this).execute();
+        }
     }
 
     @Override
