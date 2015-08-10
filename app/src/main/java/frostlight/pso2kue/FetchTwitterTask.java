@@ -6,11 +6,6 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.memetix.mst.language.Language;
-import com.memetix.mst.translate.Translate;
-
-import java.util.Objects;
-
 import frostlight.pso2kue.data.KueContract;
 import twitter4j.Paging;
 import twitter4j.Twitter;
@@ -46,7 +41,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      *
      * @return The authentication token
      */
-    public static OAuth2Token getOAuth2Token() {
+    private static OAuth2Token getOAuth2Token() {
         OAuth2Token token = null;
         ConfigurationBuilder configurationBuilder = getConfigurationBuilder();
 
@@ -66,7 +61,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      *
      * @return The ConfigurationBuilder
      */
-    public static ConfigurationBuilder getConfigurationBuilder() {
+    private static ConfigurationBuilder getConfigurationBuilder() {
         ConfigurationBuilder configurationBuilder;
 
         configurationBuilder = new ConfigurationBuilder();
@@ -80,7 +75,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      * Queries the calendar database for all entries that are scheduled since 30 minutes in the past
      * @return  Associated cursor for that query
      */
-    public Cursor queryCalendar () {
+    private Cursor queryCalendar () {
         // Where clause: all events scheduled from 30 minutes in the past
         String whereClause = KueContract.CalendarEntry.COLUMN_DATE + " > " +
                 Long.toString(System.currentTimeMillis() - 1800000);
@@ -157,7 +152,6 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                 return null;
         }
 
-
         int ship = params[0];
 
         // Authentication with Twitter
@@ -198,7 +192,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                 return null;
             }
 
-            String translatedEqName = Utility.getEqTranslation(mContext, eqName);
+            String translatedEqName = TranslationHelper.getEqTranslation(mContext, eqName);
 
             // Calculate the EQ time from the time the Tweet was posted
             long eqTime = Utility.roundUpHour(response.getCreatedAt().getTime());

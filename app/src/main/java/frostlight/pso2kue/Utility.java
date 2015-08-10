@@ -30,37 +30,6 @@ import frostlight.pso2kue.data.KueContract;
  */
 public class Utility {
 
-    public static String getEqTranslation(Context context, String eqName) {
-        // Try to find the Japanese string in the translation database
-        Cursor cursor = context.getContentResolver().query(
-                KueContract.TranslationEntry.CONTENT_URI,
-                null,
-                KueContract.TranslationEntry.COLUMN_JAPANESE + " = \"" + eqName + "\"",
-                null,
-                null
-        );
-
-        String translatedEqName;
-        if (!isCursorEmpty(cursor)) {
-            // If the Japanese entry exists in the translation database, just use that
-            translatedEqName = cursor.getString(
-                    cursor.getColumnIndex(KueContract.TranslationEntry.COLUMN_ENGLISH));
-        } else {
-            // If the Japanese entry doesn't exist in the translation database, translate it
-            // to English with the Bing Translate API
-            translatedEqName = translateJpEng(eqName);
-
-            // Add the translation to the database
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, eqName);
-            contentValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, translatedEqName);
-            context.getContentResolver().insert(KueContract.TranslationEntry.CONTENT_URI, contentValues);
-        }
-
-        cursor.close();
-        return translatedEqName;
-    }
-
     /**
      * Checks if a cursor is empty
      *
@@ -69,26 +38,6 @@ public class Utility {
      */
     public static boolean isCursorEmpty(Cursor cursor) {
         return !cursor.moveToFirst() || cursor.getCount() == 0;
-    }
-
-    /**
-     * Translates a String from Japanese to English
-     * @param japanese String in Japanese
-     * @return String in English
-     */
-    public static String translateJpEng (String japanese) {
-        // Set Bing authentication key and Secret
-        Translate.setClientId(ConstKey.bingKey);
-        Translate.setClientSecret(ConstKey.bingSecret);
-
-        // Attempt to translate the text from Japanese to English
-        try {
-            return Translate.execute(japanese, Language.JAPANESE, Language.ENGLISH);
-        } catch (Exception e) {
-            Log.e(Utility.getTag(), "Error: ", e);
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**

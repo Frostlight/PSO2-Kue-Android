@@ -18,8 +18,8 @@ import java.util.logging.Logger;
 
 import frostlight.pso2kue.MainActivity;
 import frostlight.pso2kue.R;
+import frostlight.pso2kue.TranslationHelper;
 import frostlight.pso2kue.Utility;
-import frostlight.pso2kue.gcm.GcmBroadcastReceiver;
 
 /**
  * Created by Vincent on 8/5/2015.
@@ -45,7 +45,7 @@ public class GcmIntentService extends IntentService {
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 Logger.getLogger("GCM_RECEIVED").log(Level.INFO, extras.toString());
 
-                String eqName = Utility.getEqTranslation(getApplicationContext(),
+                String eqName = TranslationHelper.getEqTranslation(getApplicationContext(),
                         extras.getString("message"));
 
                 mNotificationManager = (NotificationManager)
