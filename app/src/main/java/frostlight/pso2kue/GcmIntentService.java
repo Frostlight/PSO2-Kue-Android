@@ -58,7 +58,8 @@ public class GcmIntentService extends IntentService {
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.ic_notify_eq)
                                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                                .setContentTitle(eqName)
+                                .setContentTitle("[Ship " + Utility.getPreferenceShip(getApplicationContext())
+                                        + "] " + eqName)
                                 .setContentInfo(getString(R.string.list_item_eq_approaching))
                                 .setSound(soundUri);
                 mBuilder.setContentIntent(contentIntent);

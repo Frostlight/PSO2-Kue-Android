@@ -173,24 +173,24 @@ public class TwitterServlet extends HttpServlet {
 
         if (twitter != null) {
             for (int ship = 1; ship <= 10; ship++) {
-                String message = fetchTwitter(twitter, ship);
+                // Load the last time a notification has been sent for this ship
+                List<ShipNotifyRecord> records =
+                        ofy().load().type(ShipNotifyRecord.class).filter("ship ==", ship).list();
 
-                // Send message if the EQ from Twitter isn't empty
-                if (message != null && message.trim().length() != 0) {
-                    // Load the last time a notification has been sent to this
-                    List<ShipNotifyRecord> records =
-                            ofy().load().type(ShipNotifyRecord.class).filter("ship ==", ship).list();
+                // If there are no date records, just set the last date to 0
+                long lastDate;
+                if (records.isEmpty())
+                    lastDate = 0;
+                else
+                    lastDate = records.get(0).getLastDate();
 
-                    // If there are no date records, just set the last date to 0
-                    long lastDate;
-                    if (records.isEmpty())
-                        lastDate = 0;
-                    else
-                        lastDate = records.get(0).getLastDate();
+                // If it has been over one and a half hours since the last notification,
+                // fetch Twitter for a possible notification
+                if (System.currentTimeMillis() - lastDate > 1.5*60*60*1000) {
+                    String message = fetchTwitter(twitter, ship);
 
-                    // If it has been over one and a half hours since the last notification, send
-                    // the notification
-                    if (System.currentTimeMillis() - lastDate > 1.5*60*60*1000) {
+                    // Send the notification if the message is not empty
+                    if (message != null && message.trim().length() != 0) {
                         sendShip(message, ship);
 
                         // Update the last time this notification has been sent
