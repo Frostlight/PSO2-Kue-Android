@@ -3,9 +3,11 @@ package frostlight.pso2kue;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import frostlight.pso2kue.gcm.GcmHelper;
+import frostlight.pso2kue.gcm.GcmRegistrationTask;
 
 /**
  * MainActivity

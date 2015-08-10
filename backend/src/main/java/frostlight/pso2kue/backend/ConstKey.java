@@ -8,7 +8,7 @@ package frostlight.pso2kue.backend;
  */
 public class ConstKey {
 
-    // Authentication keys for using Twitter API (read permission only)
-    static final String twitterKey = "TWITTER_KEY";
-    static final String twitterSecret = "TWITTER_SECRET";
+    // Authentication keys for using TwitterServlet API (read permission only)
+    static final String twitterKey = "vo8NtYfCvYr5L5heMi6Dt9luU";
+    static final String twitterSecret = "Ktd6xwNN38vhxvLkh6WWyOrEHwRowZs9Ab2pEEpqmluXlnxgam";
 }

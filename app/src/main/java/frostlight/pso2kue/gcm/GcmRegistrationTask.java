@@ -1,20 +1,17 @@
-package frostlight.pso2kue;
+package frostlight.pso2kue.gcm;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import frostlight.pso2kue.Utility;
 import frostlight.pso2kue.backend.registration.Registration;
+import frostlight.pso2kue.gcm.GcmHelper;
 
 /**
  * GcmRegistrationTask
@@ -22,7 +19,7 @@ import frostlight.pso2kue.backend.registration.Registration;
  * Source: https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints
  * Created by Vincent on 8/5/2015.
  */
-class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
+public class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
     private static Registration regService = null;
     private GoogleCloudMessaging gcm;
     private Context context;

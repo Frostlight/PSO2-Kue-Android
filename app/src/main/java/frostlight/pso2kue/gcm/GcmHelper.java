@@ -1,10 +1,12 @@
-package frostlight.pso2kue;
+package frostlight.pso2kue.gcm;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
+
+import frostlight.pso2kue.Utility;
 
 /**
  * Created by Vincent on 8/6/2015.

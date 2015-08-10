@@ -1,7 +1,6 @@
-package frostlight.pso2kue;
+package frostlight.pso2kue.gcm;
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -10,15 +9,17 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import frostlight.pso2kue.MainActivity;
+import frostlight.pso2kue.R;
+import frostlight.pso2kue.Utility;
+import frostlight.pso2kue.gcm.GcmBroadcastReceiver;
 
 /**
  * Created by Vincent on 8/5/2015.

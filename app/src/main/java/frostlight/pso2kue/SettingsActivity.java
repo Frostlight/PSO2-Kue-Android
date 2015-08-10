@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import frostlight.pso2kue.data.KueContract;
+import frostlight.pso2kue.gcm.GcmHelper;
 
 /**
  * SettingsActivity

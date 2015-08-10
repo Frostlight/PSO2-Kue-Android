@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -89,7 +88,7 @@ public class TwitterServlet extends HttpServlet {
     private String fetchTwitter(Twitter twitter, int ship) {
         try {
             // For bot ID, subtract 1 from the ship number to get the array index
-            Long bot_id = Long.parseLong(frostlight.pso2kue.backend.ConstGeneral.shipId[ship - 1][0]);
+            Long bot_id = Long.parseLong(ConstGeneral.shipId[ship - 1][0]);
 
             // Only retrieve the latest Tweet (one tweet) from the bot
             Paging paging = new Paging();

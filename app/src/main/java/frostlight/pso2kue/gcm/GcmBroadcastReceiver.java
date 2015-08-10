@@ -1,4 +1,4 @@
-package frostlight.pso2kue;
+package frostlight.pso2kue.gcm;
 
 import android.app.Activity;
 import android.content.ComponentName;
