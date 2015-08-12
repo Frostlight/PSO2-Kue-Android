@@ -10,7 +10,6 @@ android {
         targetSdkVersion 21
         versionCode 10
         versionName "1.09"
-        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -29,6 +28,7 @@ dependencies {
     compile files('libs/joda-time-2.8.jar')
     compile files('libs/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar')
     compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.google.android.gms:play-services:7.3.0'
+    compile 'com.google.android.gms:play-services-base:7.3.0'
+    compile 'com.google.android.gms:play-services-gcm:7.3.0'
     compile project(path: ':backend', configuration: 'android-endpoints')
 }
