@@ -1,5 +1,6 @@
 package frostlight.pso2kue;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.joda.time.DateTime;
@@ -67,7 +68,11 @@ public class XmlParse {
             String name = parser.getName();
             // Starts by looking for the entry tag
             if (name.equals("entry")) {
-                entries.add(readEntry(parser));
+                Entry entry = readEntry(parser);
+
+                // Only add the entry if it's not null
+                if (entry != null)
+                    entries.add(entry);
             } else {
                 skip(parser);
             }
@@ -85,8 +90,8 @@ public class XmlParse {
      */
     private static Entry readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, null, "entry");
-        String title = null;
-        String summary = null;
+        String title = "";
+        String summary = "";
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -104,7 +109,16 @@ public class XmlParse {
                     break;
             }
         }
-        return new Entry(title, summary);
+
+        try {
+            // Title and summary should not be empty
+            if (title.length() != 0 && summary.length() != 0)
+                return new Entry(title, summary);
+            else
+                return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -148,12 +162,19 @@ public class XmlParse {
 
         // Parse the time with Japan timezone
         DateTime dateTime;
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
-        dateTime = dateTimeFormatter.withZone(DateTimeZone.forID(ConstGeneral.timeZone))
-                .parseDateTime(summary);
 
-        // Return the time in milliseconds
-        return Long.toString(dateTime.getMillis());
+        try {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
+            dateTime = dateTimeFormatter.withZone(DateTimeZone.forID(ConstGeneral.timeZone))
+                    .parseDateTime(summary);
+
+            // Return the time in milliseconds
+            return Long.toString(dateTime.getMillis());
+        } catch (Exception e) {
+            // Date probably received in wrong format
+            // Just return an empty string
+            return "";
+        }
     }
 
     /**
