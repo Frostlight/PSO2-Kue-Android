@@ -35,6 +35,9 @@
 
     <string name="pref_update_default">Last Updated: Never</string>
 
+    <string name="pref_notify_label">Notifications</string>
+    <string name="pref_notify_key">notify</string>
+
     <string name="pref_ship_label">Ship Number</string>
     <string name="pref_ship_key" translatable="false">ship_num</string>
     <string name="pref_ship_default">2</string>

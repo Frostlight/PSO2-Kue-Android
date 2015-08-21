@@ -85,7 +85,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                      */
                     if (Utility.matchPattern(entry.title,
                             "(Boost Day)|(Boost Period)|(Round.*Start)|(Round.*Ends)" +
-                                    "|(Ranking)|(Dance Festival)|(Maintenance)|(Stamp)").length() > 0)
+                                    "|(Ranking)|(Dance Festival)|(Maintenance)|(Stamp)|(Event)").length() > 0)
                         continue;
 
                     // Insert each element into the database

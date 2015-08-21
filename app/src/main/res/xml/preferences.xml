@@ -19,6 +19,11 @@
 
     <PreferenceCategory
         android:title="Preferences">
+        <SwitchPreference
+            android:key="@string/pref_notify_key"
+            android:title="@string/pref_notify_label"
+            android:defaultValue="false"
+            android:summary="%s" />
         <ListPreference
             android:title="@string/pref_ship_label"
             android:key="@string/pref_ship_key"

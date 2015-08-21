@@ -2,6 +2,7 @@ package frostlight.pso2kue;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        // Load the default preferences in case the user hasn't accessed the PreferenceActivity yet
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     @Override
