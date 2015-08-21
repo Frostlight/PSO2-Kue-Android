@@ -22,8 +22,7 @@
         <SwitchPreference
             android:key="@string/pref_notify_key"
             android:title="@string/pref_notify_label"
-            android:defaultValue="false"
-            android:summary="%s" />
+            android:defaultValue="@string/pref_notify_default" />
         <ListPreference
             android:title="@string/pref_ship_label"
             android:key="@string/pref_ship_key"

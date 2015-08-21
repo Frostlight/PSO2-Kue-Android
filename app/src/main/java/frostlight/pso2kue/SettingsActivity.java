@@ -7,7 +7,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
+import android.preference.TwoStatePreference;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import frostlight.pso2kue.data.KueContract;
@@ -292,7 +296,13 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            // Preference #3: Ship name (i.e. server name)
+            // Preference #3: Notification Toggle
+            TwoStatePreference notify = (TwoStatePreference) findPreference(getString(R.string.pref_notify_key));
+
+            notify.setSummaryOn(R.string.pref_notify_on);
+            notify.setSummaryOff(R.string.pref_notify_off);
+            
+            // Preference #4: Ship name (i.e. server name)
             Preference shipName = findPreference(getString(R.string.pref_ship_key));
 
             shipName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
