@@ -7,6 +7,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -164,7 +166,20 @@ public class XmlParse {
         DateTime dateTime;
 
         try {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMM yyyy HH:mm");
+            /**
+             * Three possible patterns for dates from Google calendar
+             * 1) 22 Aug 2015 23:00
+             * 2) Aug 22, 2015 11pm
+             * 3) Aug 22, 2015 11:30pm
+             */
+
+            DateTimeParser[] parsers = {
+                    DateTimeFormat.forPattern("dd MMM yyyy HH:mm").getParser(),
+                    DateTimeFormat.forPattern("MMM dd, yyyy hhaa").getParser(),
+                    DateTimeFormat.forPattern("MMM dd, yyyy hh:mmaa").getParser()
+            };
+            DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().append( null, parsers ).toFormatter();
+
             dateTime = dateTimeFormatter.withZone(DateTimeZone.forID(ConstGeneral.timeZone))
                     .parseDateTime(summary);
 
