@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import frostlight.pso2kue.gcm.GcmHelper;
 import frostlight.pso2kue.gcm.GcmRegistrationTask;
+import frostlight.pso2kue.gcm.GcmUnregistrationTask;
 
 /**
  * MainActivity
@@ -32,13 +33,14 @@ public class MainActivity extends ActionBarActivity {
         super.onStart();
 
         boolean notify = Utility.getPreferenceNotifications(getApplicationContext());
-        Log.v(Utility.getTag(), "Notifications are " + notify);
-
-        // Register device with backend
         String regId = GcmHelper.getRegistrationId(getApplicationContext());
 
-        if (regId == null || regId.equals(""))
+        // If notifications are on and there is no saved registration ID, register with the backend
+        if (notify && (regId == null || regId.equals("")))
             new GcmRegistrationTask(this).execute();
+        // If notifications are off and there is a saved registration ID, unregister with the backend
+        else if (!notify && (regId != null && !regId.equals("")))
+            new GcmUnregistrationTask(this).execute(regId);
     }
 
     @Override
