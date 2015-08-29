@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,6 +30,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        boolean notify = Utility.getPreferenceNotifications(getApplicationContext());
+        Log.v(Utility.getTag(), "Notifications are " + notify);
 
         // Register device with backend
         String regId = GcmHelper.getRegistrationId(getApplicationContext());

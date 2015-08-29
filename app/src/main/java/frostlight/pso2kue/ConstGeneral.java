@@ -15,6 +15,10 @@ public class ConstGeneral {
     // Either 24 or 12, corresponding to the type of clock
     public static int defaultClock = 24;
 
+    // Default notification option if Preferences are not available
+    // true or false
+    public static boolean defaultNotify = true;
+
     // List of Twitter IDs and their associated handles
     public static final String[][] shipId = {
             {"2753540587", "PSO2es_ship01"},    // Ship 1

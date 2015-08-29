@@ -63,8 +63,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                        // Fetch from Twitter
                        updateTwitter();
 
-                       // Restart the loader
-                       getLoaderManager().restartLoader(EQ_LOADER, null, MainActivityFragment.this);
+                       // Restart the loader if fragment is still attached to activity
+                       if (isAdded())
+                            getLoaderManager().restartLoader(EQ_LOADER, null, MainActivityFragment.this);
                    }
                 });
             }

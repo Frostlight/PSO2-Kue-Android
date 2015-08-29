@@ -45,6 +45,14 @@ public class GcmIntentService extends IntentService {
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 Logger.getLogger("GCM_RECEIVED").log(Level.INFO, extras.toString());
 
+                // Save the registration ID if it was not registered for some reason
+                String regId = intent.getExtras().getString("registration_id");
+                if (regId != null && !regId.equals("") && GcmHelper.getRegistrationId(
+                        getApplicationContext()).equals("")) {
+                    GcmHelper.setRegistrationId(getApplicationContext(), regId);
+                }
+
+                // Display the push notification using the notification manager service
                 String eqName = TranslationHelper.getEqTranslation(getApplicationContext(),
                         extras.getString("message"));
 

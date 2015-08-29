@@ -301,7 +301,20 @@ public class SettingsActivity extends AppCompatActivity {
 
             notify.setSummaryOn(R.string.pref_notify_on);
             notify.setSummaryOff(R.string.pref_notify_off);
-            
+
+//            notify.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//                @SuppressLint("CommitPrefEdits")
+//                @Override
+//                public boolean onPreferenceChange(Preference preference, Object newValue) {
+//                    // Update the SharedPreferences with the new Notification preference
+//                    SharedPreferences.Editor editor = mSharedPreferences.edit();
+//
+//                    editor.putString(getString(R.string.pref_notify_key), newValue.toString());
+//                    editor.commit();
+//                    return true;
+//                }
+//            });
+
             // Preference #4: Ship name (i.e. server name)
             Preference shipName = findPreference(getString(R.string.pref_ship_key));
 

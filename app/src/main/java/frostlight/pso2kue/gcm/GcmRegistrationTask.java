@@ -57,6 +57,7 @@ public class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
             if (gcm == null) {
                 gcm = GoogleCloudMessaging.getInstance(context);
             }
+
             String regId = gcm.register(SENDER_ID);
             msg = "Device registered, registration ID=" + regId;
 

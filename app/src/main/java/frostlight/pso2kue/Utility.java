@@ -41,6 +41,22 @@ public class Utility {
     }
 
     /**
+     * Gets the notification setting from the preferences
+     *
+     * @param context Context to use for resource fetching
+     * @return True or false depending on whether notifications are enabled or disabled
+     */
+    public static boolean getPreferenceNotifications(Context context) {
+        try {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            return sharedPreferences.getBoolean(context.getString(R.string.pref_notify_key),
+                    Boolean.parseBoolean(context.getString(R.string.pref_notify_default)));
+        } catch (Exception e) {
+            return ConstGeneral.defaultNotify;
+        }
+    }
+
+    /**
      * Gets the ship (server) number from the preferences
      *
      * @param context Context to use for resource fetching
