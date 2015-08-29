@@ -7,11 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
 import android.preference.TwoStatePreference;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import frostlight.pso2kue.data.KueContract;

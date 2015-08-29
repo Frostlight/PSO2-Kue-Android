@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import frostlight.pso2kue.Utility;
 import frostlight.pso2kue.backend.registration.Registration;
-import frostlight.pso2kue.gcm.GcmHelper;
 
 /**
  * GcmRegistrationTask

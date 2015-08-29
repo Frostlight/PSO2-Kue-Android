@@ -1,14 +1,9 @@
 package frostlight.pso2kue;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.memetix.mst.language.Language;
-import com.memetix.mst.translate.Translate;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -20,8 +15,6 @@ import org.joda.time.format.ISODateTimeFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import frostlight.pso2kue.data.KueContract;
 
 /**
  * Utility

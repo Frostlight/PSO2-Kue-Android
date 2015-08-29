@@ -3,13 +3,11 @@ package frostlight.pso2kue.gcm;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 
 import java.io.IOException;
 
-import frostlight.pso2kue.Utility;
 import frostlight.pso2kue.backend.registration.Registration;
 
 /**

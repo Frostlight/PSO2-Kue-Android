@@ -1,6 +1,5 @@
 package frostlight.pso2kue;
 
-import android.util.Log;
 import android.util.Xml;
 
 import org.joda.time.DateTime;
