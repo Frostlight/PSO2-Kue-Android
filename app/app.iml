@@ -103,8 +103,8 @@
     <orderEntry type="library" exported="" name="google-http-client-1.19.0" level="project" />
     <orderEntry type="library" exported="" name="backend-android-endpoints" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.19.0" level="project" />
-    <orderEntry type="library" exported="" name="guava-jdk5-13.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-jackson2-1.19.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-jdk5-13.0" level="project" />
     <orderEntry type="library" exported="" name="microsoft-translator-java-api-0.6.2-jar-with-dependencies" level="project" />
     <orderEntry type="library" exported="" name="joda-time-2.8" level="project" />
     <orderEntry type="library" exported="" name="twitter4j-core-4.0.3" level="project" />
