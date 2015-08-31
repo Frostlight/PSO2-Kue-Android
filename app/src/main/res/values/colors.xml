@@ -9,6 +9,8 @@
     <color name="color_secondary_text">#FFFFFF</color>
     <color name="color_divider">#B6B6B6</color>
 
+    <!-- Colours for EQ incoming/active bars and text -->
     <color name="color_yellow">#FFEB3B</color>
+    <color name="color_yellow_text">#000000</color>
     <color name="color_red">#FF5252</color>
 </resources>

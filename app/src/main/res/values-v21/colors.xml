@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#2196F3</color>
-    <color name="color_primary_dark">#1976D2</color>
-    <color name="color_primary_light">#BBDEFB</color>
-    <color name="color_text_icons">#FFFFFF</color>
-    <color name="color_accent">#03A9F4</color>
     <color name="color_primary_text">#212121</color>
     <color name="color_secondary_text">#727272</color>
-    <color name="color_divider">#B6B6B6</color>
 
-    <color name="color_yellow">#FFEB3B</color>
-    <color name="color_red">#FF5252</color>
+    <!-- Colours for EQ incoming/active bars and text -->
+    <color name="color_yellow_text">#212121</color>
 </resources>
