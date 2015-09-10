@@ -1,0 +1,513 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BFE69E5D1BA1070B003C1D2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE69E5C1BA1070B003C1D2A /* AppDelegate.swift */; };
+		BFE69E5F1BA1070B003C1D2A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE69E5E1BA1070B003C1D2A /* ViewController.swift */; };
+		BFE69E621BA1070B003C1D2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFE69E601BA1070B003C1D2A /* Main.storyboard */; };
+		BFE69E641BA1070B003C1D2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFE69E631BA1070B003C1D2A /* Assets.xcassets */; };
+		BFE69E671BA1070B003C1D2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFE69E651BA1070B003C1D2A /* LaunchScreen.storyboard */; };
+		BFE69E721BA1070B003C1D2A /* PSO2_KueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE69E711BA1070B003C1D2A /* PSO2_KueTests.swift */; };
+		BFE69E7D1BA1070B003C1D2A /* PSO2_KueUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE69E7C1BA1070B003C1D2A /* PSO2_KueUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BFE69E6E1BA1070B003C1D2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFE69E511BA1070B003C1D2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFE69E581BA1070B003C1D2A;
+			remoteInfo = "PSO2 Kue";
+		};
+		BFE69E791BA1070B003C1D2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFE69E511BA1070B003C1D2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFE69E581BA1070B003C1D2A;
+			remoteInfo = "PSO2 Kue";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BFE69E591BA1070B003C1D2A /* PSO2 Kue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PSO2 Kue.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFE69E5C1BA1070B003C1D2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BFE69E5E1BA1070B003C1D2A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BFE69E611BA1070B003C1D2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BFE69E631BA1070B003C1D2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BFE69E661BA1070B003C1D2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BFE69E681BA1070B003C1D2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFE69E6D1BA1070B003C1D2A /* PSO2 KueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PSO2 KueTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFE69E711BA1070B003C1D2A /* PSO2_KueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSO2_KueTests.swift; sourceTree = "<group>"; };
+		BFE69E731BA1070B003C1D2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFE69E781BA1070B003C1D2A /* PSO2 KueUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PSO2 KueUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFE69E7C1BA1070B003C1D2A /* PSO2_KueUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSO2_KueUITests.swift; sourceTree = "<group>"; };
+		BFE69E7E1BA1070B003C1D2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BFE69E561BA1070B003C1D2A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE69E6A1BA1070B003C1D2A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE69E751BA1070B003C1D2A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BFE69E501BA1070B003C1D2A = {
+			isa = PBXGroup;
+			children = (
+				BFE69E5B1BA1070B003C1D2A /* PSO2 Kue */,
+				BFE69E701BA1070B003C1D2A /* PSO2 KueTests */,
+				BFE69E7B1BA1070B003C1D2A /* PSO2 KueUITests */,
+				BFE69E5A1BA1070B003C1D2A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BFE69E5A1BA1070B003C1D2A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BFE69E591BA1070B003C1D2A /* PSO2 Kue.app */,
+				BFE69E6D1BA1070B003C1D2A /* PSO2 KueTests.xctest */,
+				BFE69E781BA1070B003C1D2A /* PSO2 KueUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BFE69E5B1BA1070B003C1D2A /* PSO2 Kue */ = {
+			isa = PBXGroup;
+			children = (
+				BFE69E5C1BA1070B003C1D2A /* AppDelegate.swift */,
+				BFE69E5E1BA1070B003C1D2A /* ViewController.swift */,
+				BFE69E601BA1070B003C1D2A /* Main.storyboard */,
+				BFE69E631BA1070B003C1D2A /* Assets.xcassets */,
+				BFE69E651BA1070B003C1D2A /* LaunchScreen.storyboard */,
+				BFE69E681BA1070B003C1D2A /* Info.plist */,
+			);
+			path = "PSO2 Kue";
+			sourceTree = "<group>";
+		};
+		BFE69E701BA1070B003C1D2A /* PSO2 KueTests */ = {
+			isa = PBXGroup;
+			children = (
+				BFE69E711BA1070B003C1D2A /* PSO2_KueTests.swift */,
+				BFE69E731BA1070B003C1D2A /* Info.plist */,
+			);
+			path = "PSO2 KueTests";
+			sourceTree = "<group>";
+		};
+		BFE69E7B1BA1070B003C1D2A /* PSO2 KueUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BFE69E7C1BA1070B003C1D2A /* PSO2_KueUITests.swift */,
+				BFE69E7E1BA1070B003C1D2A /* Info.plist */,
+			);
+			path = "PSO2 KueUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BFE69E581BA1070B003C1D2A /* PSO2 Kue */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFE69E811BA1070B003C1D2A /* Build configuration list for PBXNativeTarget "PSO2 Kue" */;
+			buildPhases = (
+				BFE69E551BA1070B003C1D2A /* Sources */,
+				BFE69E561BA1070B003C1D2A /* Frameworks */,
+				BFE69E571BA1070B003C1D2A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PSO2 Kue";
+			productName = "PSO2 Kue";
+			productReference = BFE69E591BA1070B003C1D2A /* PSO2 Kue.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BFE69E6C1BA1070B003C1D2A /* PSO2 KueTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFE69E841BA1070B003C1D2A /* Build configuration list for PBXNativeTarget "PSO2 KueTests" */;
+			buildPhases = (
+				BFE69E691BA1070B003C1D2A /* Sources */,
+				BFE69E6A1BA1070B003C1D2A /* Frameworks */,
+				BFE69E6B1BA1070B003C1D2A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BFE69E6F1BA1070B003C1D2A /* PBXTargetDependency */,
+			);
+			name = "PSO2 KueTests";
+			productName = "PSO2 KueTests";
+			productReference = BFE69E6D1BA1070B003C1D2A /* PSO2 KueTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BFE69E771BA1070B003C1D2A /* PSO2 KueUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFE69E871BA1070B003C1D2A /* Build configuration list for PBXNativeTarget "PSO2 KueUITests" */;
+			buildPhases = (
+				BFE69E741BA1070B003C1D2A /* Sources */,
+				BFE69E751BA1070B003C1D2A /* Frameworks */,
+				BFE69E761BA1070B003C1D2A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BFE69E7A1BA1070B003C1D2A /* PBXTargetDependency */,
+			);
+			name = "PSO2 KueUITests";
+			productName = "PSO2 KueUITests";
+			productReference = BFE69E781BA1070B003C1D2A /* PSO2 KueUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFE69E511BA1070B003C1D2A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = Frostlight;
+				TargetAttributes = {
+					BFE69E581BA1070B003C1D2A = {
+						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = M822S4TQNS;
+					};
+					BFE69E6C1BA1070B003C1D2A = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = BFE69E581BA1070B003C1D2A;
+					};
+					BFE69E771BA1070B003C1D2A = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = BFE69E581BA1070B003C1D2A;
+					};
+				};
+			};
+			buildConfigurationList = BFE69E541BA1070B003C1D2A /* Build configuration list for PBXProject "PSO2 Kue" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BFE69E501BA1070B003C1D2A;
+			productRefGroup = BFE69E5A1BA1070B003C1D2A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BFE69E581BA1070B003C1D2A /* PSO2 Kue */,
+				BFE69E6C1BA1070B003C1D2A /* PSO2 KueTests */,
+				BFE69E771BA1070B003C1D2A /* PSO2 KueUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BFE69E571BA1070B003C1D2A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFE69E671BA1070B003C1D2A /* LaunchScreen.storyboard in Resources */,
+				BFE69E641BA1070B003C1D2A /* Assets.xcassets in Resources */,
+				BFE69E621BA1070B003C1D2A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE69E6B1BA1070B003C1D2A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE69E761BA1070B003C1D2A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BFE69E551BA1070B003C1D2A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFE69E5F1BA1070B003C1D2A /* ViewController.swift in Sources */,
+				BFE69E5D1BA1070B003C1D2A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE69E691BA1070B003C1D2A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFE69E721BA1070B003C1D2A /* PSO2_KueTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE69E741BA1070B003C1D2A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFE69E7D1BA1070B003C1D2A /* PSO2_KueUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BFE69E6F1BA1070B003C1D2A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BFE69E581BA1070B003C1D2A /* PSO2 Kue */;
+			targetProxy = BFE69E6E1BA1070B003C1D2A /* PBXContainerItemProxy */;
+		};
+		BFE69E7A1BA1070B003C1D2A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BFE69E581BA1070B003C1D2A /* PSO2 Kue */;
+			targetProxy = BFE69E791BA1070B003C1D2A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BFE69E601BA1070B003C1D2A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFE69E611BA1070B003C1D2A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BFE69E651BA1070B003C1D2A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFE69E661BA1070B003C1D2A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BFE69E7F1BA1070B003C1D2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BFE69E801BA1070B003C1D2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BFE69E821BA1070B003C1D2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "PSO2 Kue/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "frostlight.PSO2-Kue";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		BFE69E831BA1070B003C1D2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "PSO2 Kue/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "frostlight.PSO2-Kue";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		BFE69E851BA1070B003C1D2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "PSO2 KueTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "frostlight.PSO2-KueTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PSO2 Kue.app/PSO2 Kue";
+			};
+			name = Debug;
+		};
+		BFE69E861BA1070B003C1D2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "PSO2 KueTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "frostlight.PSO2-KueTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PSO2 Kue.app/PSO2 Kue";
+			};
+			name = Release;
+		};
+		BFE69E881BA1070B003C1D2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "PSO2 KueUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "frostlight.PSO2-KueUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "PSO2 Kue";
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		BFE69E891BA1070B003C1D2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "PSO2 KueUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "frostlight.PSO2-KueUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "PSO2 Kue";
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BFE69E541BA1070B003C1D2A /* Build configuration list for PBXProject "PSO2 Kue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFE69E7F1BA1070B003C1D2A /* Debug */,
+				BFE69E801BA1070B003C1D2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFE69E811BA1070B003C1D2A /* Build configuration list for PBXNativeTarget "PSO2 Kue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFE69E821BA1070B003C1D2A /* Debug */,
+				BFE69E831BA1070B003C1D2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BFE69E841BA1070B003C1D2A /* Build configuration list for PBXNativeTarget "PSO2 KueTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFE69E851BA1070B003C1D2A /* Debug */,
+				BFE69E861BA1070B003C1D2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BFE69E871BA1070B003C1D2A /* Build configuration list for PBXNativeTarget "PSO2 KueUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFE69E881BA1070B003C1D2A /* Debug */,
+				BFE69E891BA1070B003C1D2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFE69E511BA1070B003C1D2A /* Project object */;
+}
