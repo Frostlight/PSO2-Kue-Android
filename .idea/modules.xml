@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PSO2Kue.iml" filepath="$PROJECT_DIR$/PSO2Kue.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PSO2-Kue.iml" filepath="$PROJECT_DIR$/PSO2-Kue.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
     </modules>
