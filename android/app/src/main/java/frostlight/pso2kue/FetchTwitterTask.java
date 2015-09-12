@@ -49,8 +49,10 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             token = new TwitterFactory(configurationBuilder.build())
                     .getInstance().getOAuth2Token();
         } catch (TwitterException e) {
-            Log.e(Utility.getTag(), "Error: ", e);
-            e.printStackTrace();
+            // Hide errors since they trigger too often (no internet, etc.)
+            //Log.e(Utility.getTag(), "Error: ", e);
+            //e.printStackTrace();
+            return null;
         }
 
         return token;
@@ -206,8 +208,10 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             contentValues.put(KueContract.TwitterEntry.COLUMN_DATE, eqTime);
             mContext.getContentResolver().insert(KueContract.TwitterEntry.CONTENT_URI, contentValues);
         } catch (TwitterException e) {
-            Log.e(Utility.getTag(), "Error: ", e);
-            e.printStackTrace();
+            // Hide errors since they trigger too often (no internet, etc.)
+            //Log.e(Utility.getTag(), "Error: ", e);
+            //e.printStackTrace();
+            cancel(true);
         }
         return null;
     }

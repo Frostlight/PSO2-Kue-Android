@@ -102,8 +102,9 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
             }
         } catch (IOException e) {
             // Hostname wasn't resolved properly, start date couldn't be encoded, etc.
-            Log.e(Utility.getTag(), "Error: ", e);
-            e.printStackTrace();
+            // Hide errors since they trigger too often (no internet, etc.)
+            //Log.e(Utility.getTag(), "Error: ", e);
+            //e.printStackTrace();
             cancel(true);
         } finally {
             if (urlConnection != null) {

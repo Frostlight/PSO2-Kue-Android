@@ -2,137 +2,137 @@
 <items version="2" >
 
     <item
-        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-android/1.19.0/e3f11020c2c812112803d252d1392872d3f619c8/google-http-client-android-1.19.0.jar"
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/libs/twitter4j-core-4.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="e3f11020c2c812112803d252d1392872d3f619c8">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/google-http-client-android-1.19.0-bac414355778a05f79ab3aeeb6aa8a1fddbc838a.jar" />
+        sha1="cb244e5be126bf0a8114c8a64a5d26c6490b9ef2">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/twitter4j-core-4.0.3-adc3894ca07625bb957cd1cff8d17ff8a13b369f.jar" />
     </item>
     <item
-        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.19.0/81dbf9795d387d5e80e55346582d5f2fb81a42eb/google-http-client-jackson2-1.19.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81dbf9795d387d5e80e55346582d5f2fb81a42eb">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/google-http-client-jackson2-1.19.0-051f7a63ad20341cf76312e2a93094286d378db2.jar" />
-    </item>
-    <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-109f5d1362fb1c85e7814e59d6ee7a85503085bb.jar" />
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-321bc269fcfba62bbfa0a305571fc549ac830f8c.jar" />
     </item>
     <item
-        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.1.3/f6c3aed1cdfa21b5c1737c915186ea93a95a58bd/jackson-core-2.1.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="f6c3aed1cdfa21b5c1737c915186ea93a95a58bd">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/jackson-core-2.1.3-f2bc694d673f5123c8c5337006e17a4d048e35a2.jar" />
-    </item>
-    <item
-        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.19.0/6a21277d9bebe267b7ddee028b241eebc756c040/google-api-client-1.19.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="6a21277d9bebe267b7ddee028b241eebc756c040">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/google-api-client-1.19.0-e516150a04fdc349ea4df859e44c5a6744899a68.jar" />
-    </item>
-    <item
-        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client-android/1.19.0/ba2aafb867f6af469f936ae76426cf0a280094bd/google-api-client-android-1.19.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="ba2aafb867f6af469f936ae76426cf0a280094bd">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/google-api-client-android-1.19.0-30dea78dd04ae1aed7d66c3e8309c930bc099679.jar" />
-    </item>
-    <item
-        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.19.0/d473a8962e14a707a3716637e4898bb2dd9643f2/google-oauth-client-1.19.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="d473a8962e14a707a3716637e4898bb2dd9643f2">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/google-oauth-client-1.19.0-9c1ca3c6cdc8b6759b21510977b522b0d760f39d.jar" />
-    </item>
-    <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/classes-9fafeab46d73b7c8306ce0bc25c327dfa96a2d72.jar" />
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/classes-a7ca915bec808b9d3b1aa971fc2bf633e2cfec9c.jar" />
     </item>
     <item
-        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.19.0/cdca49ad0977c040f603478aa2e16b2775c8fec6/google-http-client-1.19.0.jar"
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/backend/build/libs/backend-android-endpoints.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="cdca49ad0977c040f603478aa2e16b2775c8fec6">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/google-http-client-1.19.0-33adbc083683742fb7f76adac33fd44b511804ba.jar" />
-    </item>
-    <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/app/libs/joda-time-2.8.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="9f2785d7184b97d005a44241ccaf980f43b9ccdb">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/joda-time-2.8-764d0898c81928170d944ffde754711e736ab535.jar" />
-    </item>
-    <item
-        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/13.0/381ae6c8add7c98e9bcddb1e0b898400cd6fc3f7/guava-jdk5-13.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="381ae6c8add7c98e9bcddb1e0b898400cd6fc3f7">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/guava-jdk5-13.0-e0cb1643867595d3ac43fb7b3dc912c357236a43.jar" />
+        sha1="f1e19c2c150ce6fed933fab06ac622c697054613">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/backend-android-endpoints-347e36ba66f177c95a96c0597e4fda720a1b47ba.jar" />
     </item>
     <item
         jar="/Users/Vincent/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-0722eca7900005492966884fc98db4157f609b24.jar" />
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-0722eca7900005492966884fc98db4157f609b24.jar" />
     </item>
     <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.3.0/jars/classes.jar"
+        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client-android/1.19.0/ba2aafb867f6af469f936ae76426cf0a280094bd/google-api-client-android-1.19.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ba2aafb867f6af469f936ae76426cf0a280094bd">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/google-api-client-android-1.19.0-30dea78dd04ae1aed7d66c3e8309c930bc099679.jar" />
+    </item>
+    <item
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/classes-5d53c64bd08db5dbc008ce1e87757fc44a4c51a8.jar" />
+    </item>
+    <item
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="7215ac1f2fca947b9415a6ee2a1bf991364aab24">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/classes-42c80e91565f5a97e78be5c70581f87206e80289.jar" />
+    </item>
+    <item
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.3.0/jars/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="f2f7ec211ce4d244ee97a57523eeb4526dc3cf8a">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/classes-d88dde30dcc8462077059f4049009c053734820c.jar" />
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/classes-c07f1b2f3f3ed63e30b108df424527902c425fde.jar" />
+    </item>
+    <item
+        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.19.0/6a21277d9bebe267b7ddee028b241eebc756c040/google-api-client-1.19.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6a21277d9bebe267b7ddee028b241eebc756c040">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/google-api-client-1.19.0-e516150a04fdc349ea4df859e44c5a6744899a68.jar" />
     </item>
     <item
         jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/jsr305-1.3.9-68ef42fa1b63b666e1ed271f0898ef6759ad0524.jar" />
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/jsr305-1.3.9-68ef42fa1b63b666e1ed271f0898ef6759ad0524.jar" />
     </item>
     <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/app/libs/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar"
+        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.19.0/81dbf9795d387d5e80e55346582d5f2fb81a42eb/google-http-client-jackson2-1.19.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81dbf9795d387d5e80e55346582d5f2fb81a42eb">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/google-http-client-jackson2-1.19.0-051f7a63ad20341cf76312e2a93094286d378db2.jar" />
+    </item>
+    <item
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/libs/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="d60939a936405b0b2a51878665c9a8bbd6672414">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/microsoft-translator-java-api-0.6.2-jar-with-dependencies-1e3dcad75cbe5bf1244f98cdb2173bd4d7760aee.jar" />
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/microsoft-translator-java-api-0.6.2-jar-with-dependencies-cbea3ecd542d955e65c435510ec86b8a79864ed0.jar" />
     </item>
     <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.3.0/jars/classes.jar"
+        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.19.0/d473a8962e14a707a3716637e4898bb2dd9643f2/google-oauth-client-1.19.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="7215ac1f2fca947b9415a6ee2a1bf991364aab24">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/classes-af44b2e7b13a8c6f1e55385fccf6412450de3ce7.jar" />
+        sha1="d473a8962e14a707a3716637e4898bb2dd9643f2">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/google-oauth-client-1.19.0-9c1ca3c6cdc8b6759b21510977b522b0d760f39d.jar" />
     </item>
     <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/backend/build/libs/backend-android-endpoints.jar"
+        jar="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/libs/joda-time-2.8.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="6d8723be9bd87e0d5520001a375c97d2f08ab0ae">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/backend-android-endpoints-a3bfb790364e9b3daee1388d7d782f9761b34fd6.jar" />
+        sha1="9f2785d7184b97d005a44241ccaf980f43b9ccdb">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/joda-time-2.8-d14c1d8dd33c93d3a6446232f26e330886840051.jar" />
     </item>
     <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
+        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.19.0/cdca49ad0977c040f603478aa2e16b2775c8fec6/google-http-client-1.19.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/classes-d96e2304ed1f2759808ece97bb317b6f5886722b.jar" />
+        sha1="cdca49ad0977c040f603478aa2e16b2775c8fec6">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/google-http-client-1.19.0-33adbc083683742fb7f76adac33fd44b511804ba.jar" />
     </item>
     <item
-        jar="/Users/Vincent/Documents/Github/PSO2-Kue/app/libs/twitter4j-core-4.0.3.jar"
+        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.1.3/f6c3aed1cdfa21b5c1737c915186ea93a95a58bd/jackson-core-2.1.3.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="cb244e5be126bf0a8114c8a64a5d26c6490b9ef2">
-        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/app/build/intermediates/pre-dexed/debug/twitter4j-core-4.0.3-1a8c8cdb26579c116f80fc7d195d3b627285baae.jar" />
+        sha1="f6c3aed1cdfa21b5c1737c915186ea93a95a58bd">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/jackson-core-2.1.3-f2bc694d673f5123c8c5337006e17a4d048e35a2.jar" />
+    </item>
+    <item
+        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-android/1.19.0/e3f11020c2c812112803d252d1392872d3f619c8/google-http-client-android-1.19.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e3f11020c2c812112803d252d1392872d3f619c8">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/google-http-client-android-1.19.0-bac414355778a05f79ab3aeeb6aa8a1fddbc838a.jar" />
+    </item>
+    <item
+        jar="/Users/Vincent/.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/13.0/381ae6c8add7c98e9bcddb1e0b898400cd6fc3f7/guava-jdk5-13.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="381ae6c8add7c98e9bcddb1e0b898400cd6fc3f7">
+        <dex dex="/Users/Vincent/Documents/Github/PSO2-Kue/android/app/build/intermediates/pre-dexed/debug/guava-jdk5-13.0-e0cb1643867595d3ac43fb7b3dc912c357236a43.jar" />
     </item>
 
 </items>
