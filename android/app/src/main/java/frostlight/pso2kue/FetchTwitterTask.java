@@ -153,6 +153,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             if (Math.abs(System.currentTimeMillis() - lastDate) < 60*60*1000)
                 return null;
         }
+        cursor.close();
 
         int ship = params[0];
 
