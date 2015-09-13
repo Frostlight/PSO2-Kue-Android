@@ -67,9 +67,8 @@ public class GoogleSpreadsheet {
             }
         } catch (IOException e) {
             // Hostname wasn't resolved properly, no internet?
-            // Hide errors since they trigger too often (no internet, etc.)
-            //Log.e(Utility.getTag(), "Error: ", e);
-            //e.printStackTrace();
+            Log.e(Utility.getTag(), "Error: ", e);
+            e.printStackTrace();
             return null;
         } finally {
             if (urlConnection != null) {

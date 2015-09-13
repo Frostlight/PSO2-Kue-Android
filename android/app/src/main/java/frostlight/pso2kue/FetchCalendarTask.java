@@ -33,6 +33,10 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+        // If there is no network connection, nothing to do
+        if (!Utility.isOnline(mContext))
+            return null;
+
         // Declared outside try/catch block so it can be closed in the finally block
         HttpsURLConnection urlConnection = null;
 
@@ -102,9 +106,8 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
             }
         } catch (IOException e) {
             // Hostname wasn't resolved properly, start date couldn't be encoded, etc.
-            // Hide errors since they trigger too often (no internet, etc.)
-            //Log.e(Utility.getTag(), "Error: ", e);
-            //e.printStackTrace();
+            Log.e(Utility.getTag(), "Error: ", e);
+            e.printStackTrace();
             cancel(true);
         } finally {
             if (urlConnection != null) {

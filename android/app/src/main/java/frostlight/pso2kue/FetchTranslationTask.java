@@ -35,6 +35,10 @@ public class FetchTranslationTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+        // If there is no network connection, nothing to do
+        if (!Utility.isOnline(mContext))
+            return null;
+
         try {
             JSONArray array = GoogleSpreadsheet.getColumns(ConstGeneral.translationUrl);
             if (array == null) {

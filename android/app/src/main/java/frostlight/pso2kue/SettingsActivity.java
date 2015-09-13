@@ -93,7 +93,7 @@ public class SettingsActivity extends AppCompatActivity {
                             // Re-enable the update button preference
                             mUpdateCalendar.setEnabled(true);
 
-                            // Nullify the AsyncTask since it was canceled
+                            // Nullify the AsyncTask since it was cancelled
                             mFetchCalendarTask = null;
 
                             // Dismiss the ProgressDialog
@@ -190,7 +190,7 @@ public class SettingsActivity extends AppCompatActivity {
                             // Re-enable the update button preference
                             mUpdateTranslations.setEnabled(true);
 
-                            // Nullify the AsyncTask since it was canceled
+                            // Nullify the AsyncTask since it was cancelled
                             mFetchTranslationTask = null;
 
                             // Dismiss the ProgressDialog

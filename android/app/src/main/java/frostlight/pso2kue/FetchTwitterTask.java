@@ -107,6 +107,10 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      */
     @Override
     protected Void doInBackground(Integer... params) {
+        // If there is no network connection, nothing to do
+        if (!Utility.isOnline(mContext))
+            return null;
+
         // If there are no servers selected, there's nothing to look up
         if (params.length == 0)
             return null;
@@ -209,10 +213,8 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
             contentValues.put(KueContract.TwitterEntry.COLUMN_DATE, eqTime);
             mContext.getContentResolver().insert(KueContract.TwitterEntry.CONTENT_URI, contentValues);
         } catch (TwitterException e) {
-            // Hide errors since they trigger too often (no internet, etc.)
-            //Log.e(Utility.getTag(), "Error: ", e);
-            //e.printStackTrace();
-            cancel(true);
+            Log.e(Utility.getTag(), "Error: ", e);
+            e.printStackTrace();
         }
         return null;
     }

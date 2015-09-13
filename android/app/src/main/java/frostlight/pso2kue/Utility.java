@@ -3,6 +3,8 @@ package frostlight.pso2kue;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import org.joda.time.DateTime;
@@ -22,6 +24,19 @@ import java.util.regex.Pattern;
  * Created by Vincent on 5/26/2015.
  */
 public class Utility {
+
+    /**
+     * Checks if there is an active network connection
+     *
+     * @param context Context to use to verify network connection
+     * @return True if there is a network connection, False otherwise
+     */
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 
     /**
      * Checks if a cursor is empty
