@@ -107,6 +107,10 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
      */
     @Override
     protected Void doInBackground(Integer... params) {
+        // If context doesn't exist, database interactions will fail, so abandon here
+        if (mContext == null)
+            return null;
+
         // If there is no network connection, nothing to do
         if (!Utility.isOnline(mContext))
             return null;

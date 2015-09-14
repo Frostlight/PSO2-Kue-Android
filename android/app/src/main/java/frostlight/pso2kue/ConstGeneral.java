@@ -42,5 +42,9 @@ public class ConstGeneral {
 
     // URL for the translation table (querying)
     public static final String translationUrl =
-            "https://spreadsheets.google.com/feeds/list/15W5QrDp3U8umUHxSUXJLd9dOFXGWv7gbqtWZk9qP5V8/od6/public/values?";
+            "https://spreadsheets.google.com/feeds/list/15W5QrDp3U8umUHxSUXJLd9dOFXGWv7gbqtWZk9qP5V8/default/public/values?";
+
+    // URL for the ignore strings table (strings to ignore for calendar fetching)
+    public static final String ignoreStringsUrl =
+            "https://spreadsheets.google.com/feeds/list/1snJ_ZF--8W-0As7PT6nZjaQi_ofTZyvMXR9yZsQVUt4/default/public/values?";
 }

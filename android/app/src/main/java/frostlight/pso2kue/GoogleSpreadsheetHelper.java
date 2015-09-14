@@ -15,10 +15,19 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
+ * GoogleSpreadsheetHelper
+ * Methods that interact with Google Spreadsheets
  * Created by Vincent on 9/12/15.
  */
-public class GoogleSpreadsheet {
-    public static JSONArray getColumns(String uri) {
+public class GoogleSpreadsheetHelper {
+
+    /**
+     * Gets a JSONArray containing cell contents from a Google Spreadsheets uri
+     * Top cells are assumed to be headers
+     * @param uri Uri to extract JSONArray from
+     * @return JSONArray containing cell contents
+     */
+    public static JSONArray getJSONArray(String uri) {
         // Declared outside try/catch block so it can be closed in the finally block
         HttpsURLConnection urlConnection = null;
 

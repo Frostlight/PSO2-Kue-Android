@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
@@ -36,6 +37,43 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
         // If there is no network connection, nothing to do
         if (!Utility.isOnline(mContext))
             return null;
+
+
+        // Some entries in the Google Calendar don't correspond to EQs
+        // Build a RegEx expression here to filter out the non-EQ entries
+        StringBuilder ignore_stringBuilder; // Used to build the ignore_string RegEx
+        String ignore_string = ""; // Contains the RegEx itself
+
+        try {
+            // Get the list of Strings to ignore for calendar entries
+            JSONArray array = GoogleSpreadsheetHelper.getJSONArray(ConstGeneral.ignoreStringsUrl);
+            if (array == null) {
+                cancel(false);
+                return null;
+            }
+
+            // Allocate 13 character spaces for each String in the array
+            // Reference:
+            // "(Boost Day)|(Boost Period)|(Round.*Start)|(Round.*Ends)|(Ranking)|(Dance Festival)|(Maintenance)|(Stamp)|(Event)"
+            // is 113 characters long, 12.55 characters for each entry on average;
+            ignore_stringBuilder = new StringBuilder(array.length() * 13);
+
+            // Construct a RegEx in the form of "(Ignore A)|(Ignore B)|...|(Ignore X)" for the ignore String
+            for (int i = 0; i < array.length(); i++) {
+                //list.add(array.getJSONObject(i).getString("interestKey"));
+                String string = array.getJSONObject(i).getJSONObject("gsx$ignorestring").getString("$t");
+
+                if (i != 0)
+                    ignore_stringBuilder.append("|");
+                ignore_stringBuilder.append("(").append(string).append(")");
+            }
+            ignore_string = ignore_stringBuilder.toString();
+        } catch (Exception e) {
+            // JSON failed to parse
+            Log.e(Utility.getTag(), "Error: ", e);
+            e.printStackTrace();
+            cancel(true);
+        }
 
         // Declared outside try/catch block so it can be closed in the finally block
         HttpsURLConnection urlConnection = null;
@@ -68,7 +106,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
             // Nothing to do if input stream fails
             if (inputStream == null) {
-                cancel(true);
+                cancel(false);
                 return null;
             }
 
@@ -87,9 +125,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                      * Original:    Limited Quest Boost Day, Black Nyack Boost Period, Round 10 Start, Round 10 Ends
                      * Result:      Boost Day, Boost Period, Round 10 Start, Round 10 Ends
                      */
-                    if (Utility.matchPattern(entry.title,
-                            "(Boost Day)|(Boost Period)|(Round.*Start)|(Round.*Ends)" +
-                                    "|(Ranking)|(Dance Festival)|(Maintenance)|(Stamp)|(Event)").length() > 0)
+                    if (Utility.matchPattern(entry.title, ignore_string).length() > 0)
                         continue;
 
                     // Insert each element into the database

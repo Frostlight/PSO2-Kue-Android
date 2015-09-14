@@ -2,20 +2,10 @@ package frostlight.pso2kue;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import frostlight.pso2kue.data.KueContract;
 
@@ -40,9 +30,9 @@ public class FetchTranslationTask extends AsyncTask<Void, Void, Void> {
             return null;
 
         try {
-            JSONArray array = GoogleSpreadsheet.getColumns(ConstGeneral.translationUrl);
+            JSONArray array = GoogleSpreadsheetHelper.getJSONArray(ConstGeneral.translationUrl);
             if (array == null) {
-                cancel(true);
+                cancel(false);
                 return null;
             }
 
