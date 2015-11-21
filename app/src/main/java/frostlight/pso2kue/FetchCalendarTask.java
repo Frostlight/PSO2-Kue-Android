@@ -86,7 +86,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
         String startDateRFC3339 = Utility.dateToRFC3339(System.currentTimeMillis() - 1800000);
 
         try {
-            final String START_MIN_PARAM = "start-min";
+            final String START_MIN_PARAM = "timeMin";
             final String MAX_RESULTS_PARAM = "max-results";
 
             // Build the URL using uri builder

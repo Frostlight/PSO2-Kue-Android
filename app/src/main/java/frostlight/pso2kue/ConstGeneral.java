@@ -33,9 +33,17 @@ public class ConstGeneral {
             {"2791357028", "PSO2es_ship10"}     // Ship 10
     };
 
-    // URL for the google calendar (XML format)
+    // Reference:
+    // https://www.googleapis.com/calendar/v3/calendars/pso2emgquest@gmail.com/events?
+    // key=AIzaSyAEy3bKbdodcRrHisd5y3Z8qE022qRoyBA&timeMin=2015-11-20T21:45:01.563Z
+
+    // URL for the google calendar (JSON format)
     public static final String googleUrl =
-            "https://www.google.com/calendar/feeds/pso2emgquest%40gmail.com/public/basic?";
+            "https://www.googleapis.com/calendar/v3/calendars/pso2emgquest%40gmail.com/events?";
+
+    // Key for Android access with package frostlight.pso2kue
+    public static final String googleKey =
+            "AIzaSyAsVB6u2_PTC0hdnoIqxlJSIHL5FnP2FD0";
 
     // Time zone for Google calendar
     public static final String timeZone = "Japan";
