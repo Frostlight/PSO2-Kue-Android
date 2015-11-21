@@ -195,6 +195,14 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (final IOException e) {
+                    Log.e(Utility.getTag(), "Error", e);
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
