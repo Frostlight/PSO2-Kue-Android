@@ -33,16 +33,18 @@ public class ConstGeneral {
             {"2791357028", "PSO2es_ship10"}     // Ship 10
     };
 
-    // Reference:
+    // Reference sample calendar query:
     // https://www.googleapis.com/calendar/v3/calendars/pso2emgquest@gmail.com/events?
     // key=AIzaSyAEy3bKbdodcRrHisd5y3Z8qE022qRoyBA&timeMin=2015-11-20T21:45:01.563Z
 
-    // URL for the google calendar (JSON format)
+    // URI for the google calendar API request (returns in JSON format)
+    // Reference: https://developers.google.com/google-apps/calendar/v3/reference/events/list
     public static final String googleUrl =
             "https://www.googleapis.com/calendar/v3/calendars/pso2emgquest%40gmail.com/events?";
 
     // Key for Android access with package frostlight.pso2kue
     // Can be public, since requests have to come from this specific package
+    // Obtained here: https://console.developers.google.com/apis/credentials?project=pso2-kue
     public static final String googleKey =
             "AIzaSyAsVB6u2_PTC0hdnoIqxlJSIHL5FnP2FD0";
 

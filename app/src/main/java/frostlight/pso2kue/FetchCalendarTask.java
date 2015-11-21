@@ -6,11 +6,22 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeParser;
+import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
@@ -77,18 +88,27 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
         // Declared outside try/catch block so it can be closed in the finally block
         HttpsURLConnection urlConnection = null;
+        BufferedReader reader = null;
+
+        // Will contain raw JSON for the response (with the calendar)
+        String rawCalenderJSON = null;
 
         // Parameter values for querying
         // Start date in RFC3339 format (current time minus 30 minutes)
         String startDateRFC3339 = Utility.dateToRFC3339(System.currentTimeMillis() - 1800000);
 
+        // Timezone to use (UTC)
+        String timeZone = "UTC";
+
         try {
             final String KEY_PARAM = "key";
+            final String TIMEZONE_PARAM = "timeZone";
             final String START_MIN_PARAM = "timeMin";
 
             // Build the URL using uri builder
             Uri built_uri = Uri.parse(ConstGeneral.googleUrl).buildUpon()
                     .appendQueryParameter(KEY_PARAM, ConstGeneral.googleKey)
+                    .appendQueryParameter(TIMEZONE_PARAM, timeZone)
                     .appendQueryParameter(START_MIN_PARAM, startDateRFC3339)
                     .build();
             URL url = new URL(built_uri.toString());
@@ -107,14 +127,37 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                 return null;
             }
 
-            // TODO: Fix for JSON input stream
+            StringBuilder builder = new StringBuilder();
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            // Read each line from the JSON raw response
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line).append("\n");
+            }
+
+            if (builder.length() == 0) {
+                cancel(false);
+                return null;
+            }
+
             try {
-                // Read input stream to get a list of entries
-                List<XmlParse.Entry> entryList = XmlParse.parse(inputStream);
+                // Create a JSONObject from the raw response from Google Calendar
+                JSONObject calendarJson = new JSONObject(builder.toString());
+                JSONArray calendarItemsArray = calendarJson.getJSONArray("items");
 
                 // Wipe the Calendar database before inserting
                 mContext.getContentResolver().delete(KueContract.CalendarEntry.CONTENT_URI, null, null);
-                for (XmlParse.Entry entry : entryList) {
+
+                // Using data from the JSON response, insert each EQ into the calendar database
+                for(int i = 0; i < calendarItemsArray.length(); i++) {
+                    JSONObject calendarItem = calendarItemsArray.getJSONObject(i);
+                    String title = calendarItem.getString("summary");
+
+                    // Date is in RFC 3339 Format, timezone UTC
+                    // e.g. 2013-07-04T23:37:46.782Z
+                    String dateRFC3339 = calendarItem.getJSONObject("start").getString("dateTime");
+
                     /**
                      * Find anything that isn't EQ related on the calendar entries
                      * If there are any matches, the event isn't EQ related, so it is not added to the database
@@ -123,17 +166,22 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                      * Original:    Limited Quest Boost Day, Black Nyack Boost Period, Round 10 Start, Round 10 Ends
                      * Result:      Boost Day, Boost Period, Round 10 Start, Round 10 Ends
                      */
-                    if (Utility.matchPattern(entry.title, ignore_string).length() > 0)
+                    if (Utility.matchPattern(title, ignore_string).length() > 0)
                         continue;
+
+                    // Parse the RFC 3339 time and find the long milliseconds
+                    DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ");
+                    DateTime dateTime = dateTimeFormatter.parseDateTime(dateRFC3339);
+                    String date = Long.toString(dateTime.getMillis());
 
                     // Insert each element into the database
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, entry.title);
-                    contentValues.put(KueContract.CalendarEntry.COLUMN_DATE, entry.summary);
+                    contentValues.put(KueContract.CalendarEntry.COLUMN_EQNAME, title);
+                    contentValues.put(KueContract.CalendarEntry.COLUMN_DATE, date);
                     mContext.getContentResolver().insert(KueContract.CalendarEntry.CONTENT_URI, contentValues);
                 }
-            } catch (XmlPullParserException e) {
-                // XML failed to parse
+            } catch (JSONException e) {
+                // JSON failed to parse
                 Log.e(Utility.getTag(), "Error: ", e);
                 e.printStackTrace();
                 cancel(true);
