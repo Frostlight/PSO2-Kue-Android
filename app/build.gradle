@@ -8,8 +8,8 @@ android {
         applicationId "frostlight.pso2kue"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 14
-        versionName "1.12"
+        versionCode 15
+        versionName "1.13"
     }
     buildTypes {
         release {
