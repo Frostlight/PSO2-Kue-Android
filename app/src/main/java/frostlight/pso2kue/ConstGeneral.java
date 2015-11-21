@@ -42,6 +42,7 @@ public class ConstGeneral {
             "https://www.googleapis.com/calendar/v3/calendars/pso2emgquest%40gmail.com/events?";
 
     // Key for Android access with package frostlight.pso2kue
+    // Can be public, since requests have to come from this specific package
     public static final String googleKey =
             "AIzaSyAsVB6u2_PTC0hdnoIqxlJSIHL5FnP2FD0";
 

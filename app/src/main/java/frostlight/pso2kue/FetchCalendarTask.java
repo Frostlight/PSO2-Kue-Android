@@ -79,20 +79,17 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
         HttpsURLConnection urlConnection = null;
 
         // Parameter values for querying
-        // Maximum results to return from calendar
-        int maxResults = 99;
-
         // Start date in RFC3339 format (current time minus 30 minutes)
         String startDateRFC3339 = Utility.dateToRFC3339(System.currentTimeMillis() - 1800000);
 
         try {
+            final String KEY_PARAM = "key";
             final String START_MIN_PARAM = "timeMin";
-            final String MAX_RESULTS_PARAM = "max-results";
 
             // Build the URL using uri builder
             Uri built_uri = Uri.parse(ConstGeneral.googleUrl).buildUpon()
+                    .appendQueryParameter(KEY_PARAM, ConstGeneral.googleKey)
                     .appendQueryParameter(START_MIN_PARAM, startDateRFC3339)
-                    .appendQueryParameter(MAX_RESULTS_PARAM, Integer.toString(maxResults))
                     .build();
             URL url = new URL(built_uri.toString());
 
@@ -110,6 +107,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
                 return null;
             }
 
+            // TODO: Fix for JSON input stream
             try {
                 // Read input stream to get a list of entries
                 List<XmlParse.Entry> entryList = XmlParse.parse(inputStream);
