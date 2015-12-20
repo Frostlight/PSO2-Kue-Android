@@ -27,7 +27,7 @@ PSO2 Kue uses a number of freely available technologies to work properly:
 - Google App Engine - Used to host the backend for sending push notifications to Android devices
 
 ###APIs
-PSO2 uses the following APIs:
+PSO2 Kue uses the following APIs:
 - [Twitter REST API] - Used to periodically fetch emergency quest notifications
 - [Google Calender] - Used to access and import a translated version of the emergency quest schedule posted at https://www.google.com/calendar/embed?src=pso2emgquest%40gmail.com
 - [Bing Translation API] - Used if there is no translation available
