@@ -1,18 +1,21 @@
 apply plugin: 'com.android.application'
 
+// GCM services for push notifications
+apply plugin: 'com.google.gms.google-services'
+
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "frostlight.pso2kue"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 15
         versionName "1.13"
     }
     buildTypes {
-        release {
+         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -27,8 +30,9 @@ dependencies {
     compile files('libs/twitter4j-core-4.0.3.jar')
     compile files('libs/joda-time-2.8.jar')
     compile files('libs/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar')
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.google.android.gms:play-services-base:7.3.0'
-    compile 'com.google.android.gms:play-services-gcm:7.3.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.google.android.gms:play-services-base:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'com.google.android.gms:play-services:8.4.0'
     compile project(path: ':backend', configuration: 'android-endpoints')
 }

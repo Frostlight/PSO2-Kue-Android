@@ -8,3 +8,5 @@
 .idea/dictionaries
 *.class
 app/src/main/java/frostlight/pso2kue/ConstKey.java
+
+app/google-services.json
