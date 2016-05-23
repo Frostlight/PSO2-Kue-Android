@@ -129,39 +129,44 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
         );
 
         // If the Twitter entry exists, compare the Tweet date with the current date
-        if (!Utility.isCursorEmpty(cursor)) {
-            long lastDate = Long.parseLong(cursor.getString(
-                    cursor.getColumnIndex(KueContract.TwitterEntry.COLUMN_DATE)));
+        if (cursor != null) {
+            if (!Utility.isCursorEmpty(cursor)) {
+                long lastDate = Long.parseLong(cursor.getString(
+                        cursor.getColumnIndex(KueContract.TwitterEntry.COLUMN_DATE)));
 
-            // If the difference is less than an hour (i.e. the EQ happens within 1 hour before to 1
-            // hour after, then there is no need to Twitter fetch)
-            // This should save some of the data overhead
-            if (Math.abs(System.currentTimeMillis() - lastDate) < 60*60*1000)
-                return null;
+                // If the difference is less than an hour (i.e. the EQ happens within 1 hour before to 1
+                // hour after, then there is no need to Twitter fetch)
+                // This should save some of the data overhead
+                if (Math.abs(System.currentTimeMillis() - lastDate) < 60 * 60 * 1000)
+                    return null;
+            }
+            cursor.close();
         }
-        cursor.close();
+
 
         // Look up the first entry in the calendar database
         cursor = queryCalendar();
 
         // If the entry exists, compare the first calendar entry date with the current date
-        if (!Utility.isCursorEmpty(cursor)) {
-            String dateIndex = cursor.getString(
-                    cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE));
+        if (cursor != null) {
+            if (!Utility.isCursorEmpty(cursor)) {
+                String dateIndex = cursor.getString(
+                        cursor.getColumnIndex(KueContract.CalendarEntry.COLUMN_DATE));
 
-            if (dateIndex.equals("")) {
-                // This means we failed to retrieve the date index
-                return null;
+                if (dateIndex.equals("")) {
+                    // This means we failed to retrieve the date index
+                    return null;
+                }
+
+                long lastDate = Long.parseLong(dateIndex);
+
+                // If the difference is less than an hour (i.e. the EQ happens within 1 hour before to 1
+                // hour after, then it overlaps with the Twitter fetch -- there is no need to fetch)
+                if (Math.abs(System.currentTimeMillis() - lastDate) < 60*60*1000)
+                    return null;
             }
-
-            long lastDate = Long.parseLong(dateIndex);
-
-            // If the difference is less than an hour (i.e. the EQ happens within 1 hour before to 1
-            // hour after, then it overlaps with the Twitter fetch -- there is no need to fetch)
-            if (Math.abs(System.currentTimeMillis() - lastDate) < 60*60*1000)
-                return null;
+            cursor.close();
         }
-        cursor.close();
 
         int ship = params[0];
 

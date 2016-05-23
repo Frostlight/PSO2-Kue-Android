@@ -4,13 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 /**
  * MainAdapter
@@ -127,8 +131,10 @@ public class MainAdapter extends CursorAdapter {
             mCountDownTimer = new CountDownTimer(timeDifference, 1000) {
                 public void onTick(long millisUntilFinished) {
                     TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
-                    timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
-                            + String.format("%02d", millisUntilFinished / 1000 % 60));
+
+                    String timeLeft = String.format(mContext.getText(R.string.list_item_eq_timeformat).toString(),
+                            millisUntilFinished / 1000 / 60, millisUntilFinished / 1000 % 60);
+                    timeView.setText(timeLeft);
                 }
 
                 @Override
@@ -136,8 +142,7 @@ public class MainAdapter extends CursorAdapter {
                     // EQ Started
                     LinearLayout layoutAlertView = (LinearLayout) view.findViewById(R.id.list_layout_eq_alert);
                     layoutAlertView.setVisibility(LinearLayout.VISIBLE);
-                    layoutAlertView.setBackgroundColor(mContext.getApplicationContext().
-                            getResources().getColor(R.color.color_red));
+                    layoutAlertView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.color_red));
 
                     TextView eqAlertView = (TextView) view.findViewById(R.id.list_item_eq_alert);
                     eqAlertView.setText(mContext.getText(R.string.list_item_eq_active));
@@ -146,8 +151,10 @@ public class MainAdapter extends CursorAdapter {
                     mCountDownTimer = new CountDownTimer(30 * 60 * 1000, 1000) {
                         public void onTick(long millisUntilFinished) {
                             TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
-                            timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
-                                    + String.format("%02d", millisUntilFinished / 1000 % 60));
+
+                            String timeLeft = String.format(mContext.getText(R.string.list_item_eq_timeformat).toString(),
+                                    millisUntilFinished / 1000 / 60, millisUntilFinished / 1000 % 60);
+                            timeView.setText(timeLeft);
                         }
 
                         @Override
@@ -162,8 +169,7 @@ public class MainAdapter extends CursorAdapter {
         // EQ started within 30 minutes in the past
         } else if (timeDifference > (-30*60*1000) && timeDifference < 0) {
             viewHolder.layoutAlertView.setVisibility(LinearLayout.VISIBLE);
-            viewHolder.layoutAlertView.setBackgroundColor(context.getApplicationContext().
-                    getResources().getColor(R.color.color_red));
+            viewHolder.layoutAlertView.setBackgroundColor(ContextCompat.getColor(context, R.color.color_red));
             viewHolder.eqAlertView.setText(context.getText(R.string.list_item_eq_active));
 
             // Cancel the timer if it already exists
@@ -177,8 +183,10 @@ public class MainAdapter extends CursorAdapter {
                 @SuppressLint("DefaultLocale")
                 public void onTick(long millisUntilFinished) {
                     TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
-                    timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
-                            + String.format("%02d", millisUntilFinished / 1000 % 60));
+
+                    String timeLeft = String.format(mContext.getText(R.string.list_item_eq_timeformat).toString(),
+                            millisUntilFinished / 1000 / 60, millisUntilFinished / 1000 % 60);
+                    timeView.setText(timeLeft);
                 }
 
                 @Override
