@@ -26,13 +26,13 @@ public class TranslationHelper {
         );
 
         String translatedEqName;
-        if (!Utility.isCursorEmpty(cursor)) {
+        if (cursor != null && !Utility.isCursorEmpty(cursor)) {
             // If the Japanese entry exists in the translation database, just use that
             translatedEqName = cursor.getString(
                     cursor.getColumnIndex(KueContract.TranslationEntry.COLUMN_ENGLISH));
         } else {
-            // If the Japanese entry doesn't exist in the translation database, translate it
-            // to English with the Bing Translate API
+            // If the Japanese entry doesn't exist in the translation database, or if the query
+            // attempt failed, translate it to English with the Bing Translate API
             translatedEqName = bingTranslateJpEng(eqName);
 
             // Add the translation to the database
@@ -42,7 +42,10 @@ public class TranslationHelper {
             context.getContentResolver().insert(KueContract.TranslationEntry.CONTENT_URI, contentValues);
         }
 
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+        }
+
         return translatedEqName;
     }
 

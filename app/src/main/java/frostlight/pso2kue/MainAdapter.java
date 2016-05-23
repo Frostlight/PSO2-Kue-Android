@@ -1,5 +1,6 @@
 package frostlight.pso2kue;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.CountDownTimer;
@@ -173,6 +174,7 @@ public class MainAdapter extends CursorAdapter {
 
             // Make a new Timer that counts down until EQ ends
             mCountDownTimer = new CountDownTimer((30 * 60 * 1000) + timeDifference, 1000) {
+                @SuppressLint("DefaultLocale")
                 public void onTick(long millisUntilFinished) {
                     TextView timeView = (TextView) view.findViewById(R.id.list_item_eq_countdown);
                     timeView.setText(String.format("%02d", millisUntilFinished / 1000 / 60) + ":"
