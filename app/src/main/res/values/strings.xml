@@ -10,8 +10,6 @@
 
     <!-- Menu Options -->
     <string name="action_settings">Settings</string>
-    <string name="action_refresh_calendar">Refresh Google Calendar</string>
-    <string name="action_refresh_twitter">Refresh Twitter</string>
 
     <!-- Date Representation -->
     <string name="today">Today</string>
@@ -29,9 +27,6 @@
     <!-- Preference strings -->
     <string name="pref_update_timetable_label">Update Timetable</string>
     <string name="pref_update_timetable_key" translatable="false">update_timetable</string>
-
-    <string name="pref_update_translation_label">Update Translations</string>
-    <string name="pref_update_translation_key" translatable="false">update_translation</string>
     <string name="pref_update_default">Last Updated: Never</string>
 
     <string name="pref_notify_label">Notifications</string>

@@ -43,6 +43,9 @@ public class FetchTranslationTask extends AsyncTask<Void, Void, Void> {
                 String japanese = array.getJSONObject(i).getJSONObject("gsx$japanese").getString("$t");
                 String english = array.getJSONObject(i).getJSONObject("gsx$english").getString("$t");
 
+                // Log the Japanese and English names of each Emergency Quest on the table
+                //Log.v(Utility.getTag(), "Japanese: " + japanese + " English: " + english);
+
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, japanese);
                 contentValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, english);
