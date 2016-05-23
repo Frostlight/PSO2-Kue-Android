@@ -52,13 +52,7 @@
     <string name="calendar_update_failure">Failed to update timetable, check your network connection</string>
     <string name="calendar_update_in_use">Failed to update timetable, task already in progress</string>
 
-    <string name="translation_update_success">Updated translations</string>
-    <string name="translation_update_failure">Failed to update translations, check your network connection</string>
-    <string name="translation_update_in_use">Failed to update translations, task already in progress</string>
-
     <!-- Progress Dialog Strings -->
     <string name="calendar_progress_updating">Updating Timetable…</string>
-    <string name="translation_progress_updating">Updating Translations…</string>
-
     <string name="general_progress_wait">Please wait.</string>
 </resources>
