@@ -162,7 +162,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
 
                 // If the difference is less than an hour (i.e. the EQ happens within 1 hour before to 1
                 // hour after, then it overlaps with the Twitter fetch -- there is no need to fetch)
-                if (Math.abs(System.currentTimeMillis() - lastDate) < 60*60*1000)
+                if (Math.abs(System.currentTimeMillis() - lastDate) < 60 * 60 * 1000)
                     return null;
             }
             cursor.close();
