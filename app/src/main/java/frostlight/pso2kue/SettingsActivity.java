@@ -4,12 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.TwoStatePreference;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.TimeZone;
 
 import frostlight.pso2kue.data.KueContract;
 import frostlight.pso2kue.gcm.GcmHelper;
@@ -20,6 +29,10 @@ import frostlight.pso2kue.gcm.GcmHelper;
  * Created by Vincent on 5/19/2015.
  */
 public class SettingsActivity extends AppCompatActivity {
+
+    // List of timezones
+    private static CharSequence[][] mTimezones;
+    private static long mTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +51,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Preference options used to update databases
         private Preference mUpdateCalendar;
-        private Preference mUpdateTranslations;
 
         // AsyncTask for updating the calendar database; only one can exist at a time
         private FetchCalendarTask mFetchCalendarTask = null;
@@ -172,7 +184,77 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
+        private class TimeZoneRow implements Comparable<TimeZoneRow> {
+            private static final boolean SHOW_DAYLIGHT_SAVINGS_INDICATOR = false;
+            public final String mId;
+            public final String mDisplayName;
+            public final int mOffset;
+            public TimeZoneRow(String id, String name) {
+                mId = id;
+                TimeZone tz = TimeZone.getTimeZone(id);
+                boolean useDaylightTime = tz.useDaylightTime();
+                mOffset = tz.getOffset(mTime);
+                mDisplayName = buildGmtDisplayName(id, name, useDaylightTime);
+            }
+            @Override
+            public int compareTo(TimeZoneRow another) {
+                return mOffset - another.mOffset;
+            }
+            public String buildGmtDisplayName(String id, String displayName, boolean useDaylightTime) {
+                int p = Math.abs(mOffset);
+                StringBuilder name = new StringBuilder("(GMT");
+                name.append(mOffset < 0 ? '-' : '+');
+                name.append(p / DateUtils.HOUR_IN_MILLIS);
+                name.append(':');
+                int min = p / 60000;
+                min %= 60;
+                if (min < 10) {
+                    name.append('0');
+                }
+                name.append(min);
+                name.append(") ");
+                name.append(displayName);
+                if (useDaylightTime && SHOW_DAYLIGHT_SAVINGS_INDICATOR) {
+                    name.append(" \u2600"); // Sun symbol
+                }
+                return name.toString();
+            }
+        }
 
+        /**
+         * Returns an array of ids/time zones. This returns a double indexed array
+         * of ids and time zones for Calendar. It is an inefficient method and
+         * shouldn't be called often, but can be used for one time generation of
+         * this list.
+         *
+         * Source: https://android.googlesource.com/platform/packages/
+         *          apps/DeskClock/+/b569ba629e99b83a2da5479929d29499c540a20b
+         *          /src/com/android/deskclock/SettingsActivity.java
+         *
+         * @return double array of tz ids and tz names
+         */
+        @SuppressLint("Assert")
+        public CharSequence[][] getAllTimezones() {
+            Resources resources = this.getResources();
+            String[] ids = resources.getStringArray(R.array.timezone_values);
+            String[] labels = resources.getStringArray(R.array.timezone_labels);
+
+            // ids and labels lists should be the same length
+            assert ids.length == labels.length;
+
+            List<TimeZoneRow> timezones = new ArrayList<TimeZoneRow>();
+            for (int i = 0; i < ids.length; i++) {
+                timezones.add(new TimeZoneRow(ids[i], labels[i]));
+            }
+            Collections.sort(timezones);
+            CharSequence[][] timeZones = new CharSequence[2][timezones.size()];
+            int i = 0;
+            for (TimeZoneRow row : timezones) {
+                timeZones[0][i] = row.mId;
+                timeZones[1][i++] = row.mDisplayName;
+            }
+            return timeZones;
+        }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -210,23 +292,10 @@ public class SettingsActivity extends AppCompatActivity {
             notify.setSummaryOn(R.string.pref_notify_on);
             notify.setSummaryOff(R.string.pref_notify_off);
 
-//            notify.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                @SuppressLint("CommitPrefEdits")
-//                @Override
-//                public boolean onPreferenceChange(Preference preference, Object newValue) {
-//                    // Update the SharedPreferences with the new Notification preference
-//                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-//
-//                    editor.putString(getString(R.string.pref_notify_key), newValue.toString());
-//                    editor.commit();
-//                    return true;
-//                }
-//            });
-
             // Preference #3: Ship name (i.e. server name)
-            Preference shipName = findPreference(getString(R.string.pref_ship_key));
+            Preference shipNamePref = findPreference(getString(R.string.pref_ship_key));
 
-            shipName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            shipNamePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     // Erase the Twitter database whenever the ship name changes (so FetchTwitterTask will
@@ -238,6 +307,28 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            // Preference #4: Timezone
+            // Set up the timezone list
+            final ListPreference timeZoneListPref = (ListPreference) findPreference(getString(R.string.pref_timezone_key));
+
+            if (mTimezones == null) {
+                mTime = System.currentTimeMillis();
+                mTimezones = getAllTimezones();
+            }
+
+            timeZoneListPref.setEntryValues(mTimezones[0]);
+            timeZoneListPref.setEntries(mTimezones[1]);
+            timeZoneListPref.setSummary(timeZoneListPref.getEntry());
+            timeZoneListPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    final int index = timeZoneListPref.findIndexOfValue(newValue.toString());
+                    timeZoneListPref.setSummary(timeZoneListPref.getEntries()[index]);
+                    return true;
+                }
+            });
+
 
         }
 

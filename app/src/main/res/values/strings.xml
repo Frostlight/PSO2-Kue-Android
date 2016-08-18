@@ -46,6 +46,10 @@
     <string name="pref_clock_key" translatable="false">clock</string>
     <string name="pref_clock_default" translatable="false">24</string>
 
+    <string name="pref_timezone_label">Timezone</string>
+    <string name="pref_timezone_key" translatable="false">timezone</string>
+    <string name="pref_timezone_default" translatable="false">default</string>
+
     <!-- "Last Updated" string for calendar update in preferences -->
     <string name="update_updating">Updating…</string>
     <string name="update_last">Last Updated</string>

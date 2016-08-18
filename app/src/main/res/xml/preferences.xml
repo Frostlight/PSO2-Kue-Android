@@ -32,5 +32,10 @@
             android:entries="@array/clock"
             android:entryValues="@array/clock_values"
             android:summary="%s" />
+        <ListPreference
+            android:title="@string/pref_timezone_label"
+            android:key="@string/pref_timezone_key"
+            android:defaultValue="@string/pref_timezone_default"
+            android:summary="%s" />
     </PreferenceCategory>
 </PreferenceScreen>
