@@ -213,8 +213,14 @@ public class SettingsActivity extends AppCompatActivity {
                 timezones.add(new TimeZoneRow(ids[i], labels[i]));
             }
             Collections.sort(timezones);
-            CharSequence[][] timeZones = new CharSequence[2][timezones.size()];
-            int i = 0;
+            // Add one more row for the default timezone
+            CharSequence[][] timeZones = new CharSequence[2][timezones.size() + 1];
+
+            // Programmatically add the default timezone
+            timeZones[0][0] = "default";    // ID
+            timeZones[1][0] = "Default";    // Display
+
+            int i = 1;
             for (TimeZoneRow row : timezones) {
                 timeZones[0][i] = row.mId;
                 timeZones[1][i++] = row.mDisplayName;
@@ -226,34 +232,41 @@ public class SettingsActivity extends AppCompatActivity {
             public final String mId;
             public final String mDisplayName;
             public final int mOffset;
+
             public TimeZoneRow(String id, String name) {
                 mId = id;
                 TimeZone tz = TimeZone.getTimeZone(id);
-                boolean useDaylightTime = tz.useDaylightTime();
+
+                // Not using DST
+                //boolean useDaylightTime = tz.useDaylightTime();
+
                 mOffset = tz.getOffset(mTime);
-                mDisplayName = buildGmtDisplayName(id, name, useDaylightTime);
+                mDisplayName = buildGmtDisplayName(name);
             }
+
             @Override
             public int compareTo(@NonNull TimeZoneRow another) {
                 return mOffset - another.mOffset;
             }
-            public String buildGmtDisplayName(String id, String displayName, boolean useDaylightTime) {
+
+            // Builds a display string that shows GMT offset with timezone
+            public String buildGmtDisplayName(String displayName) {
                 int p = Math.abs(mOffset);
                 StringBuilder name = new StringBuilder("(GMT");
                 name.append(mOffset < 0 ? '-' : '+');
                 name.append(p / DateUtils.HOUR_IN_MILLIS);
                 name.append(':');
+
                 int min = p / 60000;
                 min %= 60;
+
                 if (min < 10) {
                     name.append('0');
                 }
                 name.append(min);
                 name.append(") ");
                 name.append(displayName);
-                if (useDaylightTime) {
-                    name.append(" \u2600"); // Sun symbol
-                }
+
                 return name.toString();
             }
         }
