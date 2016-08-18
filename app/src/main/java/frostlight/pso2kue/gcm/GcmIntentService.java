@@ -16,9 +16,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import frostlight.pso2kue.FetchTranslationTask;
 import frostlight.pso2kue.MainActivity;
 import frostlight.pso2kue.R;
-import frostlight.pso2kue.TranslationHelper;
 import frostlight.pso2kue.Utility;
 
 /**
@@ -53,7 +53,7 @@ public class GcmIntentService extends IntentService {
                 }
 
                 // Display the push notification using the notification manager service
-                String eqName = TranslationHelper.getEqTranslation(getApplicationContext(),
+                String eqName = FetchTranslationTask.TranslationHelper.getEqTranslation(getApplicationContext(),
                         extras.getString("message"));
 
                 mNotificationManager = (NotificationManager)

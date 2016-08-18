@@ -1,11 +1,17 @@
 package frostlight.pso2kue;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.memetix.mst.language.Language;
+import com.memetix.mst.translate.Translate;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -13,10 +19,21 @@ import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import frostlight.pso2kue.data.KueContract;
 
 /**
  * Utility
@@ -245,4 +262,79 @@ public class Utility {
         }
         return tag;
     }
+
+    /**
+     * GoogleSpreadsheetHelper
+     * Methods that interact with Google Spreadsheets
+     * Created by Vincent on 9/12/15.
+     */
+    public static class GoogleSpreadsheetHelper {
+
+        /**
+         * Gets a JSONArray containing cell contents from a Google Spreadsheets uri
+         * Top cells are assumed to be headers
+         * @param uri Uri to extract JSONArray from
+         * @return JSONArray containing cell contents
+         */
+        public static JSONArray getJSONArray(String uri) {
+            // Declared outside try/catch block so it can be closed in the finally block
+            HttpsURLConnection urlConnection = null;
+
+            // Return query as JSON instead
+            String alternateResults="json";
+
+            // JSONArray to return
+            JSONArray array;
+
+            try {
+                final String ALT_PARAM = "alt";
+
+                // Build the URL using uri builder
+                Uri built_uri = Uri.parse(uri).buildUpon()
+                        .appendQueryParameter(ALT_PARAM, alternateResults)
+                        .build();
+                URL url = new URL(built_uri.toString());
+
+                // Create the request to Google spreadsheets, and open the connection
+                urlConnection = (HttpsURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                // Read the input stream into a String
+                InputStream inputStream = urlConnection.getInputStream();
+
+                // Nothing to do if input stream fails
+                if (inputStream == null) {
+                    return null;
+                }
+
+                try {
+                    BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                    StringBuilder responseStrBuilder = new StringBuilder();
+
+                    String inputStr;
+                    while ((inputStr = streamReader.readLine()) != null)
+                        responseStrBuilder.append(inputStr);
+                    array = new JSONObject(responseStrBuilder.toString())
+                            .getJSONObject("feed").getJSONArray("entry");
+                } catch (Exception e) {
+                    // JSON failed to parse
+                    Log.e(getTag(), "Error: ", e);
+                    e.printStackTrace();
+                    return null;
+                }
+            } catch (IOException e) {
+                // Hostname wasn't resolved properly, no internet?
+                Log.e(getTag(), "Error: ", e);
+                e.printStackTrace();
+                return null;
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+            }
+            return array;
+        }
+    }
+
 }

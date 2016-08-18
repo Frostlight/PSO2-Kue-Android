@@ -10,6 +10,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.TwoStatePreference;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -184,42 +185,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        private class TimeZoneRow implements Comparable<TimeZoneRow> {
-            private static final boolean SHOW_DAYLIGHT_SAVINGS_INDICATOR = false;
-            public final String mId;
-            public final String mDisplayName;
-            public final int mOffset;
-            public TimeZoneRow(String id, String name) {
-                mId = id;
-                TimeZone tz = TimeZone.getTimeZone(id);
-                boolean useDaylightTime = tz.useDaylightTime();
-                mOffset = tz.getOffset(mTime);
-                mDisplayName = buildGmtDisplayName(id, name, useDaylightTime);
-            }
-            @Override
-            public int compareTo(TimeZoneRow another) {
-                return mOffset - another.mOffset;
-            }
-            public String buildGmtDisplayName(String id, String displayName, boolean useDaylightTime) {
-                int p = Math.abs(mOffset);
-                StringBuilder name = new StringBuilder("(GMT");
-                name.append(mOffset < 0 ? '-' : '+');
-                name.append(p / DateUtils.HOUR_IN_MILLIS);
-                name.append(':');
-                int min = p / 60000;
-                min %= 60;
-                if (min < 10) {
-                    name.append('0');
-                }
-                name.append(min);
-                name.append(") ");
-                name.append(displayName);
-                if (useDaylightTime && SHOW_DAYLIGHT_SAVINGS_INDICATOR) {
-                    name.append(" \u2600"); // Sun symbol
-                }
-                return name.toString();
-            }
-        }
+
 
         /**
          * Returns an array of ids/time zones. This returns a double indexed array
@@ -254,6 +220,42 @@ public class SettingsActivity extends AppCompatActivity {
                 timeZones[1][i++] = row.mDisplayName;
             }
             return timeZones;
+        }
+
+        private class TimeZoneRow implements Comparable<TimeZoneRow> {
+            public final String mId;
+            public final String mDisplayName;
+            public final int mOffset;
+            public TimeZoneRow(String id, String name) {
+                mId = id;
+                TimeZone tz = TimeZone.getTimeZone(id);
+                boolean useDaylightTime = tz.useDaylightTime();
+                mOffset = tz.getOffset(mTime);
+                mDisplayName = buildGmtDisplayName(id, name, useDaylightTime);
+            }
+            @Override
+            public int compareTo(@NonNull TimeZoneRow another) {
+                return mOffset - another.mOffset;
+            }
+            public String buildGmtDisplayName(String id, String displayName, boolean useDaylightTime) {
+                int p = Math.abs(mOffset);
+                StringBuilder name = new StringBuilder("(GMT");
+                name.append(mOffset < 0 ? '-' : '+');
+                name.append(p / DateUtils.HOUR_IN_MILLIS);
+                name.append(':');
+                int min = p / 60000;
+                min %= 60;
+                if (min < 10) {
+                    name.append('0');
+                }
+                name.append(min);
+                name.append(") ");
+                name.append(displayName);
+                if (useDaylightTime) {
+                    name.append(" \u2600"); // Sun symbol
+                }
+                return name.toString();
+            }
         }
 
         @Override

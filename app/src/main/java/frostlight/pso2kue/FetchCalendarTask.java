@@ -51,7 +51,7 @@ public class FetchCalendarTask extends AsyncTask<Void, Void, Void> {
 
         try {
             // Get the list of Strings to ignore for calendar entries
-            JSONArray array = GoogleSpreadsheetHelper.getJSONArray(ConstGeneral.ignoreStringsUrl);
+            JSONArray array = Utility.GoogleSpreadsheetHelper.getJSONArray(ConstGeneral.ignoreStringsUrl);
             if (array == null) {
                 cancel(false);
                 return null;

@@ -208,7 +208,7 @@ public class FetchTwitterTask extends AsyncTask<Integer, Void, Void> {
                 return null;
             }
 
-            String translatedEqName = TranslationHelper.getEqTranslation(mContext, eqName);
+            String translatedEqName = FetchTranslationTask.TranslationHelper.getEqTranslation(mContext, eqName);
 
             // Calculate the EQ time from the time the Tweet was posted
             long eqTime = Utility.roundUpHour(response.getCreatedAt().getTime());
