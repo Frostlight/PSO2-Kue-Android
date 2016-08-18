@@ -114,6 +114,22 @@ public class Utility {
     }
 
     /**
+     * Gets the timezone setting from the preferences
+     *
+     * @param context Context to use for resource fetching
+     * @return Timezone
+     */
+    public static String getPreferenceTimezone(Context context) {
+        try {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            return sharedPreferences.getString(
+                    context.getString(R.string.pref_timezone_key), context.getString(R.string.pref_timezone_default));
+        } catch (Exception e) {
+            return ConstGeneral.defaultTimezone;
+        }
+    }
+
+    /**
      * Matches an input string with a regular expression, and returns the first result
      *
      * @param input Input string to match with
@@ -177,7 +193,7 @@ public class Utility {
      * @param timeDisplayPreference Type of clock to use, either 24 or 12
      * @return Formatted date string
      */
-    public static String formatTimeForDisplay(long date, int timeDisplayPreference) {
+    public static String formatTimeForDisplay(long date, int timeDisplayPreference, String timezone) {
         DateTime dateTime = new DateTime(date);
         DateTimeFormatter dateTimeFormatter;
 
@@ -187,7 +203,11 @@ public class Utility {
         // 12 hour clock
         else
             dateTimeFormatter = DateTimeFormat.forPattern("hh:mm aa");
-        return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
+
+        if (timezone.equals("default"))
+            return dateTime.withZone(DateTimeZone.getDefault()).toString(dateTimeFormatter);
+        else
+            return dateTime.withZone(DateTimeZone.forID(timezone)).toString(dateTimeFormatter);
     }
 
     /**

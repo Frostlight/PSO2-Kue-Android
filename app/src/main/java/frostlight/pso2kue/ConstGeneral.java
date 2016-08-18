@@ -19,6 +19,9 @@ public class ConstGeneral {
     // true or false
     public static boolean defaultNotify = true;
 
+    // Default timezone option if preferences are not available
+    public static String defaultTimezone = "default";
+
     // List of Twitter IDs and their associated handles
     public static final String[][] shipId = {
             {"2753540587", "PSO2es_ship01"},    // Ship 1

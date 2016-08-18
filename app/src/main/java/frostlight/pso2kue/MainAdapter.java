@@ -82,7 +82,7 @@ public class MainAdapter extends CursorAdapter {
 
         // Emergency quest time, displayed in 24-hour or 12-hour clock depending on user preferences
         viewHolder.timeView.setText(Utility.formatTimeForDisplay(cursor.getLong(MainActivityFragment.COL_DATE),
-                Utility.getPreferenceClock(context)));
+                Utility.getPreferenceClock(context), Utility.getPreferenceTimezone(context)));
 
         // Emergency quest date section header (only the first for each date)
         // Compare the current entry day's name to the previous day's name

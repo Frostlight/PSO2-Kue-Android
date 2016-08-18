@@ -151,7 +151,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = mSharedPreferences.edit();
                                 editor.putString(getString(R.string.pref_update_timetable_key),
                                         Utility.getDayNameShort(getActivity(), System.currentTimeMillis()) + " " +
-                                                Utility.formatTimeForDisplay(System.currentTimeMillis(), 24));
+                                                Utility.formatTimeForDisplay(System.currentTimeMillis(), 24,
+                                                        Utility.getPreferenceTimezone(getActivity())));
                                 editor.commit();
 
                                 // Update the summary to show the new last updated date
