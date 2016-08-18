@@ -32,8 +32,9 @@
             android:entries="@array/clock"
             android:entryValues="@array/clock_values"
             android:summary="%s" />
+        <!-- Timezone preference entries and values are set programmatically -->
         <!-- Default value for timezone isn't in the list of options, but it is used before the
-             user sets their timezone (defaults to local time). -->
+             user sets their timezone (defaults to local time) -->
         <ListPreference
             android:title="@string/pref_timezone_label"
             android:key="@string/pref_timezone_key"

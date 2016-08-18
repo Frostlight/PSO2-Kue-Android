@@ -99,6 +99,9 @@ public class TestProvider extends AndroidTestCase {
                 null
         );
 
+        // Cursor returned shouldn't be null
+        assert cursor != null;
+
         // Check if the NotificationUri has been set correctly (API level 19 minimum)
         if (Build.VERSION.SDK_INT >= 19) {
             assertEquals("Error: Location Query did not properly set NotificationUri",
@@ -142,6 +145,8 @@ public class TestProvider extends AndroidTestCase {
                 null,
                 null
         );
+        // Cursor returned shouldn't be null
+        assert cursor != null;
         assertEquals("Error: Records not deleted from calendar table during delete", 0, cursor.getCount());
         cursor.close();
 
@@ -152,6 +157,8 @@ public class TestProvider extends AndroidTestCase {
                 null,
                 null
         );
+        // Cursor returned shouldn't be null
+        assert cursor != null;
         assertEquals("Error: Records not deleted from Twitter table during delete", 0, cursor.getCount());
         cursor.close();
 
@@ -162,6 +169,8 @@ public class TestProvider extends AndroidTestCase {
                 null,
                 null
         );
+        // Cursor returned shouldn't be null
+        assert cursor != null;
         assertEquals("Error: Records not deleted from translation table during delete", 0, cursor.getCount());
         cursor.close();
     }
@@ -260,6 +269,8 @@ public class TestProvider extends AndroidTestCase {
                 null,
                 null);
         TestUtilitiesData.TestContentObserver testContentObserver = TestUtilitiesData.getTestContentObserver();
+        // Cursor returned shouldn't be null
+        assert calendarCursor != null;
         calendarCursor.registerContentObserver(testContentObserver);
 
         // Perform the update and make sure it was successful
