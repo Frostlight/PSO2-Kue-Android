@@ -13,7 +13,6 @@ import android.preference.TwoStatePreference;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -61,6 +60,23 @@ public class SettingsActivity extends AppCompatActivity {
 
         // ProgressDialog to show while the AsyncTask is updating the calendar database
         private ProgressDialog progressDialog;
+
+        // Returns a display-friendly string for the last time the update function was used
+        // in a specific timezone
+        // E.g. "Last Updated: Never", "Last Updated: July 13, 2015"
+        private String getLastUpdatedString(String timezone) {
+            // Update the summary to show the new last updated date
+            // If we retrieved a long (not default), then get a friendly day name string
+            // Otherwise use default string "Last Updated: Never"
+            String lastUpdatedTime = mSharedPreferences.getString(getString(R.string.pref_update_timetable_key),
+                    getString(R.string.pref_update_default));
+            if (!lastUpdatedTime.equals(getString(R.string.pref_update_default))) {
+                String dayName = Utility.getDayNameShort(getActivity(), System.currentTimeMillis()) + " " +
+                        Utility.formatTimeForDisplay(System.currentTimeMillis(), 24, timezone);
+                lastUpdatedTime = getString(R.string.update_lastupdated) + " " + dayName;
+            }
+            return lastUpdatedTime;
+        }
 
         // Asynchronously update the calendar database, as well as the translation database
         private void updateCalendarSetDate() {
@@ -124,9 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
                                         Toast.LENGTH_LONG).show();
 
                                 // Update the summary to show the new last updated date
-                                mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
-                                        mSharedPreferences.getString(getString(R.string.pref_update_timetable_key),
-                                                getString(R.string.pref_update_default)));
+                                mUpdateCalendar.setSummary(getLastUpdatedString(Utility.getPreferenceTimezone(getActivity())));
 
                                 // Re-enable the update button preference
                                 mUpdateCalendar.setEnabled(true);
@@ -147,18 +161,14 @@ public class SettingsActivity extends AppCompatActivity {
 
                             if (isAdded()) {
                                 // Save the last updated date as the current date to preferences
-                                // Always use the 24 hour clock here
+                                // (Seconds since epoch form)
                                 SharedPreferences.Editor editor = mSharedPreferences.edit();
                                 editor.putString(getString(R.string.pref_update_timetable_key),
-                                        Utility.getDayNameShort(getActivity(), System.currentTimeMillis()) + " " +
-                                                Utility.formatTimeForDisplay(System.currentTimeMillis(), 24,
-                                                        Utility.getPreferenceTimezone(getActivity())));
+                                        Long.toString(System.currentTimeMillis()));
                                 editor.commit();
 
-                                // Update the summary to show the new last updated date
-                                mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
-                                        mSharedPreferences.getString(getString(R.string.pref_update_timetable_key),
-                                                getString(R.string.pref_update_default)));
+                                // Update the last updated time label
+                                mUpdateCalendar.setSummary(getLastUpdatedString(Utility.getPreferenceTimezone(getActivity())));
 
                                 // Display a toast to confirm the calendar update was successful
                                 Toast.makeText(getActivity(), getString(R.string.calendar_update_success),
@@ -285,9 +295,7 @@ public class SettingsActivity extends AppCompatActivity {
             mUpdateCalendar = findPreference(getString(R.string.pref_update_timetable_key));
 
             // Initialise the last updated date on the summary of the calendar update button
-            mUpdateCalendar.setSummary(getString(R.string.update_last) + " " +
-                    mSharedPreferences.getString(getString(R.string.pref_update_timetable_key),
-                            getString(R.string.pref_update_default)));
+            mUpdateCalendar.setSummary(getLastUpdatedString(Utility.getPreferenceTimezone(getActivity())));
 
             // Set up the functionality of the update button
             mUpdateCalendar.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -341,6 +349,10 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     final int index = timeZoneListPref.findIndexOfValue(newValue.toString());
                     timeZoneListPref.setSummary(timeZoneListPref.getEntries()[index]);
+
+                    // Update the "last updated" string on the update button too to correspond
+                    // with the new timezone
+                    mUpdateCalendar.setSummary(getLastUpdatedString(newValue.toString()));
                     return true;
                 }
             });

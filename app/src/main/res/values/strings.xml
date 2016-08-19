@@ -52,7 +52,7 @@
 
     <!-- "Last Updated" string for calendar update in preferences -->
     <string name="update_updating">Updating…</string>
-    <string name="update_last">Last Updated</string>
+    <string name="update_lastupdated">Last Updated</string>
 
     <!-- Toast Strings -->
     <string name="calendar_update_success">Updated emergency quest timetable</string>
