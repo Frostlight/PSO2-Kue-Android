@@ -28,24 +28,34 @@
     <string name="list_item_eq_timeformat" formatted="false">%02d:%02d</string>
 
     <!-- Preference strings -->
+    <!-- Update timetable -->
     <string name="pref_update_timetable_label">Update Timetable</string>
     <string name="pref_update_timetable_key" translatable="false">update_timetable</string>
     <string name="pref_update_default">Last Updated: Never</string>
 
+    <!-- Toggle notifications -->
     <string name="pref_notify_label">Notifications</string>
     <string name="pref_notify_key" translatable="false">notify</string>
-    <string name="pref_notify_default">true</string>
+    <string name="pref_notify_default" translatable="false">true</string>
     <string name="pref_notify_on">On</string>
     <string name="pref_notify_off">Off</string>
 
+    <!-- Filter notifications -->
+    <string name="pref_filter_label">Filter</string>
+    <string name="pref_filter_key" translatable="false">filter</string>
+    <string name="pref_filter_default">All</string>
+
+    <!-- Ship Preference -->
     <string name="pref_ship_label">Ship Number</string>
     <string name="pref_ship_key" translatable="false">ship_num</string>
     <string name="pref_ship_default" translatable="false">2</string>
 
+    <!-- 12/24 hour clock preference -->
     <string name="pref_clock_label">Time Display</string>
     <string name="pref_clock_key" translatable="false">clock</string>
     <string name="pref_clock_default" translatable="false">24</string>
 
+    <!-- Timezone preference -->
     <string name="pref_timezone_label">Timezone</string>
     <string name="pref_timezone_key" translatable="false">timezone</string>
     <string name="pref_timezone_default" translatable="false">default</string>

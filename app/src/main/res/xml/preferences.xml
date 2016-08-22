@@ -18,6 +18,12 @@
             android:key="@string/pref_notify_key"
             android:title="@string/pref_notify_label"
             android:defaultValue="@string/pref_notify_default" />
+        <!-- Filter preference entries and values are set programmatically -->
+        <MultiSelectListPreference
+            android:key="@string/pref_filter_key"
+            android:title="@string/pref_filter_label"
+            android:defaultValue="@string/pref_filter_default"
+            android:summary="%s"/>
         <ListPreference
             android:title="@string/pref_ship_label"
             android:key="@string/pref_ship_key"

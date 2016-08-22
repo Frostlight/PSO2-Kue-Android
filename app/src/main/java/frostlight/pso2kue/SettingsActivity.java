@@ -309,14 +309,18 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-
             // Preference #2: Notification Toggle
             TwoStatePreference notify = (TwoStatePreference) findPreference(getString(R.string.pref_notify_key));
 
             notify.setSummaryOn(R.string.pref_notify_on);
             notify.setSummaryOff(R.string.pref_notify_off);
 
-            // Preference #3: Ship name (i.e. server name)
+            // Preference #3: Notification filter
+            // Should turn off when notifications are disabled
+            // TODO: Setup filter here
+
+
+            // Preference #4: Ship name (i.e. server name)
             Preference shipNamePref = findPreference(getString(R.string.pref_ship_key));
 
             shipNamePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -332,7 +336,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            // Preference #4: Timezone
+            // Preference #5: Timezone
             // Set up the timezone list
             final ListPreference timeZoneListPref = (ListPreference) findPreference(getString(R.string.pref_timezone_key));
 
