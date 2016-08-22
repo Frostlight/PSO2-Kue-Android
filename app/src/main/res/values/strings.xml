@@ -58,8 +58,11 @@
     <string name="calendar_update_success">Updated emergency quest timetable</string>
     <string name="calendar_update_failure">Failed to update timetable, check your network connection</string>
     <string name="calendar_update_in_use">Failed to update timetable, task already in progress</string>
-
+s
     <!-- Progress Dialog Strings -->
     <string name="calendar_progress_updating">Updating Timetable…</string>
     <string name="general_progress_wait">Please wait.</string>
+
+    <!-- Ads -->
+    <string name="banner_ad_unit_id">ca-app-pub-8451127810761579/1386633643</string>
 </resources>
