@@ -108,6 +108,9 @@ public class SettingsActivity extends AppCompatActivity {
 
                         // Nullify the AsyncTask since it already completed
                         mFetchTranslationTask = null;
+
+                        // Update the filter preferences too since they may have changed
+                        updateFilterEntries();
                     }
                 };
                 // Execute asynchronously (alongside calendar fetching)
@@ -354,8 +357,6 @@ public class SettingsActivity extends AppCompatActivity {
                     // Erase the Twitter database so it is hidden if there is already one scheduled in the calendar
                     getActivity().getContentResolver().delete(KueContract.TwitterEntry.CONTENT_URI, null, null);
 
-                    // Update the filter preferences too since they may have changed
-                    updateFilterEntries();
                     return true;
                 }
             });
