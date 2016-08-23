@@ -5,8 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.TwoStatePreference;
@@ -33,6 +35,13 @@ public class SettingsActivity extends AppCompatActivity {
     // List of timezones
     private static CharSequence[][] mTimezones;
     private static long mTime;
+
+    // Filter columns
+    // We're only interested in the English name of each quest
+    private static final String[] TRANSLATION_COLUMNS = {
+            KueContract.TranslationEntry._ID,
+            KueContract.TranslationEntry.COLUMN_ENGLISH
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -282,6 +291,45 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
+        public void updateFilterEntries() {
+            // Preference #3: Notification filter
+            // Should turn off when notifications are disabled
+            MultiSelectListPreference filterPref = (MultiSelectListPreference)
+                    findPreference(getString(R.string.pref_filter_key));
+
+            // Populate preference with "English" entries in the TranslationTable
+            // Do this in a separate function
+            Cursor cursor = getActivity().getContentResolver().query(
+                    KueContract.TranslationEntry.CONTENT_URI,
+                    TRANSLATION_COLUMNS,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor != null && !Utility.isCursorEmpty(cursor)) {
+                List<String> entries = new ArrayList<String>();
+                // Fill the filter choices with English EQ names from Translation database
+                cursor.moveToFirst();
+
+                do {
+                    entries.add(cursor.getString(cursor.getColumnIndex(
+                            KueContract.TranslationEntry.COLUMN_ENGLISH)));
+                } while (cursor.moveToNext());
+
+                final CharSequence[] entryCharSequence = entries.toArray(new CharSequence[entries.size()]);
+                filterPref.setEntries(entryCharSequence);
+                filterPref.setEntryValues(entryCharSequence);
+            } else {
+                // Disable the filter button since the English database is empty
+                filterPref.setEnabled(false);
+            }
+
+            // Close cursor if it's open
+            if (cursor != null)
+                cursor.close();
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -305,6 +353,9 @@ public class SettingsActivity extends AppCompatActivity {
 
                     // Erase the Twitter database so it is hidden if there is already one scheduled in the calendar
                     getActivity().getContentResolver().delete(KueContract.TwitterEntry.CONTENT_URI, null, null);
+
+                    // Update the filter preferences too since they may have changed
+                    updateFilterEntries();
                     return true;
                 }
             });
@@ -316,9 +367,8 @@ public class SettingsActivity extends AppCompatActivity {
             notify.setSummaryOff(R.string.pref_notify_off);
 
             // Preference #3: Notification filter
-            // Should turn off when notifications are disabled
-            // TODO: Setup filter here
-
+            // This function populates the filter preference
+            updateFilterEntries();
 
             // Preference #4: Ship name (i.e. server name)
             Preference shipNamePref = findPreference(getString(R.string.pref_ship_key));
@@ -360,8 +410,6 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-
         }
 
         @Override
