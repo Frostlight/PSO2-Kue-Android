@@ -48,8 +48,6 @@ public class GcmIntentService extends IntentService {
                 Logger.getLogger("GCM_RECEIVED").log(Level.INFO, extras.toString());
 
                 // Check if notifications are enabled first
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 boolean notificationsEnabled = Utility.getPreferenceNotifications(getApplicationContext());
 
                 // Get the registration ID from the intent and the saved registration ID from the device
