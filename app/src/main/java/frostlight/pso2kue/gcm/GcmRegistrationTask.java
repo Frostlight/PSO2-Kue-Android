@@ -30,8 +30,7 @@ public class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
         this.context = context;
     }
 
-    @Override
-    protected String doInBackground(Void... params) {
+    public String registrationTask() {
         if (regService == null) {
             // Use this for local testing
 //            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(),
@@ -73,6 +72,11 @@ public class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
             msg = "Error: " + e.getMessage();
         }
         return msg;
+    }
+
+    @Override
+    protected String doInBackground(Void... params) {
+        return registrationTask();
     }
 
     // Registration ID debugging

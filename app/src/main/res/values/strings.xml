@@ -28,20 +28,27 @@
     <string name="list_item_eq_timeformat" formatted="false">%02d:%02d</string>
 
     <!-- Preference strings -->
+    <!-- Generic on/off strings used for twostate preferences -->
+    <string name="pref_twostate_on">On</string>
+    <string name="pref_twostate_off">Off</string>
+
     <!-- Update timetable -->
     <string name="pref_update_timetable_label">Update Timetable</string>
     <string name="pref_update_timetable_key" translatable="false">update_timetable</string>
     <string name="pref_update_default">Last Updated: Never</string>
 
-    <!-- Toggle notifications -->
-    <string name="pref_notify_label">Notifications</string>
-    <string name="pref_notify_key" translatable="false">notify</string>
-    <string name="pref_notify_default" translatable="false">true</string>
-    <string name="pref_notify_on">On</string>
-    <string name="pref_notify_off">Off</string>
+    <!-- Toggle notification state -->
+    <string name="pref_notifystate_label">Push Notifications</string>
+    <string name="pref_notifystate_key" translatable="false">notifystate</string>
+    <string name="pref_notifystate_default" translatable="false">true</string>
+
+    <!-- Toggle Filter state -->
+    <string name="pref_filterstate_label">Enable Filter</string>
+    <string name="pref_filterstate_key" translatable="false">filterstate</string>
+    <string name="pref_filterstate_default" translatable="false">false</string>
 
     <!-- Filter notifications -->
-    <string name="pref_filter_label">Filter</string>
+    <string name="pref_filter_label">Filter Options</string>
     <string name="pref_filter_key" translatable="false">filter</string>
     <string name="pref_filter_default">All</string>
 

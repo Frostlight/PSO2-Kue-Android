@@ -14,16 +14,6 @@
 
     <PreferenceCategory
         android:title="Preferences">
-        <SwitchPreference
-            android:key="@string/pref_notify_key"
-            android:title="@string/pref_notify_label"
-            android:defaultValue="@string/pref_notify_default" />
-        <!-- Filter preference entries and values are set programmatically -->
-        <MultiSelectListPreference
-            android:key="@string/pref_filter_key"
-            android:title="@string/pref_filter_label"
-            android:defaultValue="@string/pref_filter_default"
-            android:summary="%s"/>
         <ListPreference
             android:title="@string/pref_ship_label"
             android:key="@string/pref_ship_key"
@@ -46,5 +36,25 @@
             android:key="@string/pref_timezone_key"
             android:defaultValue="@string/pref_timezone_default"
             android:summary="%s" />
+        <SwitchPreference
+            android:key="@string/pref_notifystate_key"
+            android:title="@string/pref_notifystate_label"
+            android:defaultValue="@string/pref_notifystate_default" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Notifications">
+        <!-- Filter preference entries and values are set programmatically -->
+        <SwitchPreference
+            android:key="@string/pref_filterstate_key"
+            android:title="@string/pref_filterstate_label"
+            android:defaultValue="@string/pref_filterstate_default" />
+        <MultiSelectListPreference
+            android:key="@string/pref_filter_key"
+            android:title="@string/pref_filter_label"
+            android:defaultValue="@string/pref_filter_default"
+            android:summary="%s"/>
+    </PreferenceCategory>
+
+
 </PreferenceScreen>

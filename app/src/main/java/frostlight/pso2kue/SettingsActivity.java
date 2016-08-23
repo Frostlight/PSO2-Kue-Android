@@ -362,10 +362,14 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             // Preference #2: Notification Toggle
-            TwoStatePreference notify = (TwoStatePreference) findPreference(getString(R.string.pref_notify_key));
+            TwoStatePreference notifyStatePreference = (TwoStatePreference) findPreference(getString(R.string.pref_notifystate_key));
+            notifyStatePreference.setSummaryOn(R.string.pref_twostate_on);
+            notifyStatePreference.setSummaryOff(R.string.pref_twostate_off);
 
-            notify.setSummaryOn(R.string.pref_notify_on);
-            notify.setSummaryOff(R.string.pref_notify_off);
+            // Preference #3: Notification Filter Toggle
+            TwoStatePreference filterStatePreference = (TwoStatePreference) findPreference(getString(R.string.pref_filterstate_key));
+            filterStatePreference.setSummaryOn(R.string.pref_twostate_on);
+            filterStatePreference.setSummaryOff(R.string.pref_twostate_off);
 
             // Preference #3: Notification filter
             // This function populates the filter preference

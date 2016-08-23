@@ -1,6 +1,5 @@
 package frostlight.pso2kue;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -9,9 +8,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
-import com.memetix.mst.language.Language;
-import com.memetix.mst.translate.Translate;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -32,8 +28,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import frostlight.pso2kue.data.KueContract;
 
 /**
  * Utility
@@ -74,8 +68,8 @@ public class Utility {
     public static boolean getPreferenceNotifications(Context context) {
         try {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            return sharedPreferences.getBoolean(context.getString(R.string.pref_notify_key),
-                    Boolean.parseBoolean(context.getString(R.string.pref_notify_default)));
+            return sharedPreferences.getBoolean(context.getString(R.string.pref_notifystate_key),
+                    Boolean.parseBoolean(context.getString(R.string.pref_notifystate_default)));
         } catch (Exception e) {
             return ConstGeneral.defaultNotify;
         }

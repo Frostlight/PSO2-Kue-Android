@@ -23,11 +23,7 @@ public class GcmUnregistrationTask extends AsyncTask<String, Void, String> {
         this.context = context;
     }
 
-    @Override
-    protected String doInBackground(String... params) {
-        // params[0] is the registration ID to unregister
-        String regId = params[0];
-
+    public static String unregistrationTask(String regId, Context context) {
         if (regService == null) {
             // Use this for local testing
 //            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(),
@@ -59,6 +55,14 @@ public class GcmUnregistrationTask extends AsyncTask<String, Void, String> {
             msg = "Error: " + e.getMessage();
         }
         return msg;
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+        // params[0] is the registration ID to unregister
+        String regId = params[0];
+
+        return unregistrationTask(regId, context);
     }
 
 }
