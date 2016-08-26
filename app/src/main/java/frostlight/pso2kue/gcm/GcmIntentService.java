@@ -59,16 +59,20 @@ public class GcmIntentService extends IntentService {
 
                 // Ignore intent if notifications are disabled
                 if (notificationsEnabled) {
-                    // Set registration ID if nothing has been saved for some reason
-                    if (canonicalRegId != null && (savedRegId == null || savedRegId.equals(""))) {
-                        GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
-                    }
+                    // Canonical regId was provided
+                    if (canonicalRegId != null) {
+                        // Set registration ID if nothing has been saved for some reason
+                        if (savedRegId == null || savedRegId.equals("")) {
+                            GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
+                            savedRegId = canonicalRegId;
+                        }
 
-                    // If the saved regId isn't equal to the canonical regId, unregister
-                    // the saved regId and save the canonical regId
-                    if (canonicalRegId != null && savedRegId != null && !savedRegId.equals(canonicalRegId)) {
-                        GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
-                        GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
+                        // If the saved regId isn't equal to the canonical regId, unregister
+                        // the saved regId and save the canonical regId
+                        if (savedRegId.equals(canonicalRegId)) {
+                            GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
+                            GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
+                        }
                     }
 
                     // Display the push notification using the notification manager service
