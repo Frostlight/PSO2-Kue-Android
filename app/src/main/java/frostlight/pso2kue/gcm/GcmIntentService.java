@@ -69,7 +69,8 @@ public class GcmIntentService extends IntentService {
 
                         // If the saved regId isn't equal to the canonical regId, unregister
                         // the saved regId and save the canonical regId
-                        if (savedRegId.equals(canonicalRegId)) {
+                        if (!savedRegId.equals(canonicalRegId)) {
+                            Log.w(Utility.getTag(), "Unregistering " + savedRegId);
                             GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
                             GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
                         }
