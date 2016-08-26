@@ -2,6 +2,7 @@ package frostlight.pso2kue.gcm;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -64,6 +65,8 @@ public class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
             // The request to your server should be authenticated if your app
             // is using accounts.
             regService.register(regId, String.valueOf(Utility.getPreferenceShip(context))).execute();
+
+            Log.i(Utility.getTag(), "Registered GCM, ID: " + regId);
 
             // Save the registration ID to GcmPreferences
             GcmHelper.setRegistrationId(context, regId);

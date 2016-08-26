@@ -40,8 +40,7 @@ public class FetchTranslationTask extends AsyncTask<Void, Void, Void> {
                 return null;
             }
 
-            // Wipe the Translation database before inserting
-            mContext.getContentResolver().delete(KueContract.TranslationEntry.CONTENT_URI, null, null);
+            // Don't need to wipe, insert over database to avoid
             for (int i = 0; i < array.length(); i++) {
                 //list.add(array.getJSONObject(i).getString("interestKey"));
                 String japanese = array.getJSONObject(i).getJSONObject("gsx$japanese").getString("$t");

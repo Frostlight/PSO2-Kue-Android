@@ -2,12 +2,14 @@ package frostlight.pso2kue.gcm;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 
 import java.io.IOException;
 
+import frostlight.pso2kue.Utility;
 import frostlight.pso2kue.backend.registration.Registration;
 
 /**
@@ -45,6 +47,8 @@ public class GcmUnregistrationTask extends AsyncTask<String, Void, String> {
 
         String msg = "";
         try {
+            Log.i(Utility.getTag(), "Unregistering ID: " + regId);
+
             // Send the registration ID to the server over HTTP
             regService.unregister(regId).execute();
 

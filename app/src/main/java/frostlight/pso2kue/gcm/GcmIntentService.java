@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -50,22 +51,24 @@ public class GcmIntentService extends IntentService {
                 // Check if notifications are enabled first
                 boolean notificationsEnabled = Utility.getPreferenceNotifications(getApplicationContext());
 
-                // Get the registration ID from the intent and the saved registration ID from the device
-                String regId = intent.getExtras().getString("registration_id");
+                // Get a canonical regID if it was sent, and the saved regID
+                // A canonical regID is only sent with the intent if the app registered a new regID
+                // when it is already registered with a previous regID
+                String canonicalRegId = extras.getString("registration_id");
                 String savedRegId = GcmHelper.getRegistrationId(getApplicationContext());
 
-                // Discard intent if no regId was given, or if notifications are disabled
-                if (regId != null && !regId.equals("") && notificationsEnabled) {
+                // Ignore intent if notifications are disabled
+                if (notificationsEnabled) {
                     // Set registration ID if nothing has been saved for some reason
                     if (savedRegId.equals("")) {
-                        GcmHelper.setRegistrationId(getApplicationContext(), regId);
+                        GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
                     }
 
-                    // If the saved registration id is different from the one that came with the intent,
-                    // Unregister the saved ID and save the intent registration ID as the new one
-                    if (!savedRegId.equals(regId)) {
+                    // If the saved regId isn't equal to the canonical regId, unregister
+                    // the saved regId and save the canonical regId
+                    if (canonicalRegId != null && !canonicalRegId.equals("") && !savedRegId.equals(canonicalRegId)) {
                         GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
-                        GcmHelper.setRegistrationId(getApplicationContext(), regId);
+                        GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
                     }
 
                     // Display the push notification using the notification manager service
@@ -90,9 +93,10 @@ public class GcmIntentService extends IntentService {
                                     .setAutoCancel(true);
                     mBuilder.setContentIntent(contentIntent);
                     mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-                } else if (!notificationsEnabled) {
-                    // If notifications are disabled, unregister this ID
-                    GcmUnregistrationTask.unregistrationTask(regId, getApplicationContext());
+                } else {
+                    // If notifications are disabled, unregister any saved IDs
+                    GcmUnregistrationTask.unregistrationTask(canonicalRegId, getApplicationContext());
+                    GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
                     GcmHelper.setRegistrationId(getApplicationContext(), "");
                 }
 
