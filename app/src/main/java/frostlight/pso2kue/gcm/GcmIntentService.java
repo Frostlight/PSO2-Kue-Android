@@ -60,13 +60,13 @@ public class GcmIntentService extends IntentService {
                 // Ignore intent if notifications are disabled
                 if (notificationsEnabled) {
                     // Set registration ID if nothing has been saved for some reason
-                    if (savedRegId.equals("")) {
+                    if (canonicalRegId != null && (savedRegId == null || savedRegId.equals(""))) {
                         GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
                     }
 
                     // If the saved regId isn't equal to the canonical regId, unregister
                     // the saved regId and save the canonical regId
-                    if (canonicalRegId != null && !canonicalRegId.equals("") && !savedRegId.equals(canonicalRegId)) {
+                    if (canonicalRegId != null && savedRegId != null && !savedRegId.equals(canonicalRegId)) {
                         GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
                         GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
                     }
@@ -95,9 +95,14 @@ public class GcmIntentService extends IntentService {
                     mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
                 } else {
                     // If notifications are disabled, unregister any saved IDs
-                    GcmUnregistrationTask.unregistrationTask(canonicalRegId, getApplicationContext());
-                    GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
-                    GcmHelper.setRegistrationId(getApplicationContext(), "");
+                    if (canonicalRegId != null) {
+                        GcmUnregistrationTask.unregistrationTask(canonicalRegId, getApplicationContext());
+                    }
+
+                    if (savedRegId != null && !savedRegId.equals("")) {
+                        GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
+                        GcmHelper.setRegistrationId(getApplicationContext(), "");
+                    }
                 }
 
             }
