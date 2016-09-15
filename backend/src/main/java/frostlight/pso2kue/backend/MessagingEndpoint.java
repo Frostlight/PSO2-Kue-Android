@@ -38,7 +38,8 @@ public class MessagingEndpoint {
     /**
      * Api Keys can be obtained from the google cloud console
      */
-    private static final String API_KEY = System.getProperty("gcm.api.key");
+    private static final String API_KEY = "AIzaSyATTJMPne_7e_2TI59zWxcfZ_8s34kDmNU";
+    // System.getProperty("gcm.api.key");
 
     /**
      * Send to the first 10 devices (You can modify this to send to any number of devices or a specific device)

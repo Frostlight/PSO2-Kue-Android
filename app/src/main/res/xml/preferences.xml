@@ -50,9 +50,9 @@
             android:title="@string/pref_filterstate_label"
             android:defaultValue="@string/pref_filterstate_default" />
         <MultiSelectListPreference
-            android:key="@string/pref_filter_key"
-            android:title="@string/pref_filter_label"
-            android:defaultValue="@string/pref_filter_default"
+            android:key="@string/pref_filterdetails_key"
+            android:title="@string/pref_filterdetails_label"
+            android:defaultValue="@string/pref_filterdetails_default"
             android:summary="%s"/>
     </PreferenceCategory>
 

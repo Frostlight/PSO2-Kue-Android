@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Date;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -104,6 +105,38 @@ public class Utility {
                     context.getString(R.string.pref_clock_key), context.getString(R.string.pref_clock_default)));
         } catch (Exception e) {
             return ConstGeneral.defaultClock;
+        }
+    }
+
+    /**
+     * Gets the filter toggle (on/off) from the preferences
+     *
+     * @param context Context to use for resource fetching
+     * @return True or false depending on whether filters are enabled or disabled
+     */
+    public static boolean getPreferenceFilter(Context context) {
+        try {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            return sharedPreferences.getBoolean(context.getString(R.string.pref_filterstate_key),
+                    Boolean.parseBoolean(context.getString(R.string.pref_filterstate_default)));
+        } catch (Exception e) {
+            return ConstGeneral.defaultFilter;
+        }
+    }
+
+    /**
+     * Gets the filter details (which options are enabled) from the preferences
+     *
+     * @param context Context to use for resource fetching
+     * @return Contents of filter selection
+     */
+    public static Set<String> getPreferenceFilterDetails(Context context) {
+        try {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            return sharedPreferences.getStringSet(
+                    context.getString(R.string.pref_filterdetails_key), null);
+        } catch (Exception e) {
+            return null;
         }
     }
 

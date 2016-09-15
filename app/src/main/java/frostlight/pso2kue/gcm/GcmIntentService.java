@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +43,8 @@ public class GcmIntentService extends IntentService {
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
+
+        Log.i(Utility.getTag(), "Intent received");
 
         if (extras != null && !extras.isEmpty()) {  // has effect of unparcelling Bundle
             // Since we're not using two way messaging, this is all we really to check for
@@ -70,7 +73,6 @@ public class GcmIntentService extends IntentService {
                         // If the saved regId isn't equal to the canonical regId, unregister
                         // the saved regId and save the canonical regId
                         if (!savedRegId.equals(canonicalRegId)) {
-                            Log.w(Utility.getTag(), "Unregistering " + savedRegId);
                             GcmUnregistrationTask.unregistrationTask(savedRegId, getApplicationContext());
                             GcmHelper.setRegistrationId(getApplicationContext(), canonicalRegId);
                         }
@@ -80,24 +82,37 @@ public class GcmIntentService extends IntentService {
                     String eqName = FetchTranslationTask.TranslationHelper.getEqTranslation(getApplicationContext(),
                             extras.getString("message"));
 
-                    mNotificationManager = (NotificationManager)
-                            this.getSystemService(Context.NOTIFICATION_SERVICE);
+                    // Get filter settings to see if we need to filter
+                    boolean filterToggle = Utility.getPreferenceFilter(getApplicationContext());
 
-                    PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                            new Intent(this, MainActivity.class), 0);
+                    Log.i(Utility.getTag(), "Filters: " + filterToggle);
+                    Set<String> filterOptions = null;
+                    if (filterToggle) {
+                        filterOptions = Utility.getPreferenceFilterDetails(getApplicationContext());
+                        Log.i(Utility.getTag(), filterOptions.toString());
+                    }
 
-                    Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(this)
-                                    .setSmallIcon(R.drawable.ic_notify_eq)
-                                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                                    .setContentTitle("[Ship " + Utility.getPreferenceShip(getApplicationContext())
-                                            + "] " + eqName)
-                                    .setContentInfo(getString(R.string.list_item_eq_approaching))
-                                    .setSound(soundUri)
-                                    .setAutoCancel(true);
-                    mBuilder.setContentIntent(contentIntent);
-                    mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+                    // Only send notifications if filter is disabled or if EQ matches filter options
+                    if (!filterToggle || (filterOptions != null && filterOptions.contains(eqName))) {
+                        mNotificationManager = (NotificationManager)
+                                this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                                new Intent(this, MainActivity.class), 0);
+
+                        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        NotificationCompat.Builder mBuilder =
+                                new NotificationCompat.Builder(this)
+                                        .setSmallIcon(R.drawable.ic_notify_eq)
+                                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                                        .setContentTitle("[Ship " + Utility.getPreferenceShip(getApplicationContext())
+                                                + "] " + eqName)
+                                        .setContentInfo(getString(R.string.list_item_eq_approaching))
+                                        .setSound(soundUri)
+                                        .setAutoCancel(true);
+                        mBuilder.setContentIntent(contentIntent);
+                        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+                    }
                 } else {
                     // If notifications are disabled, unregister any saved IDs
                     if (canonicalRegId != null) {

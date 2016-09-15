@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // If notifications are on and there is no saved registration ID, register with the backend
         if (notify && (regId == null || regId.equals(""))) {
             new GcmRegistrationTask(this).execute();
-        } else if (!notify && (regId != null && !regId.equals(""))) {
+        } else if (!notify && regId != null && !regId.equals("")) {
             // If notifications are off and there is a saved registration ID, unregister with the backend
             new GcmUnregistrationTask(this).execute(regId);
         }

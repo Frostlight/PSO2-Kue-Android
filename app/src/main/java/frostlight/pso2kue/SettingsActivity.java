@@ -298,7 +298,7 @@ public class SettingsActivity extends AppCompatActivity {
             // Preference #3: Notification filter
             // Should turn off when notifications are disabled
             MultiSelectListPreference filterPref = (MultiSelectListPreference)
-                    findPreference(getString(R.string.pref_filter_key));
+                    findPreference(getString(R.string.pref_filterdetails_key));
 
             // Populate preference with "English" entries in the TranslationTable
             // Do this in a separate function

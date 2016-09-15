@@ -22,6 +22,9 @@ public class ConstGeneral {
     // Default timezone option if preferences are not available
     public static String defaultTimezone = "default";
 
+    // Default filter toggle option if preferences are not avilable
+    public static boolean defaultFilter = false;
+
     // List of Twitter IDs and their associated handles
     public static final String[][] shipId = {
             {"2753540587", "PSO2es_ship01"},    // Ship 1
