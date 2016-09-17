@@ -85,11 +85,9 @@ public class GcmIntentService extends IntentService {
                     // Get filter settings to see if we need to filter
                     boolean filterToggle = Utility.getPreferenceFilter(getApplicationContext());
 
-                    Log.i(Utility.getTag(), "Filters: " + filterToggle);
                     Set<String> filterOptions = null;
                     if (filterToggle) {
                         filterOptions = Utility.getPreferenceFilterDetails(getApplicationContext());
-                        Log.i(Utility.getTag(), filterOptions.toString());
                     }
 
                     // Only send notifications if filter is disabled or if EQ matches filter options
