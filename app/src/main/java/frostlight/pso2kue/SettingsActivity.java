@@ -61,13 +61,16 @@ public class SettingsActivity extends AppCompatActivity {
         // SharedPreferences object to retrieve preferences
         private SharedPreferences mSharedPreferences;
 
-        // Preference options used to update databases
+        // Preference options displayed in this fragment
         private Preference mUpdateCalendar;
+        private TwoStatePreference mNotifyStatePreference;
+        private TwoStatePreference mFilterStatePreference;
+        private MultiSelectListPreference mFilterDetailsPreference;
+        private Preference mShipNamePreference;
+        private ListPreference mTimeZoneListPreference;
 
-        // AsyncTask for updating the calendar database; only one can exist at a time
+        // AsyncTasks for updating databases; only one of each can exist at a time
         private FetchCalendarTask mFetchCalendarTask = null;
-
-        // AsyncTask for updating the translations; only one can exist at a time
         private FetchTranslationTask mFetchTranslationTask = null;
 
         // ProgressDialog to show while the AsyncTask is updating the calendar database
@@ -298,11 +301,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         public void setUpFilterEntries() {
-            // Preference #3: Notification filter
-            // Should turn off when notifications are disabled
-            final MultiSelectListPreference filterPref = (MultiSelectListPreference)
-                    findPreference(getString(R.string.pref_filterdetails_key));
-
             // Populate preference with "English" entries in the TranslationTable
             // Do this in a separate function
             Cursor cursor = getActivity().getContentResolver().query(
@@ -325,11 +323,19 @@ public class SettingsActivity extends AppCompatActivity {
                 } while (cursor.moveToNext());
 
                 final CharSequence[] entryCharSequence = entries.toArray(new CharSequence[entries.size()]);
-                filterPref.setEntries(entryCharSequence);
-                filterPref.setEntryValues(entryCharSequence);
+                mFilterDetailsPreference.setEntries(entryCharSequence);
+                mFilterDetailsPreference.setEntryValues(entryCharSequence);
+
+                // Initialize summary
+                Set<String> questSet = Utility.getPreferenceFilterDetails(getActivity());
+                if (questSet != null) {
+                    mFilterDetailsPreference.setSummary(questSet.size() + " " + getString(R.string.pref_filterdetails_summarytext));
+                } else {
+                    mFilterDetailsPreference.setSummary("");
+                }
 
                 // Set summary to track the number of EQs selected
-                filterPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                mFilterDetailsPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(Preference preference, Object o) {
                         String questString = o.toString();
@@ -340,14 +346,14 @@ public class SettingsActivity extends AppCompatActivity {
                         if (questString.length() > 2)
                             numberTracking = questString.length() - questString.replace(",", "").length() + 1;
 
-                        filterPref.setSummary(numberTracking + " " + getString(R.string.pref_filterdetails_summarytext));
+                        mFilterDetailsPreference.setSummary(numberTracking + " " + getString(R.string.pref_filterdetails_summarytext));
                         return true;
                     }
                 });
             } else {
                 // Disable the filter button since the English database is empty
-                filterPref.setEnabled(false);
-                filterPref.setSummary("");
+                mFilterDetailsPreference.setEnabled(false);
+                mFilterDetailsPreference.setSummary("");
             }
 
             // Close cursor if it's open
@@ -363,10 +369,17 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.preferences);
             mSharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
 
+            // Set all the global preference references
+            mUpdateCalendar = findPreference(getString(R.string.pref_update_timetable_key));
+            mNotifyStatePreference = (TwoStatePreference) findPreference(getString(R.string.pref_notifystate_key));
+            mFilterStatePreference = (TwoStatePreference) findPreference(getString(R.string.pref_filterstate_key));
+            mFilterDetailsPreference = (MultiSelectListPreference)
+                    findPreference(getString(R.string.pref_filterdetails_key));
+            mShipNamePreference = findPreference(getString(R.string.pref_ship_key));
+            mTimeZoneListPreference = (ListPreference) findPreference(getString(R.string.pref_timezone_key));
+
             // Preference #1: Update Timetable Button
             // The update button in the PreferenceFragment updates the calendar database
-            mUpdateCalendar = findPreference(getString(R.string.pref_update_timetable_key));
-
             // Initialise the last updated date on the summary of the calendar update button
             mUpdateCalendar.setSummary(getLastUpdatedString(Utility.getPreferenceTimezone(getActivity())));
 
@@ -384,23 +397,58 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             // Preference #2: Notification Toggle
-            TwoStatePreference notifyStatePreference = (TwoStatePreference) findPreference(getString(R.string.pref_notifystate_key));
-            notifyStatePreference.setSummaryOn(R.string.pref_twostate_on);
-            notifyStatePreference.setSummaryOff(R.string.pref_twostate_off);
+            mNotifyStatePreference.setSummaryOn(R.string.pref_twostate_on);
+            mNotifyStatePreference.setSummaryOff(R.string.pref_twostate_off);
+            mNotifyStatePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    boolean notificationToggle = Boolean.parseBoolean(o.toString());
+
+                    // Enable or disable the filter toggle preference depending on the setting
+                    // in the notification toggle preference
+                    mFilterStatePreference.setEnabled(notificationToggle);
+
+                    // Enable or disable the filter details too if NotifyStatePreference was just enabled
+                    if (notificationToggle) {
+                        mFilterDetailsPreference.setEnabled(Utility.getPreferenceFilter(getActivity()));
+                        // Disable filter details if NotifyStatePreference was disabled
+                    } else {
+                        mFilterDetailsPreference.setEnabled(false);
+                    }
+
+                    return true;
+                }
+            });
 
             // Preference #3: Notification Filter Toggle
-            TwoStatePreference filterStatePreference = (TwoStatePreference) findPreference(getString(R.string.pref_filterstate_key));
-            filterStatePreference.setSummaryOn(R.string.pref_twostate_on);
-            filterStatePreference.setSummaryOff(R.string.pref_twostate_off);
+            mFilterStatePreference.setSummaryOn(R.string.pref_twostate_on);
+            mFilterStatePreference.setSummaryOff(R.string.pref_twostate_off);
+            // Disable filter toggle preference if notification toggle is disabled
+            mFilterStatePreference.setEnabled(Utility.getPreferenceNotifications(getActivity()));
+            mFilterStatePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    boolean filterToggle = Boolean.parseBoolean(o.toString());
+
+                    // Enable or disable the filter details preference depending on the setting
+                    // in the filter toggle preference
+                    mFilterDetailsPreference.setEnabled(filterToggle);
+                    return true;
+                }
+            });
 
             // Preference #3: Notification filter
+            // Disable filter details preference if notification toggle OR filter toggle is disabled
+            if (!Utility.getPreferenceNotifications(getActivity())) {
+                mFilterDetailsPreference.setEnabled(false);
+            } else {
+                mFilterDetailsPreference.setEnabled(Utility.getPreferenceFilter(getActivity()));
+            }
             // This function populates the filter preference
             setUpFilterEntries();
 
             // Preference #4: Ship name (i.e. server name)
-            Preference shipNamePref = findPreference(getString(R.string.pref_ship_key));
-
-            shipNamePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            mShipNamePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     // Erase the Twitter database whenever the ship name changes (so FetchTwitterTask will
@@ -415,21 +463,21 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Preference #5: Timezone
             // Set up the timezone list
-            final ListPreference timeZoneListPref = (ListPreference) findPreference(getString(R.string.pref_timezone_key));
+
 
             if (mTimezones == null) {
                 mTime = System.currentTimeMillis();
                 mTimezones = getAllTimezones();
             }
 
-            timeZoneListPref.setEntryValues(mTimezones[0]);
-            timeZoneListPref.setEntries(mTimezones[1]);
-            timeZoneListPref.setSummary(timeZoneListPref.getEntry());
-            timeZoneListPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            mTimeZoneListPreference.setEntryValues(mTimezones[0]);
+            mTimeZoneListPreference.setEntries(mTimezones[1]);
+            mTimeZoneListPreference.setSummary(mTimeZoneListPreference.getEntry());
+            mTimeZoneListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    final int index = timeZoneListPref.findIndexOfValue(newValue.toString());
-                    timeZoneListPref.setSummary(timeZoneListPref.getEntries()[index]);
+                    final int index = mTimeZoneListPreference.findIndexOfValue(newValue.toString());
+                    mTimeZoneListPreference.setSummary(mTimeZoneListPreference.getEntries()[index]);
 
                     // Update the "last updated" string on the update button too to correspond
                     // with the new timezone
