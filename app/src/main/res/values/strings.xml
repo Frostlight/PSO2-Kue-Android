@@ -50,7 +50,8 @@
     <!-- Filter notifications -->
     <string name="pref_filterdetails_label">Filter Options</string>
     <string name="pref_filterdetails_key" translatable="false">filter</string>
-    <string name="pref_filterdetails_default">All</string>
+    <!-- (#) EQs tracked. -->
+    <string name="pref_filterdetails_summarytext">EQs tracked.</string>
 
     <!-- Ship Preference -->
     <string name="pref_ship_label">Ship Number</string>

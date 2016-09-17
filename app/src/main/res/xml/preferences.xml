@@ -52,7 +52,6 @@
         <MultiSelectListPreference
             android:key="@string/pref_filterdetails_key"
             android:title="@string/pref_filterdetails_label"
-            android:defaultValue="@string/pref_filterdetails_default"
             android:summary="%s"/>
     </PreferenceCategory>
 

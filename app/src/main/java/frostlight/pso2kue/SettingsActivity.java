@@ -11,15 +11,18 @@ import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.TwoStatePreference;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 
 import frostlight.pso2kue.data.KueContract;
@@ -110,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
                         mFetchTranslationTask = null;
 
                         // Update the filter preferences too since they may have changed
-                        updateFilterEntries();
+                        setUpFilterEntries();
                     }
                 };
                 // Execute asynchronously (alongside calendar fetching)
@@ -294,10 +297,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        public void updateFilterEntries() {
+        public void setUpFilterEntries() {
             // Preference #3: Notification filter
             // Should turn off when notifications are disabled
-            MultiSelectListPreference filterPref = (MultiSelectListPreference)
+            final MultiSelectListPreference filterPref = (MultiSelectListPreference)
                     findPreference(getString(R.string.pref_filterdetails_key));
 
             // Populate preference with "English" entries in the TranslationTable
@@ -312,6 +315,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (cursor != null && !Utility.isCursorEmpty(cursor)) {
                 List<String> entries = new ArrayList<String>();
+
                 // Fill the filter choices with English EQ names from Translation database
                 cursor.moveToFirst();
 
@@ -323,9 +327,27 @@ public class SettingsActivity extends AppCompatActivity {
                 final CharSequence[] entryCharSequence = entries.toArray(new CharSequence[entries.size()]);
                 filterPref.setEntries(entryCharSequence);
                 filterPref.setEntryValues(entryCharSequence);
+
+                // Set summary to track the number of EQs selected
+                filterPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object o) {
+                        String questString = o.toString();
+                        int numberTracking = 0;
+
+                        // Length of 2 indicates new preference is "[]" which is an empty array (0 quests tracked)
+                        // If length of the quest string is greater than 2, then fill in the actual number of quests tracked
+                        if (questString.length() > 2)
+                            numberTracking = questString.length() - questString.replace(",", "").length() + 1;
+
+                        filterPref.setSummary(numberTracking + " " + getString(R.string.pref_filterdetails_summarytext));
+                        return true;
+                    }
+                });
             } else {
                 // Disable the filter button since the English database is empty
                 filterPref.setEnabled(false);
+                filterPref.setSummary("");
             }
 
             // Close cursor if it's open
@@ -373,7 +395,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Preference #3: Notification filter
             // This function populates the filter preference
-            updateFilterEntries();
+            setUpFilterEntries();
 
             // Preference #4: Ship name (i.e. server name)
             Preference shipNamePref = findPreference(getString(R.string.pref_ship_key));
