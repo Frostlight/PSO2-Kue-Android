@@ -43,7 +43,7 @@ public class Utility {
      * @param context Context to use to verify network connection
      * @return True if there is a network connection, False otherwise
      */
-    public static boolean isOnline(Context context) {
+    static boolean isOnline(Context context) {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -56,7 +56,7 @@ public class Utility {
      * @param cursor Cursor to check
      * @return True if the cursor is empty, False if the cursor is not empty
      */
-    public static boolean isCursorEmpty(Cursor cursor) {
+    static boolean isCursorEmpty(Cursor cursor) {
         return !cursor.moveToFirst() || cursor.getCount() == 0;
     }
 
@@ -98,13 +98,29 @@ public class Utility {
      * @param context Context to use for resource fetching
      * @return Either 24 or 12, corresponding to the type of clock
      */
-    public static int getPreferenceClock(Context context) {
+    static int getPreferenceClock(Context context) {
         try {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             return Integer.parseInt(sharedPreferences.getString(
                     context.getString(R.string.pref_clock_key), context.getString(R.string.pref_clock_default)));
         } catch (Exception e) {
             return ConstGeneral.defaultClock;
+        }
+    }
+
+    /**
+     * Gets the quest name language setting from the preferences
+     *
+     * @param context Context to use for resource fetching
+     * @return Either english or japanese
+     */
+    public static String getPreferenceQuestLanguage(Context context) {
+        try {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            return sharedPreferences.getString(
+                    context.getString(R.string.pref_questlanguage_key), context.getString(R.string.pref_questlanguage_default));
+        } catch (Exception e) {
+            return ConstGeneral.defaultQuestLanguage;
         }
     }
 
@@ -146,7 +162,7 @@ public class Utility {
      * @param context Context to use for resource fetching
      * @return Timezone
      */
-    public static String getPreferenceTimezone(Context context) {
+    static String getPreferenceTimezone(Context context) {
         try {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             return sharedPreferences.getString(
@@ -163,7 +179,7 @@ public class Utility {
      * @param regex Regex used to match
      * @return The first result of the pattern
      */
-    public static String matchPattern(String input, String regex) {
+    static String matchPattern(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
 
@@ -188,7 +204,7 @@ public class Utility {
      * @param dateInMillis Date/time in milliseconds
      * @return Rounded date/time in milliseconds
      */
-    public static long roundUpHour(long dateInMillis) {
+    static long roundUpHour(long dateInMillis) {
         DateTime dateTime = new DateTime(dateInMillis);
         dateTime = dateTime.plusSeconds(60 - dateTime.getSecondOfMinute());
         dateTime = dateTime.plusMinutes(60 - dateTime.getMinuteOfHour());
@@ -203,7 +219,7 @@ public class Utility {
      * @param dateInMillis Date in milliseconds
      * @return Date in RFC3339 format
      */
-    public static String dateToRFC3339 (long dateInMillis) {
+    static String dateToRFC3339(long dateInMillis) {
         Date date = new Date(dateInMillis);
 
         // Apply RFC3339 format using Joda-Time
@@ -220,7 +236,7 @@ public class Utility {
      * @param timeDisplayPreference Type of clock to use, either 24 or 12
      * @return Formatted date string
      */
-    public static String formatTimeForDisplay(long date, int timeDisplayPreference, String timezone) {
+    static String formatTimeForDisplay(long date, int timeDisplayPreference, String timezone) {
         DateTime dateTime = new DateTime(date);
         DateTimeFormatter dateTimeFormatter;
 
@@ -249,7 +265,7 @@ public class Utility {
      * @param dateInMillis The date in milliseconds
      * @return Name of the day
      */
-    public static String getDayName(Context context, long dateInMillis) {
+    static String getDayName(Context context, long dateInMillis) {
         // Calculate the difference in days between two days
         int daysBetween = Days.daysBetween(new DateTime(System.currentTimeMillis()).toLocalDate(),
                 new DateTime(dateInMillis).toLocalDate()).getDays();
@@ -278,7 +294,7 @@ public class Utility {
      * @param dateInMillis The date in milliseconds
      * @return Name of the day
      */
-    public static String getDayNameShort(Context context, long dateInMillis) {
+     static String getDayNameShort(Context context, long dateInMillis) {
         // Calculate the difference in days between two days
         int daysBetween = Days.daysBetween(new DateTime(System.currentTimeMillis()).toLocalDate(),
                 new DateTime(dateInMillis).toLocalDate()).getDays();
@@ -315,7 +331,7 @@ public class Utility {
      * Methods that interact with Google Spreadsheets
      * Created by Vincent on 9/12/15.
      */
-    public static class GoogleSpreadsheetHelper {
+    static class GoogleSpreadsheetHelper {
 
         /**
          * Gets a JSONArray containing cell contents from a Google Spreadsheets uri
@@ -323,7 +339,7 @@ public class Utility {
          * @param uri Uri to extract JSONArray from
          * @return JSONArray containing cell contents
          */
-        public static JSONArray getJSONArray(String uri) {
+        static JSONArray getJSONArray(String uri) {
             // Declared outside try/catch block so it can be closed in the finally block
             HttpsURLConnection urlConnection = null;
 

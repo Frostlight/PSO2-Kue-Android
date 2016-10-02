@@ -58,6 +58,11 @@
     <string name="pref_ship_key" translatable="false">ship_num</string>
     <string name="pref_ship_default" translatable="false">2</string>
 
+    <!-- Quest Name Language Preference -->
+    <string name="pref_questlanguage_label">Quest Language</string>
+    <string name="pref_questlanguage_key" translatable="false">quest_language</string>
+    <string name="pref_questlanguage_default" translatable="false">english</string>
+
     <!-- 12/24 hour clock preference -->
     <string name="pref_clock_label">Time Display</string>
     <string name="pref_clock_key" translatable="false">clock</string>
@@ -76,7 +81,7 @@
     <string name="calendar_update_success">Updated emergency quest timetable</string>
     <string name="calendar_update_failure">Failed to update timetable, check your network connection</string>
     <string name="calendar_update_in_use">Failed to update timetable, task already in progress</string>
-s
+
     <!-- Progress Dialog Strings -->
     <string name="calendar_progress_updating">Updating Timetable…</string>
     <string name="general_progress_wait">Please wait.</string>

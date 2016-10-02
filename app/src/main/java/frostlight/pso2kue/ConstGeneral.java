@@ -5,28 +5,31 @@ package frostlight.pso2kue;
  * Various constants used by the app
  * Created by Vincent on 5/25/2015.
  */
-public class ConstGeneral {
+class ConstGeneral {
 
     // Default ship if Preferences are not available
     // Ranges from Ship 1 to 10
-    public static int defaultShip = 2;
+    static final int defaultShip = 2;
 
     // Default time display setting if Preferences are not available
     // Either 24 or 12, corresponding to the type of clock
-    public static int defaultClock = 24;
+    static final int defaultClock = 24;
 
     // Default notification option if Preferences are not available
     // true or false
-    public static boolean defaultNotify = true;
+    static final boolean defaultNotify = true;
 
     // Default timezone option if preferences are not available
-    public static String defaultTimezone = "default";
+    static final String defaultTimezone = "default";
 
-    // Default filter toggle option if preferences are not avilable
-    public static boolean defaultFilter = false;
+    // Default quest name language if preferences are not available
+    static final String defaultQuestLanguage = "english";
+
+    // Default filter toggle option if preferences are not available
+    static final boolean defaultFilter = false;
 
     // List of Twitter IDs and their associated handles
-    public static final String[][] shipId = {
+    static final String[][] shipId = {
             {"2753540587", "PSO2es_ship01"},    // Ship 1
             {"2791287498", "PSO2es_ship02"},    // Ship 2
             {"2791359409", "PSO2es_ship03"},    // Ship 3
@@ -45,23 +48,19 @@ public class ConstGeneral {
 
     // URI for the google calendar API request (returns in JSON format)
     // Reference: https://developers.google.com/google-apps/calendar/v3/reference/events/list
-    public static final String googleUrl =
+    static final String googleUrl =
             "https://www.googleapis.com/calendar/v3/calendars/pso2emgquest%40gmail.com/events?";
 
     // Key for Android access with package frostlight.pso2kue
     // Can be public, since requests have to come from this specific package
     // Obtained here: https://console.developers.google.com/apis/credentials?project=pso2-kue
-    public static final String googleKey =
-            "AIzaSyAsVB6u2_PTC0hdnoIqxlJSIHL5FnP2FD0";
-
-    // Time zone for Google calendar
-    public static final String timeZone = "Japan";
+    static final String googleKey = "AIzaSyAsVB6u2_PTC0hdnoIqxlJSIHL5FnP2FD0";
 
     // URL for the translation table (querying)
-    public static final String translationUrl =
+    static final String translationUrl =
             "https://spreadsheets.google.com/feeds/list/15W5QrDp3U8umUHxSUXJLd9dOFXGWv7gbqtWZk9qP5V8/default/public/values?";
 
     // URL for the ignore strings table (strings to ignore for calendar fetching)
-    public static final String ignoreStringsUrl =
+    static final String ignoreStringsUrl =
             "https://spreadsheets.google.com/feeds/list/1snJ_ZF--8W-0As7PT6nZjaQi_ofTZyvMXR9yZsQVUt4/default/public/values?";
 }

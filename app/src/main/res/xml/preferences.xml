@@ -36,6 +36,13 @@
             android:key="@string/pref_timezone_key"
             android:defaultValue="@string/pref_timezone_default"
             android:summary="%s" />
+        <ListPreference
+            android:title="@string/pref_questlanguage_label"
+            android:key="@string/pref_questlanguage_key"
+            android:defaultValue="@string/pref_questlanguage_default"
+            android:entries="@array/quest_language"
+            android:entryValues="@array/quest_language_values"
+            android:summary="%s" />
         <SwitchPreference
             android:key="@string/pref_notifystate_key"
             android:title="@string/pref_notifystate_label"
