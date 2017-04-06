@@ -7,7 +7,7 @@ buildscript {
     // NOTE: Do not place application dependencies here; they belong
     // in the individual module build.gradle files
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
 
         // GCM services for push notifications
         classpath 'com.google.gms:google-services:3.0.0'
