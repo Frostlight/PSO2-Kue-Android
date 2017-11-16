@@ -7,33 +7,33 @@
 
 
 <h2>How to build API client library using Gradle</h2>
-<p>Under the root directory of the client bundle, run <b><i>"gradle install"</i></b> in the command console. By running this command, this API client bundle would be build by Gradle, and be deployed to local Maven repository. (Gradle doesn't have native repository system, but could leverage repository systems like maven repository.)</p>
+<p>Under the root directory of the client bundle, run <b><i>"gradle install"</i></b> in the command console. By running this command, this API client bundle will be built by Gradle and deployed to the local Maven repository. Since Gradle doesn't have a native repository system, a local Maven repository is used.</p>
 
 <h2>How to use API client library in Gradle project</h2>
 <p><b>Step 1</b>: Add the following <i>compile</i> section to your <b><i>build.gradle</i></b> file.</p>
 <ul>
 <pre style="background-color: #eee;">
-  compile ([group: 'frostlight.pso2kue.backend', name: 'registration', version: 'v1-1.22.0-SNAPSHOT'])
+  compile ([group: 'frostlight.pso2kue.backend', name: 'registration', version: 'v1-1.23.0-SNAPSHOT'])
 </pre>
 </ul>
-<p><b>Step 2</b>: Add one of the following <i>compile</i> sections to your <b><i>build.gradle</i></b> file, based on your platform (Android/App Engine/Servlet). Google Cloud Endpoints API client is compatible with all supported Java platforms (with minimum Java version 5).</p>
+<p><b>Step 2</b>: Add one of the following <i>compile</i> sections to your <b><i>build.gradle</i></b> file, based on your platform (Android/App Engine/Servlet). The Google Cloud Endpoints API client is compatible with all supported Java platforms (with minimum Java version 5).</p>
 <ul>
 <li>
 <b>For Android</b>
 <pre style="background-color: #eee;">
-  compile ([group: 'com.google.api-client', name: 'google-api-client-android', version: '1.22.0'])
+  compile ([group: 'com.google.api-client', name: 'google-api-client-android', version: '1.23.0'])
 </pre>
 </li>
 <li>
 <b>For App Engine</b>
 <pre style="background-color: #eee;">
-  compile ([group: 'com.google.api-client', name: 'google-api-client-appengine', version: '1.22.0'])
+  compile ([group: 'com.google.api-client', name: 'google-api-client-appengine', version: '1.23.0'])
 </pre>
 </li>
 <li>
 <b>For Java Servlet</b>
 <pre style="background-color: #eee;">
-  compile ([group: 'com.google.api-client', name: 'google-api-client-servlet', version: '1.22.0'])
+  compile ([group: 'com.google.api-client', name: 'google-api-client-servlet', version: '1.23.0'])
 </pre>
 </li>
 </ul>
@@ -42,18 +42,18 @@
 <li>
 <b>Using GsonFactory</b>
 <pre style="background-color: #eee;">
-  compile ([group: 'com.google.api-client', name: 'google-http-client-gson', version: '1.22.0'])
+  compile ([group: 'com.google.http-client', name: 'google-http-client-gson', version: '1.23.0'])
 </pre>
 </li>
 <li>
 <b>Using JacksonFactory</b>
 <pre style="background-color: #eee;">
-  compile ([group: 'com.google.api-client', name: 'google-http-client-jackson2', version: '1.22.0'])
+  compile ([group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.23.0'])
 </pre>
 </li>
 <li>
 <b>Using AndroidJsonFactory (Android with minimum API level 11)</b><br/>
-For Andoird with minimum API level 11, import AndroidJsonFactory into your Java source.
+For Android with minimum API level 11, import AndroidJsonFactory into your Java source.
 <pre style="background-color: #eee;">
   import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 </pre>
