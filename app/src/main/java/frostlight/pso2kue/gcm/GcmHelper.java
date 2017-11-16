@@ -13,7 +13,7 @@ import frostlight.pso2kue.Utility;
  */
 public class GcmHelper {
     // Stores the GCM registration ID
-    static final String GCM_PREFERENCES = "frostlight.pso2kue.gcm";
+    private static final String GCM_PREFERENCES = "frostlight.pso2kue.gcm";
     // Registration ID
     private static final String PROPERTY_REG_ID = "GCMregId";
     // App version

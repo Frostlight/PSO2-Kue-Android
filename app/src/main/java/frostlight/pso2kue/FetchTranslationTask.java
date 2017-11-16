@@ -89,10 +89,17 @@ public class FetchTranslationTask extends AsyncTask<Void, Void, Void> {
                 // attempt failed, translate it to English with the Bing Translate API
                 translatedEqName = bingTranslateJpEng(eqName);
 
+                // If translation failed, just set it to the japanese name
+                if (translatedEqName == null) {
+                    translatedEqName = eqName;
+                }
+
                 // Add the translation to the database
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(KueContract.TranslationEntry.COLUMN_JAPANESE, eqName);
                 contentValues.put(KueContract.TranslationEntry.COLUMN_ENGLISH, translatedEqName);
+
+                // Can't insert null translated name
                 context.getContentResolver().insert(KueContract.TranslationEntry.CONTENT_URI, contentValues);
             }
 

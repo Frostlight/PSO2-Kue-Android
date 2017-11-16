@@ -8,8 +8,8 @@ android {
         applicationId "frostlight.pso2kue"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 18
-        versionName "1.16"
+        versionCode 19
+        versionName "1.17"
     }
     buildTypes {
         release {
@@ -29,9 +29,10 @@ dependencies {
     compile files('libs/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar')
     compile project(path: ':backend', configuration: 'android-endpoints')
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.google.android.gms:play-services-base:10.2.1'
-    compile 'com.google.android.gms:play-services-gcm:10.2.1'
-    compile 'com.google.android.gms:play-services-ads:10.2.1'
+    compile 'com.google.android.gms:play-services-base:11.0.4'
+    compile 'com.google.android.gms:play-services-gcm:11.0.4'
+    compile 'com.google.android.gms:play-services-ads:11.0.4'
+    compile 'com.google.http-client:google-http-client-android:1.22.0'
     compile 'com.google.firebase:firebase-core:9.4.0'
 }
 

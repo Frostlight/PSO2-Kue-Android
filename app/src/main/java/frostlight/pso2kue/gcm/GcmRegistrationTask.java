@@ -7,8 +7,6 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 
@@ -66,7 +64,8 @@ public class GcmRegistrationTask extends AsyncTask<Void, Void, String> {
             // so it can use GCM/HTTP or CCS to send messages to your app.
             // The request to your server should be authenticated if your app
             // is using accounts.
-            regService.register(regId, String.valueOf(Utility.getPreferenceShip(context))).execute();
+
+            regService.register(regId, String.valueOf(Utility.getPreferenceShip(context)));
 
             Log.i(Utility.getTag(), "Registered GCM, ID: " + regId);
 
